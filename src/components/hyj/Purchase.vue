@@ -121,23 +121,24 @@ name: "purchase",
       this.multipleSelection = val
     },
     findSupplier(){
-      this.axios.get('findAllSupplier').then(res=>{
+      this.axios.get('hyj/findAllSupplier').then(res=>{
         this.supplier = res.data;
+        console.log(res)
       })
     },
     findStore(){
-      this.axios.get("findAllStore").then(res=>{
+      this.axios.get("hyj/findAllStore").then(res=>{
         this.store = res.data;
       })
     },
     findCaiGou(){
-      this.axios.get("findCaiGou").then(res=>{
+      this.axios.get("hyj/findCaiGou").then(res=>{
         this.staff = res.data;
       })
     },
     findCommBySupplierName(){
       //this.supplierName = this.form.supplierName;
-      this.axios.post("findCommBySupplierName",this.form).then(res=>{
+      this.axios.post("hyj/findCommBySupplierName",this.form).then(res=>{
           this.tableData = res.data;
       })
     },closeDialogFormVisible(){
