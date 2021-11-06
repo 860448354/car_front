@@ -55,9 +55,7 @@
                <router-link to="/customer">
                  <el-menu-item index="3-1">客户接待</el-menu-item>
                </router-link>
-               <router-link to="/dispatching">
-                 <el-menu-item index="3-2">维修派工</el-menu-item>
-               </router-link>
+               <el-menu-item index="3-2">Option 2</el-menu-item>
              </el-menu-item-group>
            </el-sub-menu>
            <el-sub-menu index="4">
@@ -69,18 +67,12 @@
                <router-link to="/customerAccount">
                  <el-menu-item index="4-1">客户结算</el-menu-item>
                </router-link>
-               <router-link to="/customerCurrent">
-                 <el-menu-item index="4-2">客户往来账</el-menu-item>
+               <router-link to="">
+                 <el-menu-item index="4-2">供货商结算</el-menu-item>
                </router-link>
-			   <router-link to="/vendorAccount">
-			     <el-menu-item index="4-3">供货商结算</el-menu-item>
-			   </router-link>
-			   <router-link to="/vendorCurrent">
-			     <el-menu-item index="4-4">供货商往来账</el-menu-item>
-			   </router-link>
-			   <router-link to="/dailyAccount">
-			     <el-menu-item index="4-5">日结账单</el-menu-item>
-			   </router-link>
+               <router-link to="">
+                 <el-menu-item index="4-3">日结账单</el-menu-item>
+               </router-link>
              </el-menu-item-group>
            </el-sub-menu>
            <el-sub-menu index="5">
@@ -92,15 +84,18 @@
                <router-link to="/member">
                  <el-menu-item index="5-1">会员管理</el-menu-item>
                </router-link>
-               <router-link to="">
+               <router-link to="/plaint">
                  <el-menu-item index="5-2">客户投诉</el-menu-item>
                </router-link>
-               <router-link to="">
+               <router-link to="/agement">
                  <el-menu-item index="5-3">客户管理</el-menu-item>
                </router-link>
-               <router-link to="">
-                 <el-menu-item index="5-3">客户关怀</el-menu-item>
+               <router-link to="/care">
+                 <el-menu-item index="5-4">客户关怀</el-menu-item>
                </router-link>
+			   <router-link to="/activity">
+			     <el-menu-item index="5-4">会员活动</el-menu-item>
+			   </router-link>
              </el-menu-item-group>
            </el-sub-menu>
            <el-sub-menu index="6">
@@ -110,10 +105,10 @@
              </template>
              <el-menu-item-group>
                <router-link to="user">
-                 <el-menu-item index="6-1">用户设置</el-menu-item>
+                 <el-menu-item index="6-1">操作员设置</el-menu-item>
                </router-link>
-               <router-link to="jurisdiction">
-                 <el-menu-item index="6-2">权限设置</el-menu-item>
+               <router-link to="">
+                 <el-menu-item index="6-2">操作权限设置</el-menu-item>
                </router-link>
              </el-menu-item-group>
            </el-sub-menu>
