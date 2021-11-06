@@ -94,6 +94,13 @@ let routes=[
 				meta: {
 					title: "维修派工"
 				}
+			},{
+				path: '/jurisdiction',
+				component: () => import('@/components/kj/jurisdiction.vue'),
+				name: '权限设置',
+				meta: {
+					title: "权限设置"
+				}
 			}
 			
 		],

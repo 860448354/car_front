@@ -110,10 +110,10 @@
              </template>
              <el-menu-item-group>
                <router-link to="user">
-                 <el-menu-item index="6-1">操作员设置</el-menu-item>
+                 <el-menu-item index="6-1">用户设置</el-menu-item>
                </router-link>
-               <router-link to="">
-                 <el-menu-item index="6-2">操作权限设置</el-menu-item>
+               <router-link to="jurisdiction">
+                 <el-menu-item index="6-2">权限设置</el-menu-item>
                </router-link>
              </el-menu-item-group>
            </el-sub-menu>
