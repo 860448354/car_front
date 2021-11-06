@@ -1,17 +1,13 @@
-/* 封装axios */
-import axios from 'axios'
-// import VueAxios from 'vue-axios'
-import Qs from 'qs'
-import {ElMessage } from 'element-plus'
 
-//统一的跨域前缀，其实就是你的SpringBoot的访问地址
-axios.defaults.baseURL="http://localhost:8086/"
-axios.defaults.timeout=100000
+import axios from 'axios'
 
 axios.interceptors.request.use(config=>{
 	//在发起请求之前拦截处理，比如对参数格式，参数信息的验证，token信息
 	return config;
 })
+
+
+
 
 axios.interceptors.response.use(res=>{
 	//在得到服务器响应之后进行拦截
@@ -30,8 +26,9 @@ axios.interceptors.response.use(res=>{
 		// 	type: 'error'
 		// });
 	}
-	return res.data;
+	return res;
 }
 )
 
 export default axios
+
