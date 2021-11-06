@@ -58,6 +58,7 @@
                <el-menu-item index="3-2">Option 2</el-menu-item>
              </el-menu-item-group>
            </el-sub-menu>
+		   
            <el-sub-menu index="4">
              <template #title>
                <i class="el-icon-location"></i>
@@ -75,8 +76,30 @@
                </router-link>
              </el-menu-item-group>
            </el-sub-menu>
+		   
+		   <el-sub-menu index="5">
+		     <template #title>
+		       <i class="el-icon-location"></i>
+		       系统设置
+		     </template>
+		     <el-menu-item-group>
+		       <router-link to="/user">
+		         <el-menu-item index="5-1">用户设置</el-menu-item>
+		       </router-link>
+		       <router-link to="">
+		         <el-menu-item index="5-2">权限设置</el-menu-item>
+		       </router-link>
+		      
+		     </el-menu-item-group>
+		   </el-sub-menu>
+		   
+		   
+		   
 				    </el-menu>
 			</el-aside>
+
+
+
 
 			<el-container>
 				<!-- 视图区 -->

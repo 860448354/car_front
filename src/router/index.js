@@ -29,8 +29,25 @@ let routes=[
 				meta: {
 					title: "客户接待"
 				}
+			},
+			{
+				path: '/user',
+				component: () => import('../components/kj/User.vue'),
+				name: '用户设置',
+				meta: {
+					title: "用户设置"
+				}
 			}
+			
 		],
+	},
+	{
+		path:'/login',
+		component:()=>import("@/components/Login.vue"),
+		name:'login',
+		meta:{
+			title:"登录"
+		}
 	}
 ]
 
