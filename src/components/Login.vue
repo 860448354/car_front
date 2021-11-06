@@ -69,8 +69,10 @@ export default{
           .then(res=>{
             console.log("后端返回的值",res)
 			
-			
-            user = res.obj
+			if(res.data.code==1){
+				 user = res.data.obj
+			}
+           
             // console.log("routes",res.data)
             // formatRoutes = this.formatRoutes(res.data)
             console.log("user",JSON.stringify(user))
