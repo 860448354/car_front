@@ -75,6 +75,51 @@
                </router-link>
              </el-menu-item-group>
            </el-sub-menu>
+           <el-sub-menu index="5">
+             <template #title>
+               <i class="el-icon-location"></i>
+               客户关系
+             </template>
+             <el-menu-item-group>
+               <router-link to="">
+                 <el-menu-item index="5-1">会员管理</el-menu-item>
+               </router-link>
+               <router-link to="">
+                 <el-menu-item index="5-2">客户投诉</el-menu-item>
+               </router-link>
+               <router-link to="">
+                 <el-menu-item index="5-3">客户管理</el-menu-item>
+               </router-link>
+               <router-link to="">
+                 <el-menu-item index="5-3">客户关怀</el-menu-item>
+               </router-link>
+             </el-menu-item-group>
+           </el-sub-menu>
+           <el-sub-menu index="6">
+             <template #title>
+               <i class="el-icon-location"></i>
+               权限
+             </template>
+             <el-menu-item-group>
+               <router-link to="">
+                 <el-menu-item index="6-1">操作员设置</el-menu-item>
+               </router-link>
+               <router-link to="">
+                 <el-menu-item index="6-2">操作权限设置</el-menu-item>
+               </router-link>
+             </el-menu-item-group>
+           </el-sub-menu>
+           <el-sub-menu index="7">
+             <template #title>
+               <i class="el-icon-location"></i>
+               库存管理
+             </template>
+             <el-menu-item-group>
+               <router-link to="">
+                 <el-menu-item index="7-1">库存</el-menu-item>
+               </router-link>
+             </el-menu-item-group>
+           </el-sub-menu>
 				    </el-menu>
 			</el-aside>
 
