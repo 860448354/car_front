@@ -54,9 +54,18 @@ let routes=[
 				meta: {
 					title: "会员管理"
 				}
+			},
+			{
+				path: '/dispatching',
+				component: () => import('@/components/czh/MaintenanceDispatching.vue'),
+				name: '维修派工',
+				meta: {
+					title: "维修派工"
+				}
 			}
 			
 		],
+		
 	},
 	{
 		path:'/login',
