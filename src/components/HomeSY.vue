@@ -19,24 +19,23 @@
 
 				  <!-- 视图区 -->
 
-
 		<el-container>
 			<!-- 菜单区 -->
 			<el-aside width="200px" >
 				 <el-menu
 				      default-active="1"
-				      class="el-menu-vertical-demo"
-				      @open="handleOpen"
-				      @close="handleClose">
+				      class="el-menu-vertical-demo">
+           <router-link to="/lunbo">
 				      <el-menu-item index="1">
 				      		<i class="el-icon-location"></i>
 				      		<span slot="title">
-				      			<router-link to="/lunbo">首页</router-link>
+				      			首页
 				      		</span>
 				      </el-menu-item>
+           </router-link>
 				      <el-sub-menu index="2">
 				        <template #title>
-                  <el-icon><sell /></el-icon>
+                  <i class="el-icon-s-shop"></i>
                   <span>采购</span>
                 </template>
                 <router-link to="/purchase">
@@ -58,14 +57,69 @@
                </router-link>
                <el-menu-item index="3-2">Option 2</el-menu-item>
              </el-menu-item-group>
-
-
-
            </el-sub-menu>
-				      <el-menu-item index="4">
-				        <i class="el-icon-setting"></i>
-				        <span slot="title">导航四</span>
-				      </el-menu-item>
+           <el-sub-menu index="4">
+             <template #title>
+               <i class="el-icon-location"></i>
+               财务
+             </template>
+             <el-menu-item-group>
+               <router-link to="/customerAccount">
+                 <el-menu-item index="4-1">客户结算</el-menu-item>
+               </router-link>
+               <router-link to="">
+                 <el-menu-item index="4-2">供货商结算</el-menu-item>
+               </router-link>
+               <router-link to="">
+                 <el-menu-item index="4-3">日结账单</el-menu-item>
+               </router-link>
+             </el-menu-item-group>
+           </el-sub-menu>
+           <el-sub-menu index="5">
+             <template #title>
+               <i class="el-icon-location"></i>
+               客户关系
+             </template>
+             <el-menu-item-group>
+               <router-link to="">
+                 <el-menu-item index="5-1">会员管理</el-menu-item>
+               </router-link>
+               <router-link to="">
+                 <el-menu-item index="5-2">客户投诉</el-menu-item>
+               </router-link>
+               <router-link to="">
+                 <el-menu-item index="5-3">客户管理</el-menu-item>
+               </router-link>
+               <router-link to="">
+                 <el-menu-item index="5-3">客户关怀</el-menu-item>
+               </router-link>
+             </el-menu-item-group>
+           </el-sub-menu>
+           <el-sub-menu index="6">
+             <template #title>
+               <i class="el-icon-location"></i>
+               权限
+             </template>
+             <el-menu-item-group>
+               <router-link to="user">
+                 <el-menu-item index="6-1">操作员设置</el-menu-item>
+               </router-link>
+               <router-link to="">
+                 <el-menu-item index="6-2">操作权限设置</el-menu-item>
+               </router-link>
+             </el-menu-item-group>
+           </el-sub-menu>
+           <el-sub-menu index="7">
+             <template #title>
+               <i class="el-icon-location"></i>
+               库存管理
+             </template>
+             <el-menu-item-group>
+               <router-link to="">
+                 <el-menu-item index="7-1">库存</el-menu-item>
+               </router-link>
+             </el-menu-item-group>
+           </el-sub-menu>
 				    </el-menu>
 			</el-aside>
 
@@ -81,8 +135,6 @@
 					</p>
 					<router-view></router-view>
 				</el-main>
-				<!-- 版权归属 -->
-				<el-footer>版权归属 ©EKKOLIST</el-footer>
 			</el-container>
 		</el-container>
 	</el-container>
@@ -97,43 +149,29 @@
 			}
 		},
 		methods: {
-			 handleOpen(key, keyPath) {
-			        console.log(key, keyPath);
-			      },
-			 handleClose(key, keyPath) {
-			        console.log(key, keyPath);
-			      }
 		},
 		mounted() {
-
-
 		}
 	}
 </script>
 
 <style scoped="scoped">
-
-
 	* {
 		padding: 0px;
 		margin: 0px;
 	}
-
 	.el-tag{
 		height: 40px;
 		line-height: 40px;
 	}
-
 	html,
 	body {
 		height: 100%;
 	}
-
 	.kjl {
 		height: 40px;
 		background-color:white;
 	}
-
 	.el-header,
 	.el-footer {
 		background-color: #00aaff;
@@ -141,15 +179,12 @@
 		text-align: center;
 		line-height: 60px;
 	}
-
 	.el-aside {
 		/* background-color: #00aaff; */
 		color: white;
 		/* text-align: center; */
 		line-height: 200px;
-		min-height: 1000px;
 	}
-
 	.el-main {
 		background-color: white;
 		color: black;
@@ -158,16 +193,13 @@
 		overflow-y: hidden;/*关闭竖向滚动条*/
 		height: 100%;
 	}
-
 	body>.el-container {
 		margin-bottom: 40px;
 	}
-
 	.el-container:nth-child(5) .el-aside,
 	.el-container:nth-child(6) .el-aside {
 		line-height: 260px;
 	}
-
 	.el-container:nth-child(7) .el-aside {
 		line-height: 320px;
 	}
@@ -175,13 +207,11 @@
 		text-decoration: none;
 		color:black;
 	}
-
 	.el-tag[data-v-1fe69f35] {
 	    height: 40px;
 		width: 90px;
 		text-align: center;
 	    line-height: 40px;
 		font-size: 13px;
-
 	}
 </style>

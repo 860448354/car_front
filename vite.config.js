@@ -13,6 +13,7 @@ export default defineConfig({
   },
   server:{
 	  port:4000,
-	  open:true
+	  open:true,
+	  cros:true /*允许跨域*/
   }
 })
