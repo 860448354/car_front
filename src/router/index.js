@@ -36,6 +36,11 @@ let routes=[
 				name: '用户设置',
 				meta: {
 					title: "用户设置"
+				path: '/customerAccount',
+				component: () => import('../components/csp/CustomerAccount.vue'),
+				name: '客户结算',
+				meta: {
+					title: "客户结算"
 				}
 			}
 			
