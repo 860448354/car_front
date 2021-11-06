@@ -1,10 +1,8 @@
-import HomeSY from '@/components/HomeSY.vue'
-import lunbo from '@/components/lunbo.vue'
 
 let routes=[
 	{
 		path:'/',
-		component:HomeSY,
+		component:()=>import("@/components/HomeSY.vue"),
 		name:'HomeSY',
 		meta:{
 			title:"OAlunbo首页"
@@ -12,7 +10,7 @@ let routes=[
 		children:[
 			{
 				path:'/lunbo',
-				component:lunbo,
+				component:()=>import("@/components/lunbo.vue"),
 				name:'lunbo',
 				meta:{
 					title:"lunbo首页"
