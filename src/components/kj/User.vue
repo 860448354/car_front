@@ -162,9 +162,19 @@
 						
 						
 			},
+			getStaff(){
+				this.axios.get("http://localhost:8166/staff/all").then(res=>{
+					console.log("拿到路由",res)
+					if(res.data.code==1){
+						this.tableData=res.data.data
+					}
+				})
+			},
 		},
 		mounted() {
 			this.getDept();
+			this.getStaff();
+			
 		}
 	  }
 	
