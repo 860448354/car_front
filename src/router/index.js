@@ -48,6 +48,38 @@ let routes=[
 				}
 			},
 			{
+				path: '/customerCurrent',
+				component: () => import('../components/csp/CustomerCurrent.vue'),
+				name: '客户往来账',
+				meta: {
+					title: "客户往来账"
+				}
+			},
+			{
+				path: '/vendorAccount',
+				component: () => import('../components/csp/VendorAccount.vue'),
+				name: '供货商结算',
+				meta: {
+					title: "供货商结算"
+				}
+			},
+			{
+				path: '/vendorCurrent',
+				component: () => import('../components/csp/VendorCurrent.vue'),
+				name: '供货商往来账',
+				meta: {
+					title: "供货商往来账"
+				}
+			},
+			{
+				path: '/dailyAccount',
+				component: () => import('../components/csp/DailyAccount.vue'),
+				name: '日结账单',
+				meta: {
+					title: "日结账单"
+				}
+			},
+			{
 				path: '/member',
 				component: () => import('@/components/dai/Membermanagement.vue'),
 				name: '会员管理',
