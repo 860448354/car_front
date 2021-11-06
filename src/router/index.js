@@ -29,6 +29,14 @@ let routes=[
 				meta: {
 					title: "客户接待"
 				}
+			},
+			{
+				path: '/customerAccount',
+				component: () => import('../components/csp/CustomerAccount.vue'),
+				name: '客户结算',
+				meta: {
+					title: "客户结算"
+				}
 			}
 		],
 	}

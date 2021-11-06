@@ -64,7 +64,7 @@
                财务
              </template>
              <el-menu-item-group>
-               <router-link to="">
+               <router-link to="/customerAccount">
                  <el-menu-item index="4-1">客户结算</el-menu-item>
                </router-link>
                <router-link to="">
@@ -90,8 +90,6 @@
 					</p>
 					<router-view></router-view>
 				</el-main>
-				<!-- 版权归属 -->
-				<el-footer>版权归属 ©EKKOLIST</el-footer>
 			</el-container>
 		</el-container>
 	</el-container>
@@ -151,7 +149,6 @@
 		color: white;
 		/* text-align: center; */
 		line-height: 200px;
-		min-height: 1000px;
 	}
 
 	.el-main {
