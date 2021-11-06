@@ -1,11 +1,11 @@
 <template>
   <el-row style="margin-top: 20px">
-    <el-button type="primary" style="margin-left: 20px" @click="dialogFormVisible = true">新增采购单</el-button>
+    <el-button type="primary" style="margin-left: 20px" @click="clickDialog">新增采购单</el-button>
   </el-row>
   <el-dialog title="采购订单" v-model="dialogFormVisible" @close="closeDialogFormVisible">
     <el-form :model="form" label-width="80px">
       <el-form-item label="订单编号" style="width: 300px;float: left" >
-        <el-input v-model="form.name" autocomplete="off" disabled size="mini"></el-input>
+        <el-input v-model="form.purOrder" autocomplete="off" disabled size="mini"></el-input>
       </el-form-item>
       <el-form-item label="供货商" style="float: left">
         <el-select v-model="form.supplierName" @change="findCommBySupplierName" placeholder="请选择" size="mini" >
@@ -18,7 +18,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="制单人" style="width: 300px;float: left" >
-        <el-input v-model="form.purTime" autocomplete="off" disabled size="mini"></el-input>
+        <el-input v-model="form.purName" autocomplete="off" disabled size="mini"></el-input>
       </el-form-item>
       <el-form-item label="制单日期" style="width: 300px;float: left" >
         <el-input v-model="form.purTime" autocomplete="off" disabled size="mini"></el-input>
@@ -83,6 +83,7 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 export default {
 name: "purchase",
   data(){
@@ -92,7 +93,7 @@ name: "purchase",
         purOrder:'',//订单号
         supplierName:'',//供货商
         storeName:'',//仓库
-        purName:'',//制单人
+        purName:'张三',//制单人
         purTime:'',//制单日期
         sfName:'',//采购员
         purPer:'',//审核人
@@ -117,13 +118,19 @@ name: "purchase",
       staff:[]
     }
   },methods:{
+    clickDialog(){
+      this.dialogFormVisible = true;
+      this.form.purTime = dayjs().format('YYYY-MM-DD');
+      this.axios.get("hyj/getRandom").then(res=>{
+        this.form.purOrder = res.request.response;
+      })
+    },
     handleSelectionChange(val) {
       this.multipleSelection = val
     },
     findSupplier(){
       this.axios.get('hyj/findAllSupplier').then(res=>{
         this.supplier = res.data;
-        console.log(res)
       })
     },
     findStore(){
@@ -137,7 +144,6 @@ name: "purchase",
       })
     },
     findCommBySupplierName(){
-      //this.supplierName = this.form.supplierName;
       this.axios.post("hyj/findCommBySupplierName",this.form).then(res=>{
           this.tableData = res.data;
       })
