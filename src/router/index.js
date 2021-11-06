@@ -21,6 +21,14 @@ let routes=[
 				component:()=>import("../components/hyj/purchase.vue"),
 				name:'purchase',
 				meta:"采购进货"
+			},
+			{
+				path: '/customer',
+				component: () => import('../components/czh/Customer.vue'),
+				name: '客户接待',
+				meta: {
+					title: "客户接待"
+				}
 			}
 		],
 	}
@@ -28,7 +36,6 @@ let routes=[
 
 /* 导入路由中的相关模块 */
 import {createRouter,createWebHistory} from 'vue-router'
-//import purchase from "../components/hyj/purchase";
 
 /* 创建路由对象 */
 let router = createRouter({
