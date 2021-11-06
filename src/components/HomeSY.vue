@@ -1,7 +1,7 @@
 <template>
 	<el-container>
 	   <el-header>欢迎
-	   
+
 	   <el-dropdown style="float: right;margin-top: 20px;">
 	       <span class="tc">
 	         设置<i class="el-icon-arrow-down el-icon--right"></i>
@@ -10,21 +10,21 @@
 	         <el-dropdown-menu>
 	           <el-dropdown-item>修改</el-dropdown-item>
 	           <el-dropdown-item >退出</el-dropdown-item>
-	           
-	           
+
+
 	         </el-dropdown-menu>
 	       </template>
 	     </el-dropdown>
 	   </el-header>
-	   
+
 				  <!-- 视图区 -->
-	      
-		
+
+
 		<el-container>
 			<!-- 菜单区 -->
 			<el-aside width="200px" >
 				 <el-menu
-				      default-active="2"
+				      default-active="1"
 				      class="el-menu-vertical-demo"
 				      @open="handleOpen"
 				      @close="handleClose">
@@ -34,10 +34,18 @@
 				      			<router-link to="/lunbo">首页</router-link>
 				      		</span>
 				      </el-menu-item>
-				      <el-menu-item index="2">
-				        <i class="el-icon-menu"></i>
-				        <span slot="title">导航二</span>
-				      </el-menu-item>
+				      <el-sub-menu index="2">
+				        <template #title>
+                  <el-icon><sell /></el-icon>
+                  <span>采购</span>
+                </template>
+                <el-menu-item index="2-1">
+                  <router-link to="/purchase">采购进货</router-link>
+                </el-menu-item>
+                <el-menu-item index="2-2">
+                  采购入库
+                </el-menu-item>
+				      </el-sub-menu>
 				      <el-menu-item index="3" disabled>
 				        <i class="el-icon-document"></i>
 				        <span slot="title">导航三</span>
@@ -54,7 +62,7 @@
 				<el-main>
 
 					<p v-if="tags.length==0?false:true" class="kjl">
-						<el-tag v-for="tag in tags" :key="tag.name" closable @close="bql(tag)" @click="bql2(tag)"
+						<el-tag v-for="tag in tags" :key="tag.name" closable
 							:type="tag.type">
 							{{tag.name}}
 						</el-tag>
@@ -85,15 +93,15 @@
 			      }
 		},
 		mounted() {
-			
-    
+
+
 		}
 	}
 </script>
 
 <style scoped="scoped">
-	
-	
+
+
 	* {
 		padding: 0px;
 		margin: 0px;
@@ -155,13 +163,13 @@
 		text-decoration: none;
 		color:black;
 	}
-	
+
 	.el-tag[data-v-1fe69f35] {
 	    height: 40px;
 		width: 90px;
 		text-align: center;
 	    line-height: 40px;
 		font-size: 13px;
-		
+
 	}
 </style>
