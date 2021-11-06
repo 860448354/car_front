@@ -18,7 +18,7 @@ let routes=[
 			},
 			{
 				path:'/purchase',
-				component:()=>import("../components/hyj/purchase.vue"),
+				component:()=>import("../components/hyj/Purchase.vue"),
 				name:'purchase',
 				meta:"采购进货"
 			},

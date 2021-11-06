@@ -19,24 +19,23 @@
 
 				  <!-- 视图区 -->
 
-
 		<el-container>
 			<!-- 菜单区 -->
 			<el-aside width="200px" >
 				 <el-menu
 				      default-active="1"
-				      class="el-menu-vertical-demo"
-				      @open="handleOpen"
-				      @close="handleClose">
+				      class="el-menu-vertical-demo">
+           <router-link to="/lunbo">
 				      <el-menu-item index="1">
 				      		<i class="el-icon-location"></i>
 				      		<span slot="title">
-				      			<router-link to="/lunbo">首页</router-link>
+				      			首页
 				      		</span>
 				      </el-menu-item>
+           </router-link>
 				      <el-sub-menu index="2">
 				        <template #title>
-                  <el-icon><sell /></el-icon>
+                  <i class="el-icon-s-shop"></i>
                   <span>采购</span>
                 </template>
                 <router-link to="/purchase">
@@ -58,14 +57,24 @@
                </router-link>
                <el-menu-item index="3-2">Option 2</el-menu-item>
              </el-menu-item-group>
-
-
-
            </el-sub-menu>
-				      <el-menu-item index="4">
-				        <i class="el-icon-setting"></i>
-				        <span slot="title">导航四</span>
-				      </el-menu-item>
+           <el-sub-menu index="4">
+             <template #title>
+               <i class="el-icon-location"></i>
+               财务
+             </template>
+             <el-menu-item-group>
+               <router-link to="">
+                 <el-menu-item index="4-1">客户结算</el-menu-item>
+               </router-link>
+               <router-link to="">
+                 <el-menu-item index="4-2">供货商结算</el-menu-item>
+               </router-link>
+               <router-link to="">
+                 <el-menu-item index="4-3">日结账单</el-menu-item>
+               </router-link>
+             </el-menu-item-group>
+           </el-sub-menu>
 				    </el-menu>
 			</el-aside>
 
@@ -97,12 +106,7 @@
 			}
 		},
 		methods: {
-			 handleOpen(key, keyPath) {
-			        console.log(key, keyPath);
-			      },
-			 handleClose(key, keyPath) {
-			        console.log(key, keyPath);
-			      }
+
 		},
 		mounted() {
 
