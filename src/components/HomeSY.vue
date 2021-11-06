@@ -58,14 +58,12 @@
                <el-menu-item index="3-2">Option 2</el-menu-item>
              </el-menu-item-group>
            </el-sub-menu>
-		   
            <el-sub-menu index="4">
              <template #title>
                <i class="el-icon-location"></i>
                财务
              </template>
              <el-menu-item-group>
-               <router-link to="">
                <router-link to="/customerAccount">
                  <el-menu-item index="4-1">客户结算</el-menu-item>
                </router-link>
@@ -77,25 +75,6 @@
                </router-link>
              </el-menu-item-group>
            </el-sub-menu>
-		   
-		   <el-sub-menu index="5">
-		     <template #title>
-		       <i class="el-icon-location"></i>
-		       系统设置
-		     </template>
-		     <el-menu-item-group>
-		       <router-link to="/user">
-		         <el-menu-item index="5-1">用户设置</el-menu-item>
-		       </router-link>
-		       <router-link to="">
-		         <el-menu-item index="5-2">权限设置</el-menu-item>
-		       </router-link>
-		      
-		     </el-menu-item-group>
-		   </el-sub-menu>
-		   
-		   
-		   
            <el-sub-menu index="5">
              <template #title>
                <i class="el-icon-location"></i>
@@ -122,7 +101,7 @@
                权限
              </template>
              <el-menu-item-group>
-               <router-link to="">
+               <router-link to="user">
                  <el-menu-item index="6-1">操作员设置</el-menu-item>
                </router-link>
                <router-link to="">
@@ -144,9 +123,6 @@
 				    </el-menu>
 			</el-aside>
 
-
-
-
 			<el-container>
 				<!-- 视图区 -->
 				<el-main>
@@ -159,8 +135,6 @@
 					</p>
 					<router-view></router-view>
 				</el-main>
-				<!-- 版权归属 -->
-				<el-footer>版权归属 ©EKKOLIST</el-footer>
 			</el-container>
 		</el-container>
 	</el-container>
@@ -175,38 +149,29 @@
 			}
 		},
 		methods: {
-
 		},
 		mounted() {
-
-
 		}
 	}
 </script>
 
 <style scoped="scoped">
-
-
 	* {
 		padding: 0px;
 		margin: 0px;
 	}
-
 	.el-tag{
 		height: 40px;
 		line-height: 40px;
 	}
-
 	html,
 	body {
 		height: 100%;
 	}
-
 	.kjl {
 		height: 40px;
 		background-color:white;
 	}
-
 	.el-header,
 	.el-footer {
 		background-color: #00aaff;
@@ -214,15 +179,12 @@
 		text-align: center;
 		line-height: 60px;
 	}
-
 	.el-aside {
 		/* background-color: #00aaff; */
 		color: white;
 		/* text-align: center; */
 		line-height: 200px;
-		min-height: 1000px;
 	}
-
 	.el-main {
 		background-color: white;
 		color: black;
@@ -231,16 +193,13 @@
 		overflow-y: hidden;/*关闭竖向滚动条*/
 		height: 100%;
 	}
-
 	body>.el-container {
 		margin-bottom: 40px;
 	}
-
 	.el-container:nth-child(5) .el-aside,
 	.el-container:nth-child(6) .el-aside {
 		line-height: 260px;
 	}
-
 	.el-container:nth-child(7) .el-aside {
 		line-height: 320px;
 	}
@@ -248,13 +207,11 @@
 		text-decoration: none;
 		color:black;
 	}
-
 	.el-tag[data-v-1fe69f35] {
 	    height: 40px;
 		width: 90px;
 		text-align: center;
 	    line-height: 40px;
 		font-size: 13px;
-
 	}
 </style>
