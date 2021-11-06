@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import home from '@/components/HomeSY.vue'
 import Element from 'element-plus';
 import router from './router/index'
 import axios from 'axios'

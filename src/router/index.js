@@ -1,24 +1,35 @@
-import {
-    createRouter,
-    createWebHistory
-} from 'vue-router'
+import HomeSY from '@/components/HomeSY.vue'
+import lunbo from '@/components/lunbo.vue'
 
-//定义组件，定义路由
-const routes = [
-    //定义一级
-    {
-        name:'Test',
-        path:'/test',
-        component:() => import('/src/components/test.vue'),
-        meta:'测试'
-    }
+let routes=[
+	{
+		path:'/',
+		component:HomeSY,
+		name:'HomeSY',
+		meta:{
+			title:"OAlunbo首页"
+		},
+		children:[
+			{
+				path:'/lunbo',
+				component:lunbo,
+				name:'lunbo',
+				meta:{
+					title:"lunbo首页"
+				},
+			}
+		],
+	}
 ]
 
-//创建Router路由实例
-const router = createRouter({
-    history: createWebHistory(),
-    routes
-})
-//给路由实例定义一个对外引用（注入路由）
-export default router
+/* 导入路由中的相关模块 */
+import {createRouter,createWebHistory} from 'vue-router'
 
+/* 创建路由对象 */
+let router = createRouter({
+	history:createWebHistory(),
+	routes
+})
+
+/* 导出路由对象 */
+export default router
