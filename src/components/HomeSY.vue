@@ -55,7 +55,9 @@
                <router-link to="/customer">
                  <el-menu-item index="3-1">客户接待</el-menu-item>
                </router-link>
-               <el-menu-item index="3-2">Option 2</el-menu-item>
+               <router-link to="/dispatching">
+                 <el-menu-item index="3-2">维修派工</el-menu-item>
+               </router-link>
              </el-menu-item-group>
            </el-sub-menu>
            <el-sub-menu index="4">
