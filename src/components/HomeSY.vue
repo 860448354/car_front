@@ -39,17 +39,29 @@
                   <el-icon><sell /></el-icon>
                   <span>采购</span>
                 </template>
-                <el-menu-item index="2-1">
-                  <router-link to="/purchase">采购进货</router-link>
-                </el-menu-item>
+                <router-link to="/purchase">
+                  <el-menu-item index="2-1">
+                    采购进货
+                  </el-menu-item>
+                </router-link>
                 <el-menu-item index="2-2">
                   采购入库
                 </el-menu-item>
 				      </el-sub-menu>
-				      <el-menu-item index="3" disabled>
-				        <i class="el-icon-document"></i>
-				        <span slot="title">导航三</span>
-				      </el-menu-item>
+           <el-sub-menu index="3">
+             <template #title>
+               <el-icon><icon-menu /></el-icon>维修管理
+             </template>
+             <el-menu-item-group>
+               <router-link to="/customer">
+                 <el-menu-item index="3-1">客户接待</el-menu-item>
+               </router-link>
+               <el-menu-item index="3-2">Option 2</el-menu-item>
+             </el-menu-item-group>
+
+
+
+           </el-sub-menu>
 				      <el-menu-item index="4">
 				        <i class="el-icon-setting"></i>
 				        <span slot="title">导航四</span>
