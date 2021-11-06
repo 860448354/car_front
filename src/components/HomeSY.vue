@@ -81,7 +81,7 @@
                客户关系
              </template>
              <el-menu-item-group>
-               <router-link to="">
+               <router-link to="/member">
                  <el-menu-item index="5-1">会员管理</el-menu-item>
                </router-link>
                <router-link to="">

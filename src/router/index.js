@@ -46,6 +46,14 @@ let routes=[
 				meta: {
 					title: "客户结算"
 				}
+			},
+			{
+				path: '/member',
+				component: () => import('@/components/dai/Membermanagement.vue'),
+				name: '会员管理',
+				meta: {
+					title: "会员管理"
+				}
 			}
 			
 		],
