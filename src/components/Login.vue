@@ -79,6 +79,7 @@ export default{
             console.log("routes",formatRoutes)
             if(user){
               // //调用状态管理器的同步方法，修改状态变量的值
+			  console.log("进入跳跃")
               this.$store.commit("login",user);
 			  this.$router.replace("/")
 			  
