@@ -87,7 +87,7 @@
       <el-table-column prop="commMoney" label="单价"></el-table-column>
       <el-table-column prop="commNum" label="数量">
         <template v-slot="s">
-          <el-input-number v-model="s.row.commNum" min="1" size="mini"></el-input-number>
+          <el-input-number v-model="s.row.commNum" :min="1" controls-position="right" size="mini"></el-input-number>
         </template>
       </el-table-column>
     </el-table>
@@ -146,11 +146,11 @@ name: "purchase",
           commCar:'',
           commUnit:'',
           commMoney:'',
-          commNum:''
+          commNum:1
         }],
       },
       multipleSelection:[{
-        commNum:0
+        commNum:1
       }],
       commNum:'',
       supplier:[{
@@ -171,6 +171,7 @@ name: "purchase",
       this.multipleSelection = val;
     },
     findSupplier(){
+      console.log(this.$store.state)
       this.axios.get('hyj/findAllSupplier').then(res=>{
         this.supplier = res.data;
       })
