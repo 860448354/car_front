@@ -6,7 +6,6 @@
     <el-tab-pane label="待审核订单" name="first">
       <el-table
           :data="tableData"
-          empty-text="#enpty"
           :header-cell-style="{textAlign: 'center'}"
           :cell-style="{ textAlign: 'center' }"
           style="width: 100%">
@@ -29,7 +28,6 @@
     <el-tab-pane label="已审核订单" name="second">
       <el-table
           :data="tableData2"
-          empty-text="#enpty"
           :header-cell-style="{textAlign: 'center'}"
           :cell-style="{ textAlign: 'center' }"
           style="width: 100%">
@@ -44,7 +42,7 @@
         <el-table-column prop="purState" label="状态"></el-table-column>
         <el-table-column label="采购">
           <template v-slot="x">
-            <el-button type="primary" size="mini">采购</el-button>
+            <el-button type="primary" size="mini" @click="buy(x.row)">采购</el-button>
           </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -146,6 +144,7 @@
 
 <script>
 import dayjs from "dayjs";
+import ElMessage from "element-plus";
 export default {
 name: "purchase",
   data(){
@@ -280,6 +279,14 @@ name: "purchase",
     checkPur(v){
       this.checkPurDialog = true;
       this.form.purXq = v.purXq;
+    },
+    buy(x){
+      this.axios.post("hyj/editState",x).then(res=>{
+        /*ElMessage.success({
+          message: '采购成功！',
+          type: 'success',
+        })*/
+      })
     }
   },created() {
     this.findTable();

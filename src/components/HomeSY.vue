@@ -43,21 +43,28 @@
                     采购进货
                   </el-menu-item>
                 </router-link>
-                <el-menu-item index="2-2">
-                  采购入库
-                </el-menu-item>
+                <router-link to="/putstore">
+                  <el-menu-item index="2-2">
+                    采购入库
+                  </el-menu-item>
+                </router-link>
 				      </el-sub-menu>
            <el-sub-menu index="3">
-             <template #title>
-               <el-icon><icon-menu /></el-icon>维修管理
-             </template>
-             <el-menu-item-group>
-               <router-link to="/customer">
-                 <el-menu-item index="3-1">客户接待</el-menu-item>
-               </router-link>
-               <el-menu-item index="3-2">Option 2</el-menu-item>
-             </el-menu-item-group>
-           </el-sub-menu>
+                        <template #title>
+                          <el-icon><icon-menu /></el-icon>维修管理
+                        </template>
+                        <el-menu-item-group>
+                          <router-link to="/customer">
+                            <el-menu-item index="3-1">客户接待</el-menu-item>
+                          </router-link>
+                          <router-link to="/dispatching">
+                            <el-menu-item index="3-2">维修派工</el-menu-item>
+                          </router-link>
+           			   <router-link to="/dispatchingrecord">
+           			     <el-menu-item index="3-3">派工列表</el-menu-item>
+           			   </router-link>
+                        </el-menu-item-group>
+                      </el-sub-menu>
            <el-sub-menu index="4">
              <template #title>
                <i class="el-icon-location"></i>
@@ -164,7 +171,7 @@
 				// this.$router.replace("/")
 			},
 			ce(){
-				console.log("存入员工",this.$store.state) 
+				console.log("存入员工",this.$store.state)
 			}
 		},
 		mounted() {
