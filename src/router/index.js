@@ -158,6 +158,14 @@ let routes=[
 				meta: {
 					title: "库存"
 				}
+			},
+			{
+				path: '/putstolog',
+				component: () => import('../components/hyj/PutStoLog.vue'),
+				name: '入库记录',
+				meta: {
+					title: "入库记录"
+				}
 			}
 
 		],

@@ -134,6 +134,9 @@
                <router-link to="/repe">
                  <el-menu-item index="7-1">库存</el-menu-item>
                </router-link>
+               <router-link to="/putstolog">
+                 <el-menu-item index="7-2">入库记录</el-menu-item>
+               </router-link>
              </el-menu-item-group>
            </el-sub-menu>
 				    </el-menu>
