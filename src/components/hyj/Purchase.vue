@@ -87,7 +87,7 @@
       <el-table-column prop="commMoney" label="单价"></el-table-column>
       <el-table-column prop="commNum" label="数量">
         <template v-slot="s">
-          <el-input-number v-model="s.row.commNum" min="1" size="mini"></el-input-number>
+          <el-input-number v-model="s.row.commNum" controls-position="right" min="1" size="mini"></el-input-number>
         </template>
       </el-table-column>
     </el-table>
