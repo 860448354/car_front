@@ -1,21 +1,22 @@
 <!-- 客户信息 -->
 <template>
-	<el-form :inline="true" :model="formize" class="demo-form-inline">
-	
+	<el-form :inline="true" :model="formize" class="demo-form-inline" style="margin-top: 30px;">
+		<!-- <el-form-item style="margin-left: 20px;">
+			<el-input v-model="formize.memBalance"  placeholder="请输入余额"></el-input>
+		</el-form-item> -->
 		<el-form-item style="margin-left: 20px;">
-			<el-input v-model="formize.vehiname"  placeholder="请输入客户姓名"></el-input>
+			<el-select v-model="formize.memGrade" clearable placeholder="请选择会员等级">
+				<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+				</el-option>
+			</el-select>
+		
 		</el-form-item>
 		<el-form-item>
-			<el-input v-model="formize.vehinumberplate" placeholder="请输入客户等级"></el-input>
-		</el-form-item>
-		<el-form-item>
-			<el-button icon="el-icon-search" circle @click="onSubmit"></el-button>
-			<el-button type="primary" icon="el-icon-edit" circle @click="addche()"></el-button>
+			<el-button type="primary"  @click="onSubmit">搜索</el-button>
+			<!-- <el-button type="primary" icon="el-icon-edit" circle ></el-button> -->
 	<!-- 		<el-button type="success" v-print="printObj">打印</el-button> -->
 			<el-button @click="exportExcel">导出</el-button>
-			<el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
-			  查看客户信息
-			</el-button>
+			
 			<div id="loading" v-show="printLoading"></div>
 		</el-form-item>
 	</el-form>
