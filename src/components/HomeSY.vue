@@ -9,7 +9,7 @@
 	       <template #dropdown>
 	         <el-dropdown-menu>
 	           <el-dropdown-item>修改</el-dropdown-item>
-	           <el-dropdown-item >退出</el-dropdown-item>
+	           <el-dropdown-item @click="quit" >退出</el-dropdown-item>
 
 
 	         </el-dropdown-menu>
@@ -152,8 +152,17 @@
 			}
 		},
 		methods: {
+			quit(){
+				this.$store.state.user.name='未登录'
+				this.$router.replace("/login")
+				// this.$router.replace("/")
+			},
+			ce(){
+				console.log("存入员工",this.$store.state) 
+			}
 		},
 		mounted() {
+			this.ce();
 		}
 	}
 </script>
