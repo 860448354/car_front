@@ -88,7 +88,11 @@
 			<div>
 				<img src="../../../public/img/用户默认头像.png" style="margin-top: 20px;margin-left: 20px;"/>
 				<div style="margin-left: 160px;margin-top: -130px;">
-					<p>{{lookmember.crId.crName}}</p>
+					<p><span style="margin-top: -20px;">{{lookmember.crId.crName}}</span>
+					 <img v-if="lookmember.memGrade=='普通会员'" style="margin-left: 100px;margin-top: -15px;" src="../../../public/img/普通会员.png" />
+					 <img v-if="lookmember.memGrade=='钻石会员'" style="margin-left: 100px;margin-top: -15px;" src="../../../public/img/钻石会员.png" />
+					 <img v-if="lookmember.memGrade=='超级会员'" style="margin-left: 100px;margin-top: -15px;" src="../../../public/img/超级会员.png" />
+					</p>
 					<p>{{lookmember.crId.crPhone}}</p>
 				</div>
 			</div>
@@ -100,8 +104,8 @@
 		  <span style="margin-left: 20%;font-size: 20px;">累计消费次数</span>
 		  <span style="margin-left: 20%;font-size: 20px;">余额</span>
 		  <br><br>
-		  <span style="margin-left: 25%;font-size: 40px;">{{lookmember.memSum}}</span>
-		  <span style="margin-left: 38%;font-size: 40px;">{{lookmember.memIntegral}}</span>
+		  <span style="margin-left: 20%;font-size: 40px;color: orange;">{{lookmember.memBalancedsum}}</span>
+		  <span style="margin-left: 25%;font-size: 40px;color: orange;">{{lookmember.memBalance}}</span>
 		 </div>
 		<el-tabs v-model="activeName" @tab-click="handleClick" style="margin-top: 40px;margin-left: 40px;">
 		    <el-tab-pane label="会员信息" name="first" >
@@ -127,16 +131,20 @@
 			        <p>王小虎 提交于 2018/4/12 20:46</p>
 			      </el-card>
 			    </el-timeline-item>
-			    <el-timeline-item timestamp="2018/4/3" placement="top">
+			  </el-timeline>
+			</div>
+			</div>
+			</el-tab-pane>
+			<!-- 充值 -->
+			<el-tab-pane label="充值记录" name="menoy" >
+			<div style="height:300px;overflow-y:auto" >
+			<div class="block" >
+			  <el-timeline >
+			    <el-timeline-item  placement="top" v-for="(item,i) in selectAllByIdes">
 			      <el-card>
-			        <h4>更新 Github 模板</h4>
-			        <p>王小虎 提交于 2018/4/3 20:46</p>
-			      </el-card>
-			    </el-timeline-item>
-			    <el-timeline-item timestamp="2018/4/2" placement="top">
-			      <el-card>
-			        <h4>更新 Github 模板</h4>
-			        <p>王小虎 提交于 2018/4/2 20:46</p>
+			        <h4>{{item.chargeTime}}</h4>
+			        <p>充值了<span style="color: orange;font-size: 20px;">{{item.chargeMenoy}}</span>元</p>
+					<p>当时账户余额<span style="color: orange;font-size: 20px;">{{item.chargeBalance}}</span>元</p>
 			      </el-card>
 			    </el-timeline-item>
 			  </el-timeline>
@@ -184,12 +192,12 @@
 			<el-form :rules="formregular" :model="formize" ref="numberValidateForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="操作人:" style="margin-top: 10px; margin-left: 20px;">
 				    <el-span class="sjsumm" v-model="formize.gooduntit"  style="width: 300px;color: red;" >
-						 {{formize.gooduntit}}
+					<!-- 	 {{this.$store.state.message}} -->
 					</el-span>
 				</el-form-item>
 				<el-form-item prop="chargeTime"
 				style="margin-top: -60px; margin-left: 50%;"
-				  label="申请日期:"
+				  label="充值日期:"
 				>
 				<el-span class="sjsumm" v-model="formize.chargeTime"  style="width: 300px" >
 								   {{formize.chargeTime}}
@@ -226,19 +234,19 @@ export default {
     return {
 		options: [{
 			value: '0',
-			label: '钻石会员'
+			label: '普通会员'
 		}, {
 			value: '1',
-			label: '白金会员'
+			label: '钻石会员'
 		}, {
 			value: '2',
-			label: '至尊会员'
+			label: '超级会员'
 		}],
       formize: {
 		  chargeTime:'',
-		  prozw:'',
 		  chargeBalance:0,
-		  chargeMenoy:0
+		  chargeMenoy:0,
+		  memBalancedsum:0
 	  },
 	  pageNo: 1,
 	  pageSize: 3,
@@ -250,57 +258,57 @@ export default {
 	  dialogFormVisibles:false,
 	  memberes:[],
 	  lookmember:{},
-	  addhuiyuans:{}
+	  addhuiyuans:{},
+	  selectAllByIdes:{}
     };
   },
  methods: {
+	 /* 修改*/
+	 updatebym(){
+		 this.formize.memBalancedsum = parseInt(this.formize.chargeMenoy) + parseInt(this.addhuiyuans.memBalancedsum);
+		 if(this.addhuiyuans.memBalancedsum<=1500){
+			 var memGrade="0";
+			this.axios.post("/charge/updatebym",{
+						 memId:this.addhuiyuans.memId,
+						 memBalance:this.formize.chargeBalance,
+						 memBalancedsum:this.formize.memBalancedsum,
+						 memGrade:memGrade
+			}) 
+		 }else if(this.addhuiyuans.memBalancedsum>=1500&&this.addhuiyuans.memBalancedsum<=3000){
+			 var memGrade="1";
+			 this.axios.post("/charge/updatebym",{
+			 			 memId:this.addhuiyuans.memId,
+			 			 memBalance:this.formize.chargeBalance,
+			 			 memBalancedsum:this.formize.memBalancedsum,
+			 			 memGrade:memGrade
+			 }) 
+		 }else{
+		     var memGrade="2";
+		     this.axios.post("/charge/updatebym",{
+		     			 memId:this.addhuiyuans.memId,
+		     			 memBalance:this.formize.chargeBalance,
+		     			 memBalancedsum:this.formize.memBalancedsum,
+		     			 memGrade:memGrade
+		     }) 
+		 }
+		
+	 },
+	 /* 新增*/
 	 install(){
-		 console.log("this?",this.addhuiyuans.crId.crId)
 		this.axios.post("charge/insterall",{
 			 chargeTime:this.formize.chargeTime,
 			 chargeMenoy:this.formize.chargeMenoy,
 			 chargeBalance:this.formize.chargeBalance,
 			 chargeKhid:{crId:this.addhuiyuans.crId.crId}
 		 }).then(res=>{
-			 
+			 this.updatebym();
+			 this.loadData();
 		 })
 	 },
 	 testUser(){
 		this.formize.chargeBalance = parseInt(this.formize.chargeMenoy) + parseInt(this.addhuiyuans.memBalance);
-	 	this.smallToBIGes();
 	 },
-	 /* 计算金额为中文*/
-	 smallToBIGes() {
-	 	if(this.formize.chargeMenoy!=null){
-	 		console.log("this.formize.chargeMenoy",this.formize.chargeMenoy)
-	 		  let price = Math.abs(this.formize.chargeMenoy);
-	 		    let fraction = ['角', '分'];
-	 		    let digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
-	 		    let unit = [['圆.', '万,', '亿,'], ['', '拾', '佰', '仟']];
-	 		    let head = price < 0 ? '欠' : '';
-	 		   
-	 		    let upper = '';
-	 		    for (let i = 0; i < fraction.length; i++) {
-	 		      upper += (digit[Math.floor(price * 10 * Math.pow(10, i)) % 10] + fraction[i]).replace(/零./, '');
-	 		    }
-	 		    upper = upper || '整';
-	 		    price = Math.floor(price);
-	 		    for (let i = 0; i < unit[0].length && price > 0; i++) {
-	 		      let p = '';
-	 		      for (let j = 0; j < unit[1].length && price > 0; j++) {
-	 		        p = digit[price % 10] + unit[1][j] + p;
-	 		        price = Math.floor(price / 10);
-	 		      }
-	 		      upper = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][i] + upper;
-	 		    }
-	 			   
-	 		    this.formize.prozw = head + upper.replace(/(零.)*零圆/, '圆').replace(/(零.)+/g, '零').replace(/^整$/, '零圆整')
-	 		    // console.log(head + upper.replace(/(零.)*零圆/, '圆').replace(/(零.)+/g, '零').replace(/^整$/, '零圆整'))
-	 		     console.log("t67",this.formize.prozw)
-	 				
-	 	}
-	 	
-	       },
+	
 	 /* 获取当前时间*/
 	 getsjsum(){
 	 	var a=new Date();	
@@ -312,8 +320,17 @@ export default {
 	 /* 查看详情*/
 	 addMember(row){
 		 this.lookmember={...row}
+		 this.selectAllById()
 		 this.drawer = true
 		 console.log("这位是row",this.lookmember)
+	 },
+	 /* 查询会员充值记录/charge/selectall/{{id}}*/
+	 selectAllById(){
+		 console.log("这位是crid",this.lookmember.crId.crId);
+		 this.axios.get("/charge/selectall/"+this.lookmember.crId.crId).then(res=>{
+			 this.selectAllByIdes=res.data;
+			 console.log("who this",this.selectAllByIdes)
+		 })
 	 },
 	 /* 分页查询*/
 	 loadData() {
@@ -328,6 +345,7 @@ export default {
 	 			params: params,
 	 		})
 	 		.then(res => {
+				console.log("memberes",res)
 	 			this.memberes = res.data.list;
 	 			this.total = res.data.total;
 				console.log("memberes",this.memberes)
@@ -349,9 +367,11 @@ export default {
 	       },
 	 handleSizeChange(size) {
 	 	this.pageSize = size;
+		this.loadData()
 	 },
 	 handleCurrentChange(currNo) {
 	 	this.pageNo = currNo;
+		this.loadData()
 	 },
 	 handleClose(done) {
 	    this.$confirm('还有未保存的工作哦确定关闭吗？')

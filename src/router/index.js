@@ -37,7 +37,7 @@ let routes=[
 				meta: {
 					title: "用户设置",
 					},
-					
+
 			},
 			{
 				path: '/customerAccount',
@@ -45,6 +45,38 @@ let routes=[
 				name: '客户结算',
 				meta: {
 					title: "客户结算"
+				}
+			},
+			{
+				path: '/customerCurrent',
+				component: () => import('../components/csp/CustomerCurrent.vue'),
+				name: '客户往来账',
+				meta: {
+					title: "客户往来账"
+				}
+			},
+			{
+				path: '/vendorAccount',
+				component: () => import('../components/csp/VendorAccount.vue'),
+				name: '供货商结算',
+				meta: {
+					title: "供货商结算"
+				}
+			},
+			{
+				path: '/vendorCurrent',
+				component: () => import('../components/csp/VendorCurrent.vue'),
+				name: '供货商往来账',
+				meta: {
+					title: "供货商往来账"
+				}
+			},
+			{
+				path: '/dailyAccount',
+				component: () => import('../components/csp/DailyAccount.vue'),
+				name: '日结账单',
+				meta: {
+					title: "日结账单"
 				}
 			},
 			{
@@ -56,6 +88,38 @@ let routes=[
 				}
 			},
 			{
+				path: '/care',
+				component: () => import('@/components/dai/Customercare.vue'),
+				name: '客户关怀',
+				meta: {
+					title: "客户关怀"
+				}
+			},
+			{
+				path: '/plaint',
+				component: () => import('@/components/dai/Customercomplaint.vue'),
+				name: '客户投诉',
+				meta: {
+					title: "客户投诉"
+				}
+			},
+			{
+				path: '/activity',
+				component: () => import('@/components/dai/Memberactivity.vue'),
+				name: '活动管理',
+				meta: {
+					title: "活动管理"
+				}
+			},
+			{
+				path: '/agement',
+				component: () => import('@/components/dai/Customermanagement.vue'),
+				name: '客户管理',
+				meta: {
+					title: "客户管理"
+				}
+			},
+			{
 				path: '/dispatching',
 				component: () => import('@/components/czh/MaintenanceDispatching.vue'),
 				name: '维修派工',
@@ -64,17 +128,24 @@ let routes=[
 				}
 			},
 			{
-				path: '/dispatchingrecord',
-				component: () => import('@/components/czh/DispatchingRecord.vue'),
-				name: '派工记录',
+				path: '/jurisdiction',
+				component: () => import('@/components/kj/jurisdiction.vue'),
+				name: '权限设置',
 				meta: {
-					title: "派工记录"
+					title: "权限设置"
+				}
+			},
+			{
+				path: '/putstore',
+				component: () => import('../components/hyj/PutStore.vue'),
+				name: '采购入库',
+				meta: {
+					title: "采购入库"
 				}
 			}
-			
+
 		],
-		
-		
+
 	},
 	{
 		path:'/login',

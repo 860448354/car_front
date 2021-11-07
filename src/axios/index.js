@@ -6,9 +6,10 @@ axios.interceptors.request.use(config=>{
 	return config;
 })
 
+
+
+
 axios.interceptors.response.use(res=>{
-	//在得到服务器响应之后进行拦截
-	console.log("拦截之前的响应结果：",res);
 	if(res.status==200){
 		let result = res.data;//这里就是后台返回的真实数据
 		if(result.code==0){

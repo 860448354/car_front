@@ -26,32 +26,28 @@
 				  	  
 				  <el-form-item label="用户名">
 					  
-					  <el-input v-model="form.name"></el-input>
+					  <el-input v-model="form.user"></el-input>
 					  
 				  </el-form-item>
 				  <el-form-item label="密码">
-				  					  
-				  					  <el-input placeholder="请输入密码" show-password v-model="form.name"></el-input>
-				  					  
-				  </el-form-item>
-				  <el-form-item label="重复密码">
-				  					  
-				  					  <el-input placeholder="请输入密码" show-password v-model="form.name"></el-input>
+				  	
+				  					  <el-input  v-model="form.pwd"></el-input>
 				  					  
 				  </el-form-item>
+				
 				  <el-form-item label="姓名">
 				  					  
-				  					  <el-input v-model="form.name"></el-input>
+				  					  <el-input v-model="form.sfName"></el-input>
 				  					  
 				  </el-form-item>
 				  <el-form-item label="电话">
 				  					  
-				  					  <el-input v-model="form.name"></el-input>
+				  					  <el-input v-model="form.sfPhone"></el-input>
 				  					  
 				  </el-form-item>
 				  <el-form-item label="身份证">
 				  					  
-				  					  <el-input v-model="form.name"></el-input>
+				  					  <el-input v-model="form.sfCard"></el-input>
 				  					  
 				  </el-form-item>
 				  
@@ -65,35 +61,103 @@
 		   <template #footer>
 		     <span class="dialog-footer">
 		       <el-button @click="dialogVisible = false">取 消</el-button>
-		       <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+		       <el-button type="primary"  @click="onsubmit">确 定</el-button>
 		     </span>
 		   </template>
 		 </el-dialog>
 		 
 	</p>
 	
-	 <el-table :data="tableData" style="width: 100%">
+	<div>
+		<el-table :data="tableData" style="width: 100%">
+			
+		   <el-table-column prop="sfName" label="姓名" width="180"> </el-table-column>
+		   <el-table-column prop="" label="用户名" width="180"> 
+				
+				<template #default="scope">
+					<span v-if="scope.row.myuser!=null">
+						{{scope.row.myuser.uaccount}}
+					</span>
+				</template>
+				
+				</el-table-column>
+		   
+				
+				<el-table-column prop="address" label="部门">
+				 <template #default="scope" >
+					 <span v-if="scope.row.mydept !=null">
+						 {{scope.row.mydept.dtName}}
+					 </span>
+				 </template>
+				</el-table-column>
+				
+				<el-table-column prop="address" label="职位">
+				 <template #default="scope" >
+					 <span v-if="scope.row.mypost !=null">
+						 {{scope.row.mypost.ptName}}
+					 </span>
+				 </template>
+				</el-table-column>
+				
+				
+				  <el-table-column  label="性别">
+					 <template #defalut="scope">
+						  <span v-if="scope.row.sex !=null">
+							  {{scope.row.sex}}
+						  </span>
+					  </template>
+					  
+				  </el-table-column>
+				  
+				  
+				   <el-table-column prop="sfPhone" label="电话"> </el-table-column>
+				   <el-table-column  label="状态"> 
+				   
+				   <template #default="scope">
+					   <span>
+					   	
+					   	 <el-switch
+						 
+					   	    v-model="scope.row.sfState"
+					   	    active-color="#13ce66"
+					   	    inactive-color="#ff4949"
+					   	    active-text="启动"
+					   	    inactive-text="停用"
+					   		@click="updatState(scope.row.sfId,scope.row.sfState)"
+					   	  />
+					   	
+					   </span>
+				   </template>
+						
+				   </el-table-column>
+				    <el-table-column  label="操作">
+						<el-button>修改</el-button>
+						</el-table-column>
+		 </el-table>
+	</div>
 	
-	    <el-table-column prop="date" label="姓名" width="180"> </el-table-column>
-	    <el-table-column prop="name" label="用户名" width="180"> </el-table-column>
-	    <el-table-column prop="address" label="职位"> </el-table-column>
-		 <el-table-column prop="address" label="邮箱"> </el-table-column>
-		  <el-table-column prop="address" label="性别"> </el-table-column>
-		   <el-table-column prop="address" label="电话"> </el-table-column>
-		   <el-table-column prop="address" label="操作"> </el-table-column>
-	  </el-table>
+	
 	
 </template>
 
 <script>
+	import qs from 'qs'
+	
 	  export default {
 	    data() {
 	      return {
+			  value2:'',
 			  options:[],
 			  form:{
-				  name:'',
+				  sfName:'',
+				  sfPhone:'',
+				  sfCard:'',
+				  sfDpid:'',
+				  sfPtid:'',
+				  user:'',
+				  pwd:'123456'
 			  },
-			  dialogVisible:true,
+			  dialogVisible:false,
 	        tableData: [
 	          {
 	            date: '2016-05-02',
@@ -123,10 +187,10 @@
 			console.log('submit!触发class');			
 						this.axios.get("http://localhost:8166/dept/all").
 						then(res=>{
-							console.log("后台数据", res);								
+							console.log("后台部门数据", res);								
 								let arr=[];								
-							if (res.code == 1) {							
-							res.data.forEach(item=>{
+							if (res.data.code == 1) {							
+							res.data.data.forEach(item=>{
 								console.log("+++",item)								
 								var dept={
 									label:item.dtName,
@@ -162,9 +226,82 @@
 						
 						
 			},
+			getStaff(){
+				this.axios.get("http://localhost:8166/staff/all").then(res=>{
+					console.log("拿到路由",res)
+					if(res.data.code==1){
+						
+						res.data.data.forEach(v=>{
+							console.log("对象0",v)
+							
+							let sex=v.sfCard.charAt(16)
+							v.sfState=v.sfState==1?true:false;
+							
+							if(sex%2==0){
+								v.sex='女'
+							}else{
+								v.sex='男'
+							}
+							
+							
+						})
+						
+						console.log("jjjj",res.data.data)
+						
+						this.tableData=res.data.data
+					}
+				})
+			},
+			handleChange(value) {
+			       console.log("岗位选择",value);
+								this.form.sfPtid=value[1];
+								this.form.sfDpid=value[0];
+								 console.log("部门选择",this.form.sfDpid);
+								  console.log("岗位选择",this.form.sfPtid);
+			     },
+				 onsubmit(){
+					console.log("提交",this.form)
+					 this.dialogVisible = false
+					 
+					 this.axios.post("http://localhost:8166/staff/add",this.form).then(res=>{
+						 console.log("成功",res)
+						 if(res.data.code==1){
+							 this.getStaff()
+						 }
+						 
+					 })
+				 },
+				 
+				 
+				 
+				 updatState(sfid,stateid){
+					 
+					 
+					 
+					 console.log("员工主键"+sfid);
+					 console.log("员工状态"+stateid);
+					 
+					 let state=stateid==true?1:0;
+					 console.log("员工状态zz"+state);
+					 
+					 let date={
+						 stateid:state,
+						 sid:sfid,
+					 }
+					 
+					 let qsdate=qs.stringify(date)
+					 
+					 this.axios.put("http://localhost:8166/staff/upda",qsdate).then(res=>{
+						 
+					 })
+					 
+				 }
+				 
 		},
 		mounted() {
 			this.getDept();
+			this.getStaff();
+			
 		}
 	  }
 	

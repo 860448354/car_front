@@ -9,7 +9,7 @@
 	       <template #dropdown>
 	         <el-dropdown-menu>
 	           <el-dropdown-item>修改</el-dropdown-item>
-	           <el-dropdown-item >退出</el-dropdown-item>
+	           <el-dropdown-item @click="quit" >退出</el-dropdown-item>
 
 
 	         </el-dropdown-menu>
@@ -43,9 +43,11 @@
                     采购进货
                   </el-menu-item>
                 </router-link>
-                <el-menu-item index="2-2">
-                  采购入库
-                </el-menu-item>
+                <router-link to="/putstore">
+                  <el-menu-item index="2-2">
+                    采购入库
+                  </el-menu-item>
+                </router-link>
 				      </el-sub-menu>
            <el-sub-menu index="3">
              <template #title>
@@ -55,13 +57,7 @@
                <router-link to="/customer">
                  <el-menu-item index="3-1">客户接待</el-menu-item>
                </router-link>
-               <router-link to="/dispatching">
-                 <el-menu-item index="3-2">维修派工</el-menu-item>
-               </router-link>
-			   <router-link to="/dispatchingrecord">
-			     <el-menu-item index="3-3">派工列表</el-menu-item>
-			   </router-link>
-			   
+               <el-menu-item index="3-2">Option 2</el-menu-item>
              </el-menu-item-group>
            </el-sub-menu>
            <el-sub-menu index="4">
@@ -73,11 +69,17 @@
                <router-link to="/customerAccount">
                  <el-menu-item index="4-1">客户结算</el-menu-item>
                </router-link>
-               <router-link to="">
-                 <el-menu-item index="4-2">供货商结算</el-menu-item>
+			   <router-link to="/customerCurrent">
+			     <el-menu-item index="4-2">客户往来账</el-menu-item>
+			   </router-link>
+			   <router-link to="/vendorAccount">
+                 <el-menu-item index="4-3">供货商结算</el-menu-item>
                </router-link>
-               <router-link to="">
-                 <el-menu-item index="4-3">日结账单</el-menu-item>
+               <router-link to="/vendorCurrent">
+                 <el-menu-item index="4-4">供货商往来账</el-menu-item>
+               </router-link>
+               <router-link to="/dailyAccount">
+                 <el-menu-item index="4-5">日结账单</el-menu-item>
                </router-link>
              </el-menu-item-group>
            </el-sub-menu>
@@ -90,15 +92,18 @@
                <router-link to="/member">
                  <el-menu-item index="5-1">会员管理</el-menu-item>
                </router-link>
-               <router-link to="">
+               <router-link to="/plaint">
                  <el-menu-item index="5-2">客户投诉</el-menu-item>
                </router-link>
-               <router-link to="">
+               <router-link to="/agement">
                  <el-menu-item index="5-3">客户管理</el-menu-item>
                </router-link>
-               <router-link to="">
-                 <el-menu-item index="5-3">客户关怀</el-menu-item>
+               <router-link to="/care">
+                 <el-menu-item index="5-4">客户关怀</el-menu-item>
                </router-link>
+			   <router-link to="/activity">
+			     <el-menu-item index="5-4">会员活动</el-menu-item>
+			   </router-link>
              </el-menu-item-group>
            </el-sub-menu>
            <el-sub-menu index="6">
@@ -110,7 +115,7 @@
                <router-link to="user">
                  <el-menu-item index="6-1">操作员设置</el-menu-item>
                </router-link>
-               <router-link to="">
+               <router-link to="jurisdiction">
                  <el-menu-item index="6-2">操作权限设置</el-menu-item>
                </router-link>
              </el-menu-item-group>
@@ -155,8 +160,17 @@
 			}
 		},
 		methods: {
+			quit(){
+				this.$store.state.user.name='未登录'
+				this.$router.replace("/login")
+				// this.$router.replace("/")
+			},
+			ce(){
+				console.log("存入员工",this.$store.state)
+			}
 		},
 		mounted() {
+			this.ce();
 		}
 	}
 </script>
