@@ -37,7 +37,7 @@ let routes=[
 				meta: {
 					title: "用户设置",
 					},
-					
+
 			},
 			{
 				path: '/customerAccount',
@@ -126,17 +126,26 @@ let routes=[
 				meta: {
 					title: "维修派工"
 				}
-			},{
+			},
+			{
 				path: '/jurisdiction',
 				component: () => import('@/components/kj/jurisdiction.vue'),
 				name: '权限设置',
 				meta: {
 					title: "权限设置"
 				}
+			},
+			{
+				path: '/putstore',
+				component: () => import('../components/hyj/PutStore.vue'),
+				name: '采购入库',
+				meta: {
+					title: "采购入库"
+				}
 			}
-			
+
 		],
-		
+
 	},
 	{
 		path:'/login',

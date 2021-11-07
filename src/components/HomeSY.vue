@@ -43,9 +43,11 @@
                     采购进货
                   </el-menu-item>
                 </router-link>
-                <el-menu-item index="2-2">
-                  采购入库
-                </el-menu-item>
+                <router-link to="/putstore">
+                  <el-menu-item index="2-2">
+                    采购入库
+                  </el-menu-item>
+                </router-link>
 				      </el-sub-menu>
            <el-sub-menu index="3">
              <template #title>
@@ -164,7 +166,7 @@
 				// this.$router.replace("/")
 			},
 			ce(){
-				console.log("存入员工",this.$store.state) 
+				console.log("存入员工",this.$store.state)
 			}
 		},
 		mounted() {
