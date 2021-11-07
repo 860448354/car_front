@@ -104,8 +104,8 @@
 		  <span style="margin-left: 20%;font-size: 20px;">累计消费次数</span>
 		  <span style="margin-left: 20%;font-size: 20px;">余额</span>
 		  <br><br>
-		  <span style="margin-left: 25%;font-size: 40px;">{{lookmember.memSum}}</span>
-		  <span style="margin-left: 38%;font-size: 40px;">{{lookmember.memBalance}}</span>
+		  <span style="margin-left: 20%;font-size: 40px;color: orange;">{{lookmember.memBalancedsum}}</span>
+		  <span style="margin-left: 25%;font-size: 40px;color: orange;">{{lookmember.memBalance}}</span>
 		 </div>
 		<el-tabs v-model="activeName" @tab-click="handleClick" style="margin-top: 40px;margin-left: 40px;">
 		    <el-tab-pane label="会员信息" name="first" >
@@ -143,8 +143,8 @@
 			    <el-timeline-item  placement="top" v-for="(item,i) in selectAllByIdes">
 			      <el-card>
 			        <h4>{{item.chargeTime}}</h4>
-			        <p>充值了{{item.chargeMenoy}}元</p>
-					<p>当时账户余额{{item.chargeBalance}}元</p>
+			        <p>充值了<span style="color: orange;font-size: 20px;">{{item.chargeMenoy}}</span>元</p>
+					<p>当时账户余额<span style="color: orange;font-size: 20px;">{{item.chargeBalance}}</span>元</p>
 			      </el-card>
 			    </el-timeline-item>
 			  </el-timeline>
@@ -234,18 +234,19 @@ export default {
     return {
 		options: [{
 			value: '0',
-			label: '钻石会员'
+			label: '普通会员'
 		}, {
 			value: '1',
-			label: '白金会员'
+			label: '钻石会员'
 		}, {
 			value: '2',
-			label: '至尊会员'
+			label: '超级会员'
 		}],
       formize: {
 		  chargeTime:'',
 		  chargeBalance:0,
-		  chargeMenoy:0
+		  chargeMenoy:0,
+		  memBalancedsum:0
 	  },
 	  pageNo: 1,
 	  pageSize: 3,
@@ -264,14 +265,36 @@ export default {
  methods: {
 	 /* 修改*/
 	 updatebym(){
-		 this.axios.post("/charge/updatebym",{
-			 memId:this.addhuiyuans.memId,
-			 memBalance:this.formize.chargeBalance
-		 })
+		 this.formize.memBalancedsum = parseInt(this.formize.chargeMenoy) + parseInt(this.addhuiyuans.memBalancedsum);
+		 if(this.addhuiyuans.memBalancedsum<=1500){
+			 var memGrade="0";
+			this.axios.post("/charge/updatebym",{
+						 memId:this.addhuiyuans.memId,
+						 memBalance:this.formize.chargeBalance,
+						 memBalancedsum:this.formize.memBalancedsum,
+						 memGrade:memGrade
+			}) 
+		 }else if(this.addhuiyuans.memBalancedsum>=1500&&this.addhuiyuans.memBalancedsum<=3000){
+			 var memGrade="1";
+			 this.axios.post("/charge/updatebym",{
+			 			 memId:this.addhuiyuans.memId,
+			 			 memBalance:this.formize.chargeBalance,
+			 			 memBalancedsum:this.formize.memBalancedsum,
+			 			 memGrade:memGrade
+			 }) 
+		 }else{
+		     var memGrade="2";
+		     this.axios.post("/charge/updatebym",{
+		     			 memId:this.addhuiyuans.memId,
+		     			 memBalance:this.formize.chargeBalance,
+		     			 memBalancedsum:this.formize.memBalancedsum,
+		     			 memGrade:memGrade
+		     }) 
+		 }
+		
 	 },
 	 /* 新增*/
 	 install(){
-		 console.log("this?",this.addhuiyuans.crId.crId)
 		this.axios.post("charge/insterall",{
 			 chargeTime:this.formize.chargeTime,
 			 chargeMenoy:this.formize.chargeMenoy,
@@ -305,7 +328,7 @@ export default {
 	 selectAllById(){
 		 console.log("这位是crid",this.lookmember.crId.crId);
 		 this.axios.get("/charge/selectall/"+this.lookmember.crId.crId).then(res=>{
-			 this.selectAllByIdes=res;
+			 this.selectAllByIdes=res.data;
 			 console.log("who this",this.selectAllByIdes)
 		 })
 	 },
@@ -322,8 +345,9 @@ export default {
 	 			params: params,
 	 		})
 	 		.then(res => {
-	 			this.memberes = res.list;
-	 			this.total = res.total;
+				console.log("memberes",res)
+	 			this.memberes = res.data.list;
+	 			this.total = res.data.total;
 				console.log("memberes",this.memberes)
 	 		})
 	 },
@@ -343,9 +367,11 @@ export default {
 	       },
 	 handleSizeChange(size) {
 	 	this.pageSize = size;
+		this.loadData()
 	 },
 	 handleCurrentChange(currNo) {
 	 	this.pageNo = currNo;
+		this.loadData()
 	 },
 	 handleClose(done) {
 	    this.$confirm('还有未保存的工作哦确定关闭吗？')

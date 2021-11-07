@@ -74,7 +74,7 @@
 	
 	 <el-table :data="tableData" style="width: 100%">
 	
-	    <el-table-column prop="date" label="姓名" width="180"> </el-table-column>
+	    <el-table-column prop="sfName" label="姓名" width="180"> </el-table-column>
 	    <el-table-column prop="name" label="用户名" width="180"> </el-table-column>
 	    <el-table-column prop="address" label="职位"> </el-table-column>
 		 <el-table-column prop="address" label="邮箱"> </el-table-column>
