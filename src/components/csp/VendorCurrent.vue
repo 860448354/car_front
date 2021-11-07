@@ -10,53 +10,45 @@
 			<el-input v-model="input" placeholder="供应商名称" style="width: 200px;" />
 		</el-col>
 		<el-col :span="4">
-			<el-button type="primary" size="medium" style="width:100px;">
+			<el-button type="primary" size="medium" style="width:100px;" @click="getData()">
 				查询</el-button>
 		</el-col>
 	</el-row>
 	<el-row>
-		<el-table :data="tabledata" height="270px">
-			<el-table-column fixed="" prop="recordsNo" label="就诊记录号" width="200px">
+		<el-table :data="tabledata" height="270px" @row-click="getPurOrders">
+			<el-table-column fixed="" prop="purOrder" label="订单号" width="200px">
 			</el-table-column>
-			<el-table-column prop="outpatientName" label="姓名" width="150px">
+			<el-table-column prop="supplierName" label="供货商名称" width="150px">
 			</el-table-column>
-			<el-table-column prop="outpatientSex" label="性别" width="100px">
+			<el-table-column prop="vendorDate" label="结算日期" width="100px">
 			</el-table-column>
-			<el-table-column prop="outpatientAge" label="年龄" width="100px">
+			<el-table-column prop="vendorDue" label="应付金额" width="100px">
 			</el-table-column>
-			<el-table-column prop="medicalName" label="科室" width="150px">
+			<el-table-column prop="vendorReceived" label="付款金额" width="150px">
 			</el-table-column>
-			<el-table-column prop="staffName" label="医师" width="150px">
+			<el-table-column prop="vendorCoupon" label="优惠金额" width="150px">
 			</el-table-column>
-			<el-table-column prop="prescriptionDate" label="项目日期" width="150px">
+			<el-table-column prop="vendorEnter" label="入账方式" width="150px">
 			</el-table-column>
-			<el-table-column prop="prescriptionNo" label="项目号" width="200px">
+			<el-table-column prop="vendorType" label="单据类型" width="200px">
 			</el-table-column>
-			<el-table-column prop="dosis" label="副数" width="100px">
-			</el-table-column>
-			<el-table-column prop="sumMoney" label="本单应收" width="100px">
+			<el-table-column prop="staff.sfName" label="操作员" width="100px">
 			</el-table-column>
 		</el-table>
 	</el-row>
 	<el-row>
-		<el-table :data="tabledata" height="140px">
-			<el-table-column prop="typeId" label="费用名">
+		<el-table :data="purXq" height="140px">
+			<el-table-column prop="commName" label="配件名">
 			</el-table-column>
-			<el-table-column prop="drugId" label="项目编号">
+			<el-table-column prop="commSpe" label="配件规格">
 			</el-table-column>
-			<el-table-column prop="drugName" label="项目名称">
+			<el-table-column prop="commCar" label="配件车型">
 			</el-table-column>
-			<el-table-column prop="standardName" label="规格">
+			<el-table-column prop="commUnit" label="配件单位">
 			</el-table-column>
-			<el-table-column prop="drugBig" label="单位">
+			<el-table-column prop="commMoney" label="配件单价">
 			</el-table-column>
-			<el-table-column prop="aggregate" label="数量">
-			</el-table-column>
-			<el-table-column prop="dose" label="克数">
-			</el-table-column>
-			<el-table-column prop="drugSelling" label="单价">
-			</el-table-column>
-			<el-table-column prop="subtotal" label="金额">
+			<el-table-column prop="commNum" label="配件数量">
 			</el-table-column>
 		</el-table>
 	</el-row>
@@ -67,8 +59,35 @@
 		data() {
 			return {
 				tabledata: [],
-				paymentTime:''
+				purXq:[],
+				paymentTime: '',
+				input: '',
+				vendorAccount: {
+					start: '',
+					end: '',
+					supplierName: ''
+				}
 			}
+		},
+		methods: {
+			getData() {
+				this.vendorAccount.supplierName = this.input;
+				this.vendorAccount.start = this.paymentTime[0];
+				this.vendorAccount.end = this.paymentTime[1];
+				this.axios.post(
+					'/account/sel-vendorAccount',
+					this.vendorAccount
+				).then((res) => {
+					this.tabledata = res.data;
+				}).catch(() => {})
+			},
+			getPurOrders(row){
+				console.log(row.purchase.purXq)
+				this.purXq = row.purchase.purXq;
+			}
+		},
+		created() {
+			this.getData();
 		}
 	}
 </script>
