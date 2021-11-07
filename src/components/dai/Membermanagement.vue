@@ -192,12 +192,12 @@
 			<el-form :rules="formregular" :model="formize" ref="numberValidateForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="操作人:" style="margin-top: 10px; margin-left: 20px;">
 				    <el-span class="sjsumm" v-model="formize.gooduntit"  style="width: 300px;color: red;" >
-						 {{formize.gooduntit}}
+					<!-- 	 {{this.$store.state.message}} -->
 					</el-span>
 				</el-form-item>
 				<el-form-item prop="chargeTime"
 				style="margin-top: -60px; margin-left: 50%;"
-				  label="申请日期:"
+				  label="充值日期:"
 				>
 				<el-span class="sjsumm" v-model="formize.chargeTime"  style="width: 300px" >
 								   {{formize.chargeTime}}
