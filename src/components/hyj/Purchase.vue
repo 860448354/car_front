@@ -2,26 +2,73 @@
   <el-row style="margin-top: 20px">
     <el-button type="primary" style="margin-left: 20px" @click="clickDialog">新增采购单</el-button>
   </el-row>
-  <el-table
-      :data="tableData"
-      empty-text="#enpty"
-      :header-cell-style="{textAlign: 'center'}"
-      :cell-style="{ textAlign: 'center' }"
-      style="width: 100%">
-    <el-table-column prop="purOrder" label="订单号"></el-table-column>
-    <el-table-column prop="supplierName" label="供货商"></el-table-column>
-    <el-table-column prop="storeName" label="仓库"></el-table-column>
-    <el-table-column prop="purName" label="制单人"></el-table-column>
-    <el-table-column prop="purTime" label="制单日期"></el-table-column>
-    <el-table-column prop="sfName" label="采购员"></el-table-column>
-    <el-table-column prop="auditTime" label="交货期限"></el-table-column>
-    <el-table-column prop="purMoney" label="总金额"></el-table-column>
-    <el-table-column label="操作">
-      <template v-slot="v">
-        <el-button type="primary" size="mini" @click="checkPur(v.row)">订单详情</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+  <el-tabs v-model="activeName" type="card" style="margin-top: 20px">
+    <el-tab-pane label="待审核订单" name="first">
+      <el-table
+          :data="tableData"
+          empty-text="#enpty"
+          :header-cell-style="{textAlign: 'center'}"
+          :cell-style="{ textAlign: 'center' }"
+          style="width: 100%">
+        <el-table-column prop="purOrder" width="180px" label="订单号"></el-table-column>
+        <el-table-column prop="supplierName" label="供货商"></el-table-column>
+        <el-table-column prop="storeName" label="仓库"></el-table-column>
+        <el-table-column prop="purName" label="制单人"></el-table-column>
+        <el-table-column prop="purTime" label="制单日期"></el-table-column>
+        <el-table-column prop="sfName" label="采购员"></el-table-column>
+        <el-table-column prop="auditTime" label="交货期限"></el-table-column>
+        <el-table-column prop="purMoney" label="总金额"></el-table-column>
+        <el-table-column prop="purState" label="状态"></el-table-column>
+        <el-table-column label="操作">
+          <template v-slot="v">
+            <el-button type="primary" size="mini" @click="checkPur(v.row)">订单详情</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-tab-pane>
+    <el-tab-pane label="已审核订单" name="second">
+      <el-table
+          :data="tableData2"
+          empty-text="#enpty"
+          :header-cell-style="{textAlign: 'center'}"
+          :cell-style="{ textAlign: 'center' }"
+          style="width: 100%">
+        <el-table-column prop="purOrder" width="180px" label="订单号"></el-table-column>
+        <el-table-column prop="supplierName" label="供货商"></el-table-column>
+        <el-table-column prop="storeName" label="仓库"></el-table-column>
+        <el-table-column prop="purName" label="制单人"></el-table-column>
+        <el-table-column prop="purTime" label="制单日期"></el-table-column>
+        <el-table-column prop="sfName" label="采购员"></el-table-column>
+        <el-table-column prop="auditTime" label="交货期限"></el-table-column>
+        <el-table-column prop="purMoney" label="总金额"></el-table-column>
+        <el-table-column prop="purState" label="状态"></el-table-column>
+        <el-table-column label="采购">
+          <template v-slot="x">
+            <el-button type="primary" size="mini">采购</el-button>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作">
+          <template v-slot="v">
+            <el-button type="primary" size="mini" @click="checkPur(v.row)">订单详情</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-tab-pane>
+  </el-tabs>
+  <el-dialog title="订单详情" v-model="checkPurDialog" @close="closeDialogFormVisible">
+    <el-table
+        :data="form.purXq"
+        :header-cell-style="{textAlign: 'center'}"
+        :cell-style="{ textAlign: 'center' }"
+        style="width: 100%">
+      <el-table-column prop="commName" label="配件名称"></el-table-column>
+      <el-table-column prop="commSpe" label="配件规格"></el-table-column>
+      <el-table-column prop="commCar" label="配件车型"></el-table-column>
+      <el-table-column prop="commUnit" label="单位"></el-table-column>
+      <el-table-column prop="commMoney" label="单价"></el-table-column>
+      <el-table-column prop="commNum" label="数量"></el-table-column>
+    </el-table>
+  </el-dialog>
   <el-dialog title="采购订单" v-model="dialogFormVisible" @close="closeDialogFormVisible">
     <el-form :model="form" label-width="80px">
       <el-form-item label="订单编号" style="width: 300px;float: left" >
@@ -87,27 +134,13 @@
       <el-table-column prop="commMoney" label="单价"></el-table-column>
       <el-table-column prop="commNum" label="数量">
         <template v-slot="s">
-          <el-input-number v-model="s.row.commNum" controls-position="right" min="1" size="mini"></el-input-number>
+          <el-input-number v-model="s.row.commNum" controls-position="right" :min="1" size="mini"></el-input-number>
         </template>
       </el-table-column>
     </el-table>
     <template #footer>
       <el-button type="primary" @click="ensure">确 定</el-button>
     </template>
-  </el-dialog>
-  <el-dialog title="订单详情" v-model="checkPurDialog" @close="closeDialogFormVisible">
-    <el-table
-        :data="form.purXq"
-        :header-cell-style="{textAlign: 'center'}"
-        :cell-style="{ textAlign: 'center' }"
-        style="width: 100%">
-      <el-table-column prop="commName" label="配件名称"></el-table-column>
-      <el-table-column prop="commSpe" label="配件规格"></el-table-column>
-      <el-table-column prop="commCar" label="配件车型"></el-table-column>
-      <el-table-column prop="commUnit" label="单位"></el-table-column>
-      <el-table-column prop="commMoney" label="单价"></el-table-column>
-      <el-table-column prop="commNum" label="数量"></el-table-column>
-    </el-table>
   </el-dialog>
 </template>
 
@@ -123,17 +156,29 @@ name: "purchase",
         purOrder:'',//订单号
         supplierName:'',//供货商
         storeName:'',//仓库
-        purName:'张三',//制单人
+        purName:'',//制单人
         purTime:'',//制单日期
         sfName:'',//采购员
         auditTime:'',//交货期限
         purMoney:'',//总金额
+        purState:''//审核状态
+      }],
+      tableData2:[{
+        purOrder:'',//订单号
+        supplierName:'',//供货商
+        storeName:'',//仓库
+        purName:'',//制单人
+        purTime:'',//制单日期
+        sfName:'',//采购员
+        auditTime:'',//交货期限
+        purMoney:'',//总金额
+        purState:''//审核状态
       }],
       form:{
         purOrder:'',//订单号
         supplierName:'',//供货商
         storeName:'',//仓库
-        purName:'张三',//制单人
+        purName:'',//制单人
         purTime:'',//制单日期
         sfName:'',//采购员
         purPer:'',//审核人
@@ -157,11 +202,13 @@ name: "purchase",
         supplierName:''
       }],
       store:[],
-      staff:[]
+      staff:[],
+      activeName:'first'
     }
   },methods:{
     clickDialog(){
       this.dialogFormVisible = true;
+      this.form.purName = this.$store.state.message.myStaff.sfName;
       this.form.purTime = dayjs().format("YYYY-MM-DD");
       this.axios.get("hyj/getRandom").then(res=>{
         this.form.purOrder = res.request.response;
@@ -225,6 +272,9 @@ name: "purchase",
     findTable(){
       this.axios.get("hyj/findTable").then(res=>{
         this.tableData = res.data;
+      });
+      this.axios.get("hyj/findTable2").then(res=>{
+        this.tableData2 = res.data;
       })
     },
     checkPur(v){
