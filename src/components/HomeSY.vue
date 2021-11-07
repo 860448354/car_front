@@ -67,11 +67,17 @@
                <router-link to="/customerAccount">
                  <el-menu-item index="4-1">客户结算</el-menu-item>
                </router-link>
-               <router-link to="">
-                 <el-menu-item index="4-2">供货商结算</el-menu-item>
+			   <router-link to="/customerCurrent">
+			     <el-menu-item index="4-2">客户往来账</el-menu-item>
+			   </router-link>
+			   <router-link to="/vendorAccount">
+                 <el-menu-item index="4-3">供货商结算</el-menu-item>
                </router-link>
-               <router-link to="">
-                 <el-menu-item index="4-3">日结账单</el-menu-item>
+               <router-link to="/vendorCurrent">
+                 <el-menu-item index="4-4">供货商往来账</el-menu-item>
+               </router-link>
+               <router-link to="/dailyAccount">
+                 <el-menu-item index="4-5">日结账单</el-menu-item>
                </router-link>
              </el-menu-item-group>
            </el-sub-menu>
