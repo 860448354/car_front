@@ -88,6 +88,38 @@ let routes=[
 				}
 			},
 			{
+				path: '/care',
+				component: () => import('@/components/dai/Customercare.vue'),
+				name: '客户关怀',
+				meta: {
+					title: "客户关怀"
+				}
+			},
+			{
+				path: '/plaint',
+				component: () => import('@/components/dai/Customercomplaint.vue'),
+				name: '客户投诉',
+				meta: {
+					title: "客户投诉"
+				}
+			},
+			{
+				path: '/activity',
+				component: () => import('@/components/dai/Memberactivity.vue'),
+				name: '活动管理',
+				meta: {
+					title: "活动管理"
+				}
+			},
+			{
+				path: '/agement',
+				component: () => import('@/components/dai/Customermanagement.vue'),
+				name: '客户管理',
+				meta: {
+					title: "客户管理"
+				}
+			},
+			{
 				path: '/dispatching',
 				component: () => import('@/components/czh/MaintenanceDispatching.vue'),
 				name: '维修派工',
