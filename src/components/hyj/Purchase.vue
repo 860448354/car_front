@@ -2,6 +2,26 @@
   <el-row style="margin-top: 20px">
     <el-button type="primary" style="margin-left: 20px" @click="clickDialog">新增采购单</el-button>
   </el-row>
+  <el-table
+      :data="tableData"
+      empty-text="#enpty"
+      :header-cell-style="{textAlign: 'center'}"
+      :cell-style="{ textAlign: 'center' }"
+      style="width: 100%">
+    <el-table-column prop="purOrder" label="订单号"></el-table-column>
+    <el-table-column prop="supplierName" label="供货商"></el-table-column>
+    <el-table-column prop="storeName" label="仓库"></el-table-column>
+    <el-table-column prop="purName" label="制单人"></el-table-column>
+    <el-table-column prop="purTime" label="制单日期"></el-table-column>
+    <el-table-column prop="sfName" label="采购员"></el-table-column>
+    <el-table-column prop="auditTime" label="交货期限"></el-table-column>
+    <el-table-column prop="purMoney" label="总金额"></el-table-column>
+    <el-table-column label="操作">
+      <template v-slot="v">
+        <el-button type="primary" size="mini" @click="checkPur(v.row)">订单详情</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
   <el-dialog title="采购订单" v-model="dialogFormVisible" @close="closeDialogFormVisible">
     <el-form :model="form" label-width="80px">
       <el-form-item label="订单编号" style="width: 300px;float: left" >
@@ -43,11 +63,8 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="总金额" style="width: 300px;float: left" >
-        <el-input v-model="form.purMoney" autocomplete="off" disabled size="mini"></el-input>
-      </el-form-item>
       <el-form-item label="交货期限" style="width: 300px;float: left" >
-        <el-date-picker v-model="form.auditTime" type="date" placeholder="选择日期" size="mini">
+        <el-date-picker v-model="form.auditTime" format="YYYY-MM-DD" value-format="YYYY-MM-DD" type="date" placeholder="选择日期" size="mini">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="备注" style="width: 300px;" >
@@ -56,11 +73,12 @@
     </el-form>
     <el-table
         ref="multipleTable"
-        :data="tableData"
+        :data="form.purXq"
+        :header-cell-style="{textAlign: 'center'}"
+        :cell-style="{ textAlign: 'center' }"
         tooltip-effect="dark"
         style="width: 100%"
-        @selection-change="handleSelectionChange"
-    >
+        @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="commName" label="配件名称"></el-table-column>
       <el-table-column prop="commSpe" label="配件规格"></el-table-column>
@@ -68,17 +86,28 @@
       <el-table-column prop="commUnit" label="单位"></el-table-column>
       <el-table-column prop="commMoney" label="单价"></el-table-column>
       <el-table-column prop="commNum" label="数量">
-        <el-input-number v-model="commNum" size="mini"></el-input-number>
+        <template v-slot="s">
+          <el-input-number v-model="s.row.commNum" min="1" size="mini"></el-input-number>
+        </template>
       </el-table-column>
     </el-table>
     <template #footer>
-    <span class="dialog-footer">
-      <el-button @click="dialogFormVisible = false">取 消</el-button>
-      <el-button type="primary" @click="dialogFormVisible = false"
-      >确 定</el-button
-      >
-    </span>
+      <el-button type="primary" @click="ensure">确 定</el-button>
     </template>
+  </el-dialog>
+  <el-dialog title="订单详情" v-model="checkPurDialog" @close="closeDialogFormVisible">
+    <el-table
+        :data="form.purXq"
+        :header-cell-style="{textAlign: 'center'}"
+        :cell-style="{ textAlign: 'center' }"
+        style="width: 100%">
+      <el-table-column prop="commName" label="配件名称"></el-table-column>
+      <el-table-column prop="commSpe" label="配件规格"></el-table-column>
+      <el-table-column prop="commCar" label="配件车型"></el-table-column>
+      <el-table-column prop="commUnit" label="单位"></el-table-column>
+      <el-table-column prop="commMoney" label="单价"></el-table-column>
+      <el-table-column prop="commNum" label="数量"></el-table-column>
+    </el-table>
   </el-dialog>
 </template>
 
@@ -89,6 +118,17 @@ name: "purchase",
   data(){
     return{
       dialogFormVisible:false,
+      checkPurDialog:false,
+      tableData:[{
+        purOrder:'',//订单号
+        supplierName:'',//供货商
+        storeName:'',//仓库
+        purName:'张三',//制单人
+        purTime:'',//制单日期
+        sfName:'',//采购员
+        auditTime:'',//交货期限
+        purMoney:'',//总金额
+      }],
       form:{
         purOrder:'',//订单号
         supplierName:'',//供货商
@@ -98,18 +138,20 @@ name: "purchase",
         sfName:'',//采购员
         purPer:'',//审核人
         auditTime:'',//交货期限
-        purMoney:'',//总金额
-        purRemark:''//备注
+        purMoney:0,//总金额
+        purRemark:'',//备注
+        purXq:[{
+          commName:'',
+          commSpe:'',
+          commCar:'',
+          commUnit:'',
+          commMoney:'',
+          commNum:''
+        }],
       },
-      tableData:[{
-        commName:'',
-        commSpe:'',
-        commCar:'',
-        commUnit:'',
-        commMoney:'',
-        commNum:''
+      multipleSelection:[{
+        commNum:0
       }],
-      multipleSelection:'',
       commNum:'',
       supplier:[{
         supplierName:''
@@ -120,13 +162,13 @@ name: "purchase",
   },methods:{
     clickDialog(){
       this.dialogFormVisible = true;
-      this.form.purTime = dayjs().format('YYYY-MM-DD');
+      this.form.purTime = dayjs().format("YYYY-MM-DD");
       this.axios.get("hyj/getRandom").then(res=>{
         this.form.purOrder = res.request.response;
       })
     },
     handleSelectionChange(val) {
-      this.multipleSelection = val
+      this.multipleSelection = val;
     },
     findSupplier(){
       this.axios.get('hyj/findAllSupplier').then(res=>{
@@ -145,9 +187,10 @@ name: "purchase",
     },
     findCommBySupplierName(){
       this.axios.post("hyj/findCommBySupplierName",this.form).then(res=>{
-          this.tableData = res.data;
+          this.form.purXq = res.data;
       })
-    },closeDialogFormVisible(){
+    },
+    closeDialogFormVisible(){
       this.form ={
             purOrder:'',//订单号
             supplierName:'',//供货商
@@ -158,10 +201,38 @@ name: "purchase",
             purPer:'',//审核人
             auditTime:'',//交货期限
             purMoney:'',//总金额
-            purRemark:''//备注
-      }
+            purRemark:'',//备注
+            purXq:[{
+              commName:'',
+              commSpe:'',
+              commCar:'',
+              commUnit:'',
+              commMoney:'',
+              commNum:''
+            }],
+      };
+      this.findTable();
+    },
+    ensure(){
+      this.form.purXq = this.multipleSelection
+      for (let i = 0; i < this.multipleSelection.length; i++) {
+        this.form.purMoney += this.multipleSelection[i].commNum * this.multipleSelection[i].commMoney;
+      };
+      this.axios.post("hyj/addPur",this.form).then(res=>{
+        this.dialogFormVisible = false;
+      });
+    },
+    findTable(){
+      this.axios.get("hyj/findTable").then(res=>{
+        this.tableData = res.data;
+      })
+    },
+    checkPur(v){
+      this.checkPurDialog = true;
+      this.form.purXq = v.purXq;
     }
   },created() {
+    this.findTable();
     this.findSupplier();
     this.findStore();
     this.findCaiGou();
