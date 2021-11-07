@@ -78,7 +78,7 @@
            <el-sub-menu index="5">
              <template #title>
                <i class="el-icon-location"></i>
-               客户关系
+               客户管理
              </template>
              <el-menu-item-group>
                <router-link to="/member">
@@ -94,7 +94,7 @@
                  <el-menu-item index="5-4">客户关怀</el-menu-item>
                </router-link>
 			   <router-link to="/activity">
-			     <el-menu-item index="5-4">会员活动</el-menu-item>
+			     <el-menu-item index="5-5">会员活动</el-menu-item>
 			   </router-link>
              </el-menu-item-group>
            </el-sub-menu>

@@ -72,8 +72,8 @@
 			<template #default="scope">
 	
 				<!-- <el-button size="mini" @click="edit(scope.row)">编辑</el-button> -->
-				<el-button size="mini" type="danger" @click="stopstate(scope.row)">
-					{{ scope.row.vehistate=='空闲' ? '停止':'开启'}}
+				<el-button @click="addMember(scope.row)" type="primary" style="margin-left: 16px;">
+				  查看详情
 				</el-button>
 				<el-button size="mini" @click="drawers(scope.row)" type="primary" style="margin-left: 16px;">
 					详情
