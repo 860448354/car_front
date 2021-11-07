@@ -21,7 +21,7 @@
 					<el-table-column label="操作" align="center" width="400">
 						<template #default="scope">
 
-							<el-button size="mini" type="danger" @click="confirmDispatching(scope.$index, scope.row)">
+							<el-button v-if="scope.row.carState!='维修中'" size="mini" type="danger" @click="confirmDispatching(scope.$index, scope.row)">
 								确认派工
 							</el-button>
 						</template>

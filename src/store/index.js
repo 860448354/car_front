@@ -29,7 +29,7 @@ let store = createStore({
 		login(state,user){
 			//参数user和state.user中存在相同的key--name
 			 // state.user = {...user};
-			if(user.uaccount!=null){
+			if(user.uAccount!=null){
 				console.log("拿到属于",user)
 				state.user.name='登录'
 				state.empid=user.uid

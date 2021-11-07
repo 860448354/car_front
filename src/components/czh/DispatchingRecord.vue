@@ -1,10 +1,10 @@
 <template>
-	<el-form :model="dispat">
-			<el-input class="inp" v-model="dispat.custName" placeholder="请输入客户名"></el-input>
-			<el-input class="inp" v-model="dispat.custPhone" placeholder="电话号码"></el-input>
-			<el-input class="inp" v-model="dispat.crNum" placeholder="请输入身份证"></el-input>
-			<el-input class="inp" v-model="dispat.sex" placeholder="性别"></el-input>
-			<el-button class="but1" @click="selectPage()">
+	<el-form :model="mainint">
+			<el-input class="inp" v-model="mainint.custName" placeholder="请输入客户名"></el-input>
+			<el-input class="inp" v-model="mainint.custEmpName" placeholder="维修工姓名"></el-input>
+			<el-input class="inp" v-model="mainint.custCarId" placeholder="车牌号"></el-input>
+			<el-input class="inp" v-model="mainint.custCarType" placeholder="车辆名称"></el-input>
+			<el-button class="but1" @click="selectMaint()">
 				查询
 			</el-button>
 		</el-form>
@@ -33,15 +33,24 @@
 		data() {
 			return {
 				maintList:[],
-				dispat:{}
+				mainint:{}
 			}
 		},
 		methods: {
 			selectMaint(){
-				this.axios.get("maint/all").then(res=>{
+				let maintVo = {
+						 custName:this.mainint.custName,
+					     custEmpName:this.mainint.custEmpName,
+					     custCarId:this.mainint.custCarId,
+					     custCarType:this.mainint.custCarType
+				}
+				this.axios.post("maint/all",maintVo).then(res=>{
 					console.log(res.data,"这是查询所有的派工")
 					this.maintList = res.data;
 				})
+			},
+			confirmDispatching(index,row){
+				console.log(row,"这是派工信息")
 			}
 		},
 		mounted() {
