@@ -1,75 +1,75 @@
 <template>
 	<el-row style="margin: 15px;">
 		<el-col :span="6">
-			<el-input v-model="input" placeholder="供货商名称" style="width: 200px;" />
+			<el-input v-model="supplierName" placeholder="供货商名称" style="width: 200px;" />
 		</el-col>
 		<el-col :span="10">
-			<el-button type="primary" style="width: 100px;">查询</el-button>
-			<el-button type="primary" style="width: 100px;" @click="dialogFormVisible = true">收款</el-button>
+			<el-button type="primary" style="width: 100px;" @click="getPurchase()">查询</el-button>
+			<el-button type="primary" style="width: 100px;" @click="dialogFormVisible = true,payment()">付款</el-button>
 		</el-col>
 	</el-row>
 	<el-row>
-		<el-table :data="tabledata" height="270px">
-			<el-table-column fixed="" prop="recordsNo" label="就诊记录号" width="200px">
+		<el-table :data="purchase" height="270px" @row-click="payment">
+			<el-table-column fixed="" prop="purOrder" label="订单号" width="200px">
 			</el-table-column>
-			<el-table-column prop="outpatientName" label="姓名" width="150px">
+			<el-table-column prop="supplierName" label="供货商名称" width="150px">
 			</el-table-column>
-			<el-table-column prop="outpatientSex" label="性别" width="100px">
+			<el-table-column prop="storeName" label="仓库名" width="100px">
 			</el-table-column>
-			<el-table-column prop="outpatientAge" label="年龄" width="100px">
+			<el-table-column prop="purTime" label="采购日期" width="100px">
 			</el-table-column>
-			<el-table-column prop="medicalName" label="科室" width="150px">
+			<el-table-column prop="sfName" label="采购员" width="150px">
 			</el-table-column>
-			<el-table-column prop="staffName" label="医师" width="150px">
+			<el-table-column prop="auditTime" label="交货日期" width="150px">
 			</el-table-column>
-			<el-table-column prop="prescriptionDate" label="项目日期" width="150px">
+			<el-table-column prop="purMoney" label="总金额" width="150px">
 			</el-table-column>
-			<el-table-column prop="prescriptionNo" label="项目号" width="200px">
+			<el-table-column prop="purName" label="制单人" width="200px">
 			</el-table-column>
-			<el-table-column prop="dosis" label="副数" width="100px">
+			<el-table-column prop="purRemark" label="备注" width="100px">
 			</el-table-column>
-			<el-table-column prop="sumMoney" label="本单应收" width="100px">
+			<el-table-column prop="purState" label="状态" width="100px">
 			</el-table-column>
 		</el-table>
 	</el-row>
 	<el-row>
-		<el-table :data="tabledata" height="140px">
-			<el-table-column prop="typeId" label="费用名">
+		<el-table :data="purXq" height="140px">
+			<el-table-column prop="commName" label="配件名">
 			</el-table-column>
-			<el-table-column prop="drugId" label="项目编号">
+			<el-table-column prop="commSpe" label="配件规格">
 			</el-table-column>
-			<el-table-column prop="drugName" label="项目名称">
+			<el-table-column prop="commCar" label="配件车型">
 			</el-table-column>
-			<el-table-column prop="standardName" label="规格">
+			<el-table-column prop="commUnit" label="配件单位">
 			</el-table-column>
-			<el-table-column prop="drugBig" label="单位">
+			<el-table-column prop="commMoney" label="配件单价">
 			</el-table-column>
-			<el-table-column prop="aggregate" label="数量">
-			</el-table-column>
-			<el-table-column prop="dose" label="克数">
-			</el-table-column>
-			<el-table-column prop="drugSelling" label="单价">
-			</el-table-column>
-			<el-table-column prop="subtotal" label="金额">
+			<el-table-column prop="commNum" label="配件数量">
 			</el-table-column>
 		</el-table>
 	</el-row>
-	<el-dialog title="收款" v-model="dialogFormVisible" width="30%">
-		<el-form :model="payment" label-width="80px">
-			<el-form-item prop="paymentNo" label="收费编号">
+	<el-dialog title="付款" v-model="dialogFormVisible" width="30%" @close="clearForm()">
+		<el-form :model="vendorAccount" label-width="80px">
+			<el-form-item prop="purOrder" label="订单号">
+				<el-input v-model="vendorAccount.purOrder" disabled ></el-input>
 			</el-form-item>
-			<el-form-item prop="paymentMoney" label="应收金额">
+			<el-form-item prop="vendorDue" label="应付金额">
+				<el-input v-model="vendorAccount.vendorDue" disabled ></el-input>
 			</el-form-item>
-			<el-form-item prop="paymentSum" label="优惠金额">
-				<el-input v-model="paymentSum" autocomplete="off"></el-input>
+			<el-form-item prop="vendorReceived" label="付款金额">
+				<el-input v-model="vendorAccount.vendorReceived"></el-input>
 			</el-form-item>
-			<el-form-item prop="paymentSmall" label="收款金额">
+			<el-form-item prop="vendorCoupon" label="优惠金额">
+				<el-input v-model="vendorAccount.vendorCoupon"></el-input>
+			</el-form-item>
+			<el-form-item prop="vendorEnter" label="入账方式">
+				<el-input v-model="vendorAccount.vendorEnter"></el-input>
 			</el-form-item>
 		</el-form>
 		<template #footer>
 			<span class="dialog-footer">
-				<el-button>取 消</el-button>
-				<el-button type="primary">确 定</el-button>
+				<el-button @click="clearForm()">取 消</el-button>
+				<el-button type="primary" @click="getPayment()">确 定</el-button>
 			</span>
 		</template>
 	</el-dialog>
@@ -79,9 +79,80 @@
 	export default {
 		data() {
 			return {
-				tabledata: [],
-				dialogFormVisible: false
+				purchase: [],
+				dialogFormVisible: false,
+				supplierName: '',
+				purXq: [],
+				vendorAccount: {
+					purOrder: '',
+					supplierName: '',
+					vendorDue: 0,
+					vendorReceived: 0,
+					vendorCoupon: 0,
+					vendorEnter: '',
+					vendorType: '配件结算单',
+					sfId: '',
+					sfName: '',
+				}
 			}
+		},
+		methods: {
+			getPurchase() {
+				this.axios({
+					url: '/account/vendor-account',
+					params: {
+						supplierName: this.supplierName
+					}
+				}).then((res) => {
+					console.log("11111")
+					console.log(res)
+					this.purchase = res.data;
+				}).catch(() => {})
+			},
+			payment(row) {
+				this.purXq = row.purXq;
+				this.vendorAccount.supplierName = row.supplierName;
+				this.vendorAccount.vendorDue = row.purMoney;
+				this.vendorAccount.purOrder = row.purOrder;
+			},
+			getPayment() {
+				this.vendorAccount.sfId = this.$store.state.message.myStaff.sfId;
+				this.vendorAccount.sfName = this.$store.state.message.myStaff.sfName;
+				this.axios.post(
+					'/account/add-vendorAccount',
+					this.vendorAccount
+				).then((res) => {
+					if (res.data == 'ok') {
+						this.$message.success("新增成功");
+						this.vendorAccount.purOrder = '';
+						this.vendorAccount.supplierName = '';
+						this.vendorAccount.vendorDue = 0;
+						this.vendorAccount.vendorReceived = 0;
+						this.vendorAccount.vendorCoupon = 0;
+						this.vendorAccount.vendorEnter = '';
+						this.vendorAccount.vendorType = '';
+						this.vendorAccount.sfId = '';
+						this.dialogFormVisible = false;
+						this.getPurchase();
+						this.purXq = [];
+					} else if (v.data == 'fail') {
+						this.$message.error("新增失败");
+					}
+				}).catch(() => {})
+			},
+			clearForm() {
+				this.vendorAccount.purOrder = '';
+				this.vendorAccount.supplierName = '';
+				this.vendorAccount.vendorDue = 0;
+				this.vendorAccount.vendorReceived = 0;
+				this.vendorAccount.vendorCoupon = 0;
+				this.vendorAccount.vendorEnter = '';
+				this.vendorAccount.vendorType = '';
+				this.vendorAccount.sfId = '';
+			}
+		},
+		created() {
+			this.getPurchase();
 		}
 	}
 </script>
