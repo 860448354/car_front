@@ -1,4 +1,6 @@
 <template>
+
+	
 	<el-row>
 		<el-col :span="9">
 			<div class="grid-content bg-purple">
@@ -130,7 +132,7 @@
 			}
 		},
 		methods:{
-			//工作经历新增一行
+			//车辆新增一行
 			addTable() {
 				
 				let obj = {
@@ -141,7 +143,7 @@
 				this.worktableData.push(obj);
 			
 			},
-			//工作经历删除一行
+			//车辆删除一行
 			handleDelete(index, row) {
 				console.log(index, row);
 				this.worktableData.splice(index, 1);
