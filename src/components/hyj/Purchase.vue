@@ -140,6 +140,7 @@
       <el-button type="primary" @click="ensure">确 定</el-button>
     </template>
   </el-dialog>
+
 </template>
 
 <script>
@@ -190,7 +191,8 @@ name: "purchase",
           commCar:'',
           commUnit:'',
           commMoney:'',
-          commNum:''
+          commNum:'',
+          commSNum:''
         }],
       },
       multipleSelection:[{
@@ -254,7 +256,8 @@ name: "purchase",
               commCar:'',
               commUnit:'',
               commMoney:'',
-              commNum:''
+              commNum:'',
+              commSNum:''
             }],
       };
       this.findTable();

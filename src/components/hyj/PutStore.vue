@@ -15,7 +15,7 @@
     <el-table-column prop="purState" label="状态"></el-table-column>
     <el-table-column label="入库">
       <template v-slot="x">
-        <el-button type="primary" size="mini">收货入库</el-button>
+        <el-button type="primary" size="mini" @click="putStore(x.row)">收货入库</el-button>
       </template>
     </el-table-column>
     <el-table-column label="操作">
@@ -38,6 +38,32 @@
       <el-table-column prop="commNum" label="数量"></el-table-column>
     </el-table>
   </el-dialog>
+  <el-dialog title="采购入库" v-model="putStoreDialog" @close="closePutStore">
+    <el-table
+        :data="putSto.purchase.purXq"
+        :header-cell-style="{textAlign: 'center'}"
+        :cell-style="{ textAlign: 'center' }"
+        style="width: 100%">
+      <el-table-column prop="commName" label="配件名称"></el-table-column>
+      <el-table-column prop="commSpe" label="配件规格"></el-table-column>
+      <el-table-column prop="commCar" label="配件车型"></el-table-column>
+      <el-table-column prop="commUnit" label="单位"></el-table-column>
+      <el-table-column prop="commMoney" label="单价"></el-table-column>
+      <el-table-column prop="commNum" label="购买数量"></el-table-column>
+      <el-table-column prop="commSNum" width="200px" label="实际数量">
+        <template v-slot="y">
+          <el-input-number
+              v-model="y.row.commSNum"
+              controls-position="right"
+              size="mini"
+              :min="0"></el-input-number>
+        </template>
+      </el-table-column>
+    </el-table>
+    <template #footer>
+      <el-button type="primary" size="mini" @click="enter">确定</el-button>
+    </template>
+  </el-dialog>
 </template>
 
 <script>
@@ -47,6 +73,7 @@ name: "PutStore",
     return{
       tableData:'',
       checkPurDialog:false,
+      putStoreDialog:false,
       form: {
         purOrder: '',//订单号
         supplierName: '',//供货商
@@ -64,8 +91,35 @@ name: "PutStore",
           commCar: '',
           commUnit: '',
           commMoney: '',
-          commNum: ''
+          commNum: '',
+          commSNum:''
         }]
+      },
+      putSto:{
+        purId:'',
+        putStoNum:'',
+        putStoName:'',
+        purchase: {
+          purOrder: '',//订单号
+          supplierName: '',//供货商
+          storeName: '',//仓库
+          purName: '',//制单人
+          purTime: '',//制单日期
+          sfName: '',//采购员
+          purPer: '',//审核人
+          auditTime: '',//交货期限
+          purMoney: 0,//总金额
+          purRemark: '',//备注
+          purXq: [{
+            commName: '',
+            commSpe: '',
+            commCar: '',
+            commUnit: '',
+            commMoney: '',
+            commNum: '',
+            commSNum:''
+          }]
+        }
       }
     }
   },methods:{
@@ -96,10 +150,54 @@ name: "PutStore",
             commCar:'',
             commUnit:'',
             commMoney:'',
-            commNum:''
+            commNum:'',
+            commSNum: ''
           }],
         };
       },
+    closePutStore(){
+      this.putSto={
+        purId:'',
+        putStoNum:'',
+        putStoName:'',
+        form: {
+          purOrder: '',//订单号
+          supplierName: '',//供货商
+          storeName: '',//仓库
+          purName: '',//制单人
+          purTime: '',//制单日期
+          sfName: '',//采购员
+          purPer: '',//审核人
+          auditTime: '',//交货期限
+          purMoney: 0,//总金额
+          purRemark: '',//备注
+          purXq: [{
+            commName: '',
+            commSpe: '',
+            commCar: '',
+            commUnit: '',
+            commMoney: '',
+            commNum: '',
+            commSNum:''
+          }]
+        }
+      }
+    },
+    putStore(x){
+      this.putStoreDialog = true;
+      this.putSto.purId = x.purId;
+      this.putSto.purchase = x;
+      this.putSto.putStoName = this.$store.state.message.myStaff.sfName;
+      this.axios.get("hyj/getRandom").then(res=>{
+        this.putSto.putStoNum = res.request.response;
+      })
+    },
+    enter(){
+      console.log(this.putSto)
+      /*this.axios.post("hyj/addPutStore",this.putSto).then(res=>{
+
+      })*/
+    }
   },
   created() {
     this.findPurD()
