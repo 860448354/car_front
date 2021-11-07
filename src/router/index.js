@@ -128,6 +128,14 @@ let routes=[
 				}
 			},
 			{
+				path: '/dispatchingrecord',
+				component: () => import('@/components/czh/DispatchingRecord.vue'),
+				name: '派工记录',
+				meta: {
+					title: "派工记录"
+					}
+			},
+			{
 				path: '/jurisdiction',
 				component: () => import('@/components/kj/jurisdiction.vue'),
 				name: '权限设置',
