@@ -150,6 +150,14 @@ let routes=[
 				meta: {
 					title: "采购入库"
 				}
+			},
+			{
+				path: '/repe',
+				component: () => import('../components/hyj/Repe.vue'),
+				name: '库存',
+				meta: {
+					title: "库存"
+				}
 			}
 
 		],

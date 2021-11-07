@@ -131,7 +131,7 @@
                库存管理
              </template>
              <el-menu-item-group>
-               <router-link to="">
+               <router-link to="/repe">
                  <el-menu-item index="7-1">库存</el-menu-item>
                </router-link>
              </el-menu-item-group>
@@ -142,7 +142,6 @@
 			<el-container>
 				<!-- 视图区 -->
 				<el-main>
-
 					<p v-if="tags.length==0?false:true" class="kjl">
 						<el-tag v-for="tag in tags" :key="tag.name" closable
 							:type="tag.type">
