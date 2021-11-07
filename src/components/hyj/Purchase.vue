@@ -47,7 +47,7 @@
         <el-input v-model="form.purMoney" autocomplete="off" disabled size="mini"></el-input>
       </el-form-item>
       <el-form-item label="交货期限" style="width: 300px;float: left" >
-        <el-date-picker v-model="form.auditTime" type="date" placeholder="选择日期" size="mini">
+        <el-date-picker v-model="form.auditTime" format="YYYY-MM-DD" value-format="YYYY-MM-DD" type="date" placeholder="选择日期" size="mini">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="备注" style="width: 300px;" >
@@ -56,7 +56,7 @@
     </el-form>
     <el-table
         ref="multipleTable"
-        :data="tableData"
+        :data="form.purXq"
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange"
@@ -72,12 +72,7 @@
       </el-table-column>
     </el-table>
     <template #footer>
-    <span class="dialog-footer">
-      <el-button @click="dialogFormVisible = false">取 消</el-button>
-      <el-button type="primary" @click="dialogFormVisible = false"
-      >确 定</el-button
-      >
-    </span>
+      <el-button type="primary" @click="ensure">确 定</el-button>
     </template>
   </el-dialog>
 </template>
@@ -99,16 +94,16 @@ name: "purchase",
         purPer:'',//审核人
         auditTime:'',//交货期限
         purMoney:'',//总金额
-        purRemark:''//备注
+        purRemark:'',//备注
+        purXq:[{
+          commName:'',
+          commSpe:'',
+          commCar:'',
+          commUnit:'',
+          commMoney:'',
+          commNum:''
+        }],
       },
-      tableData:[{
-        commName:'',
-        commSpe:'',
-        commCar:'',
-        commUnit:'',
-        commMoney:'',
-        commNum:''
-      }],
       multipleSelection:'',
       commNum:'',
       supplier:[{
@@ -120,7 +115,7 @@ name: "purchase",
   },methods:{
     clickDialog(){
       this.dialogFormVisible = true;
-      this.form.purTime = dayjs().format('YYYY-MM-DD');
+      this.form.purTime = dayjs().format("YYYY-MM-DD");
       this.axios.get("hyj/getRandom").then(res=>{
         this.form.purOrder = res.request.response;
       })
@@ -145,9 +140,10 @@ name: "purchase",
     },
     findCommBySupplierName(){
       this.axios.post("hyj/findCommBySupplierName",this.form).then(res=>{
-          this.tableData = res.data;
+          this.form.purXq = res.data;
       })
-    },closeDialogFormVisible(){
+    },
+    closeDialogFormVisible(){
       this.form ={
             purOrder:'',//订单号
             supplierName:'',//供货商
@@ -158,8 +154,22 @@ name: "purchase",
             purPer:'',//审核人
             auditTime:'',//交货期限
             purMoney:'',//总金额
-            purRemark:''//备注
+            purRemark:'',//备注
+            purXq:[{
+              commName:'',
+              commSpe:'',
+              commCar:'',
+              commUnit:'',
+              commMoney:'',
+              commNum:''
+            }],
       }
+    },
+    ensure(){
+      console.log(this.form)
+      this.axios.post("hyj/addPur",this.form).then(res=>{
+        this.dialogFormVisible = false;
+      })
     }
   },created() {
     this.findSupplier();
