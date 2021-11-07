@@ -62,9 +62,18 @@ let routes=[
 				meta: {
 					title: "维修派工"
 				}
+			},
+			{
+				path: '/dispatchingrecord',
+				component: () => import('@/components/czh/DispatchingRecord.vue'),
+				name: '派工记录',
+				meta: {
+					title: "派工记录"
+				}
 			}
 			
 		],
+		
 		
 	},
 	{

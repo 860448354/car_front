@@ -58,6 +58,10 @@
                <router-link to="/dispatching">
                  <el-menu-item index="3-2">维修派工</el-menu-item>
                </router-link>
+			   <router-link to="/dispatchingrecord">
+			     <el-menu-item index="3-3">派工列表</el-menu-item>
+			   </router-link>
+			   
              </el-menu-item-group>
            </el-sub-menu>
            <el-sub-menu index="4">

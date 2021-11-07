@@ -70,7 +70,7 @@ export default{
             console.log("后端返回的值",res)
 			
 			
-            user = res.obj
+            user = res.data.obj
             // console.log("routes",res.data)
             // formatRoutes = this.formatRoutes(res.data)
             console.log("user",JSON.stringify(user))
