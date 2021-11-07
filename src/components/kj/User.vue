@@ -111,7 +111,7 @@
 				  
 				  
 				   <el-table-column prop="sfPhone" label="电话"> </el-table-column>
-				   <el-table-column  label="操作"> 
+				   <el-table-column  label="状态"> 
 				   
 				   <template #default="scope">
 					   <span>
@@ -130,6 +130,9 @@
 				   </template>
 						
 				   </el-table-column>
+				    <el-table-column  label="操作">
+						<el-button>修改</el-button>
+						</el-table-column>
 		 </el-table>
 	</div>
 	
@@ -138,6 +141,8 @@
 </template>
 
 <script>
+	import qs from 'qs'
+	
 	  export default {
 	    data() {
 	      return {
@@ -279,8 +284,16 @@
 					 let state=stateid==true?1:0;
 					 console.log("员工状态zz"+state);
 					 
+					 let date={
+						 stateid:state,
+						 sid:sfid,
+					 }
 					 
-					 // this.axios.put("",)
+					 let qsdate=qs.stringify(date)
+					 
+					 this.axios.put("http://localhost:8166/staff/upda",qsdate).then(res=>{
+						 
+					 })
 					 
 				 }
 				 
