@@ -1,4 +1,7 @@
 <template>
+  <el-row style="margin-top: 20px">
+    <el-input v-model="seek" style="float: left;margin-left:30px;width: 200px" prefix-icon="el-icon-search" placeholder="请输入订单号查询"></el-input>
+  </el-row>
   <el-table
       :data="tableData"
       :header-cell-style="{textAlign: 'center'}"

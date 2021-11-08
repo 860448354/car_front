@@ -1,37 +1,21 @@
 <!-- 客户投诉 -->
 <template>
-	<el-form :inline="true" :model="formize" class="demo-form-inline">
-	
+	<el-form :inline="true" :model="formize" class="demo-form-inline" style="margin-top: 30px;">
 		<el-form-item style="margin-left: 20px;">
-			<el-input v-model="formize.vehiname"  placeholder="请输入活动主题"></el-input>
+			<el-input v-model="formize.custTheme"  placeholder="请输入关怀主题"></el-input>
 		</el-form-item>
-		<!-- <el-form-item>
-			<el-input v-model="formize.vehinumberplate" placeholder="请输入会员等级"></el-input>
-		</el-form-item> -->
 		<el-form-item>
-			<el-button icon="el-icon-search" circle @click="onSubmit"></el-button>
-			<el-button type="primary" icon="el-icon-edit" circle @click="addche()"></el-button>
+			<el-button type="primary"  @click="onSubmit">搜索</el-button>
+			<el-button type="primary"  @click="addCustomer">+投诉</el-button>
 	<!-- 		<el-button type="success" v-print="printObj">打印</el-button> -->
 			<el-button @click="exportExcel">导出</el-button>
-			<el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
-			  查看活动信息
-			</el-button>
+			
 			<div id="loading" v-show="printLoading"></div>
 		</el-form-item>
 	</el-form>
 	<el-table  :data="cheliang" style="width: 100%;margin-left: 20px;" align="center"
 	id="printMe">
-		<!-- <el-table-column label="编号" width="80">
-			<template #default="scope">
-				<span style="margin-left: 10px">{{ scope.row.vehiid }}</span>
-			</template>
-		</el-table-column> -->
 		<el-table-column label="序号" width="100">
-			<template #default="scope">
-				<!-- <el-color-picker v-model="formes.vehicolor" show-alpha :predefine="predefineColors">
-				</el-color-picker> -->
-				<div :style="{'background-color':`${scope.row.vehicolor}`}" style="width: 30px;height: 30px;margin-left: 8px;"></div>
-			</template>
 		</el-table-column>
 		<el-table-column label="投诉主题" width="130">
 			<template #default="scope">
@@ -91,6 +75,62 @@
 		:current-page="currentPage4" :page-sizes="[2,4]" :page-size="pageSize"
 		layout="total, sizes, prev, pager, next, jumper" :total="total">
 	</el-pagination>
+	<!-- 新增投诉 -->
+	<el-dialog
+	    v-model="dialogFormVisibles"
+	    width="50%"
+	    :before-close="handleClose">
+		<h3>新增投诉</h3>
+		<div style="width: 100%; height: 10px; background-color: #00AAFF;"></div>
+		
+	    <el-form @submit.native.prevent :model="formadd" :rules="formregular" style="margin-top: 20px;margin-left: 30px;">
+			<el-form-item prop="apptheme" label="投诉原因:" style="">
+			   <el-input type="text"
+			   ></el-input>
+			</el-form-item>
+			<el-form-item prop="apptheme" label="处理人:">
+				     <el-span class="sjsumm"  style="width: 300px;font-size: 17px;margin-left: 10px;" >
+						 {{this.$store.state.message.myStaff.sfName}}
+				     </el-span>	
+			</el-form-item>
+			<el-form-item prop="apptheme" label="投诉日期:" style="float: right;margin-top: -50px;">
+				<el-date-picker
+				     type="datetime"
+					:disabledDate="dealDisabledDates"
+				     placeholder="选择日期时间">	
+				   </el-date-picker>
+			</el-form-item>
+			
+			<el-form-item prop="apptheme" label="投诉人:">
+			   <el-select style="width: 200px;" placeholder="请选择">
+			     </el-select>
+			</el-form-item>
+			<el-form-item prop="apptheme" label="接待人:" style="float: right;margin-top: -50px;">
+				<el-select style="width: 200px;" placeholder="请选择">
+				  </el-select>
+			</el-form-item>
+			<el-form-item prop="apptheme" label="紧急程度:">
+			   <el-select style="width: 200px;" placeholder="请选择">
+			    </el-select>
+			</el-form-item>
+			<el-form-item prop="apptheme" label="处理结果:" style="float: right;margin-top: -50px;">
+				<el-select style="width: 200px;" placeholder="请选择">
+				  </el-select>
+			</el-form-item>
+			<el-form-item prop="apptheme" label="投诉类型:">
+			   <el-select style="width: 200px;" placeholder="请选择">
+			    </el-select>
+			</el-form-item>
+				  <el-form-item prop="apptheme" label="备注:"><br>
+				     <el-input type="textarea" style="width: 550px;"></el-input>
+				  </el-form-item>
+	    </el-form>
+	    <span slot="footer" class="dialog-footer">
+	        <el-button @click="dialogFormVisibles = false">取 消</el-button>
+	        <el-button type="primary" @click="instAll()">确 定</el-button>
+	    </span>
+			 
+	</el-dialog>
 </template>
  
 <script>
@@ -104,9 +144,13 @@ export default {
 	  total: 0,
 	  drawer: false,
 	  innerDrawer: false,
+	  dialogFormVisibles:false
     };
   },
  methods: {
+	 addCustomer(){
+		 this.dialogFormVisibles=true
+	 },
 	 handleSizeChange(size) {
 	 	this.pageSize = size;
 	 },
