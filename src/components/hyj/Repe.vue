@@ -1,12 +1,16 @@
 <template>
-  <el-select v-model="store2" style="margin-top: 20px;margin-left: 20px" @change="test" placeholder="请选择">
-    <el-option
-        v-for="item in store"
-        :key="item.storeName"
-        :label="item.storeName"
-        :value="item.storeName">
-    </el-option>
-  </el-select>
+  <el-row style="margin-top: 20px">
+    <el-select v-model="store2" style="margin-left: 20px" @change="test" placeholder="请选择">
+      <el-option
+          v-for="item in store"
+          :key="item.storeName"
+          :label="item.storeName"
+          :value="item.storeName">
+      </el-option>
+    </el-select>
+    <el-input v-model="seek" style="float: left;margin-left:30px;width: 200px" prefix-icon="el-icon-search" placeholder="请输入订单号查询"></el-input>
+  </el-row>
+
   <el-table
       :data="tableData"
       :header-cell-style="{textAlign: 'center'}"

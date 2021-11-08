@@ -1,8 +1,9 @@
 <template>
   <el-row style="margin-top: 20px">
-    <el-button type="primary" style="margin-left: 20px" @click="clickDialog">新增采购单</el-button>
+    <el-button type="primary" style="margin-left: 20px;float: left" @click="clickDialog">新增采购单</el-button>
+    <el-input v-model="seek" style="float: left;margin-left:30px;width: 200px" prefix-icon="el-icon-search" @input="findPurLikeById" placeholder="请输入订单号查询"></el-input>
   </el-row>
-  <el-tabs v-model="activeName" type="card" style="margin-top: 20px">
+  <el-tabs v-model="activeName" type="card" @tab-click="seek = '',findPurLikeById" style="margin-top: 20px">
     <el-tab-pane label="待审核订单" name="first">
       <el-table
           :data="tableData"
@@ -42,7 +43,7 @@
         <el-table-column prop="purState" label="状态"></el-table-column>
         <el-table-column label="采购">
           <template v-slot="x">
-            <el-button type="primary" size="mini" @click="buy(x.row)">采购</el-button>
+              <el-button type="primary" size="mini" @click="buy(x.row)">采购</el-button>
           </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -112,9 +113,9 @@
         <el-date-picker v-model="form.auditTime" format="YYYY-MM-DD" value-format="YYYY-MM-DD" type="date" placeholder="选择日期" size="mini">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="备注" style="width: 300px;" >
+<!--      <el-form-item label="备注" style="width: 300px;" >
         <el-input v-model="form.purRemark" autocomplete="off" size="mini"></el-input>
-      </el-form-item>
+      </el-form-item>-->
     </el-form>
     <el-table
         ref="multipleTable"
@@ -145,7 +146,7 @@
 
 <script>
 import dayjs from "dayjs";
-import ElMessage from "element-plus";
+import {ElMessage} from "element-plus";
 export default {
 name: "purchase",
   data(){
@@ -204,7 +205,8 @@ name: "purchase",
       }],
       store:[],
       staff:[],
-      activeName:'first'
+      activeName:'first',
+      seek:''
     }
   },methods:{
     clickDialog(){
@@ -269,6 +271,10 @@ name: "purchase",
       };
       this.axios.post("hyj/addPur",this.form).then(res=>{
         this.dialogFormVisible = false;
+        ElMessage.success({
+          message: '新增成功！',
+          type: 'success',
+        });
       });
     },
     findTable(){
@@ -284,11 +290,24 @@ name: "purchase",
       this.form.purXq = v.purXq;
     },
     buy(x){
-      this.axios.post("hyj/editState",x).then(res=>{
-        /*ElMessage.success({
-          message: '采购成功！',
-          type: 'success',
-        })*/
+      this.$confirm('是否确认采购', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'success',
+      }).then(() => {
+        this.axios.post("hyj/editState",x).then(res=>{
+          this.findTable();
+          ElMessage.success({
+            message: '采购成功！',
+            type: 'success',
+          })
+        })
+      })
+
+    },
+    findPurLikeById(){
+      this.axios({url:'hyj/findPurLikeById',params:{purOrder:this.seek}}).then(res=>{
+        this.tableData = res.data;
       })
     }
   },created() {
