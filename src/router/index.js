@@ -150,7 +150,24 @@ let routes=[
 				meta: {
 					title: "采购入库"
 				}
+			},
+			{
+				path: '/confirm',
+				component: () => import('@/components/czh/ConfirmCompleted.vue'),
+				name: '确认完工',
+				meta: {
+					title: "确认完工"
+				}
+			},
+			{
+				path: '/prcking',
+				component: () => import('@/components/czh/MaintenancePicking.vue'),
+				name: '材料领取记录',
+				meta: {
+					title: "材料领取记录"
+				}
 			}
+			
 
 		],
 
