@@ -112,9 +112,9 @@
         <el-date-picker v-model="form.auditTime" format="YYYY-MM-DD" value-format="YYYY-MM-DD" type="date" placeholder="选择日期" size="mini">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="备注" style="width: 300px;" >
+<!--      <el-form-item label="备注" style="width: 300px;" >
         <el-input v-model="form.purRemark" autocomplete="off" size="mini"></el-input>
-      </el-form-item>
+      </el-form-item>-->
     </el-form>
     <el-table
         ref="multipleTable"
@@ -145,7 +145,7 @@
 
 <script>
 import dayjs from "dayjs";
-import ElMessage from "element-plus";
+import {ElMessage} from "element-plus";
 export default {
 name: "purchase",
   data(){
@@ -269,6 +269,10 @@ name: "purchase",
       };
       this.axios.post("hyj/addPur",this.form).then(res=>{
         this.dialogFormVisible = false;
+        ElMessage.success({
+          message: '新增成功！',
+          type: 'success',
+        });
       });
     },
     findTable(){
