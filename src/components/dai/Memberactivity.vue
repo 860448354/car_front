@@ -296,6 +296,8 @@ export default {
     };
   },
  methods: {
+	
+	 
 	 /* 结束活动*/
 	 addEnd(row){
 	 		 this.$confirm('是否结束该活动?', '提示', {
@@ -345,7 +347,7 @@ export default {
 	 /* 根据id查询活动用户*/
 	 participant(){
 		 console.log("rhis",this.addMemberes.actiId)
-		 this.axios.get("/participants/select/"+this.addMemberes.actiId).then(res=>{
+		 this.axios.get("/customercare/select}"+this.addMemberes.actiId).then(res=>{
 		    this.participantes=res.data;
 			console.log("this is",this.participantes)
 		 })
