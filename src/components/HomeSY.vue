@@ -223,10 +223,10 @@
 			},
 			ce(){
 				console.log("存入员工",this.$store.state)
-				console.log("存入员工222",this.$store.state.empid)
+				console.log("存入员工222",this.$store.state.message)
 				this.axios.get("http://localhost:8166/role/sfid",{
 					params:{
-						sfid:this.$store.state.empid
+						sfid:this.$store.state.message.myStaff.sfId
 					}
 				}).then(res=>{
 					console.log("存数据",res)
