@@ -194,9 +194,9 @@ name: "PutStore",
     },
     enter(){
       console.log(this.putSto)
-      /*this.axios.post("hyj/addPutStore",this.putSto).then(res=>{
+      this.axios.post("hyj/addPutStore",this.putSto).then(res=>{
 
-      })*/
+      })
     }
   },
   created() {

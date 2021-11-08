@@ -7,6 +7,7 @@
     <el-table-column prop="putStoNum" label="入库单号"></el-table-column>
     <el-table-column prop="putStoName" label="经办人"></el-table-column>
     <el-table-column prop="putStoTime" label="入库时间"></el-table-column>
+    <el-table-column prop="storeName" label="仓库"></el-table-column>
     <el-table-column label="操作">
       <template v-slot="v">
         <el-button type="primary" size="mini" @click="checkPut(v.row)">订单详情</el-button>
