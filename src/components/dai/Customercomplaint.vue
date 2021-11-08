@@ -152,7 +152,7 @@
 			  size="40%">
 			 <!-- 内容-->
 			 <h3>投诉信息</h3>
-			 <el-form @submit.native.prevent style="height: 400px;">
+			 <el-form @submit.native.prevent style="height: 400px;" :rules="formregular">,
 			 	<span style="margin-left: 20px;">
 			 			投诉主题：<el-tag style="width: 150px; margin-top: 20px;">{{lookmember.comName}}</el-tag>
 			 	</span>
@@ -182,6 +182,15 @@ export default {
   name: "",
   data() {
     return {
+		formregular:{
+			comName:[
+				{
+					required:true,
+					message:"请输入",
+					trigger:"blur",
+					},
+			],
+		},
       formize: {},
 	  pageNo: 1,
 	  pageSize: 5,

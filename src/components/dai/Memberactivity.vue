@@ -92,7 +92,7 @@
 	    width="50%"
 	    :before-close="handleClose">
 		<div style="width: 100%; height: 10px; background-color: #00AAFF;"></div>
-	    <el-form @submit.native.prevent :model="formadd" :rules="formregular" style="margin-top: 40px;margin-left: 30px;">
+	    <el-form  :model="formadd" :rules="formregular" style="margin-top: 40px;margin-left: 30px;">
 			<el-form-item  prop="apptheme" label="操作人:">
 				      {{this.$store.state.message.myStaff.sfName}}
 			</el-form-item>
@@ -255,6 +255,22 @@ export default {
   name: "",
   data() {
     return {
+	  formregular:{
+	  	actiSite:[
+	  		{
+	  			required:true,
+	  			message:"请输入",
+	  			trigger:"blur",
+	  			},
+	  	],
+		actiName:[
+			{
+				required:true,
+				message:"请输入",
+				trigger:"blur",
+				},
+		]
+	  },
 	  dealDisabledDates(time) {
 	  		return time.getTime() <= (new Date()).getTime();
 	  			},
