@@ -19,9 +19,10 @@
         <el-table-column prop="auditTime" label="交货期限"></el-table-column>
         <el-table-column prop="purMoney" label="总金额"></el-table-column>
         <el-table-column prop="purState" label="状态"></el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="200px">
           <template v-slot="v">
             <el-button type="primary" size="mini" @click="checkPur(v.row)">订单详情</el-button>
+            <el-button type="danger" size="mini" @click="delPur(v.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -302,6 +303,11 @@ name: "purchase",
             type: 'success',
           })
         })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消采购',
+        })
       })
 
     },
@@ -309,6 +315,27 @@ name: "purchase",
       this.axios({url:'hyj/findPurLikeById',params:{purOrder:this.seek}}).then(res=>{
         this.tableData = res.data;
       })
+    },
+    delPur(v){
+      this.$confirm('是否确认删除！', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }).then(() => {
+        this.axios.post("hyj/delPur",v).then(res=>{
+          this.findTable();
+          ElMessage.success({
+            message: '删除成功！',
+            type: 'success',
+          })
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除',
+        })
+      })
+
     }
   },created() {
     this.findTable();
