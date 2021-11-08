@@ -5,7 +5,7 @@
 		</el-col>
 		<el-col :span="10">
 			<el-button type="primary" style="width: 100px;" @click="getPurchase()">查询</el-button>
-			<el-button type="primary" style="width: 100px;" @click="dialogFormVisible = true,payment()">付款</el-button>
+			<el-button type="primary" style="width: 100px;" @click="dialogFormVisible = true">付款</el-button>
 		</el-col>
 	</el-row>
 	<el-row>
