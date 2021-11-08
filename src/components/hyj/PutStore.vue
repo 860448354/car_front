@@ -160,7 +160,7 @@ name: "PutStore",
         purId:'',
         putStoNum:'',
         putStoName:'',
-        form: {
+        purchase: {
           purOrder: '',//订单号
           supplierName: '',//供货商
           storeName: '',//仓库
@@ -194,9 +194,9 @@ name: "PutStore",
     },
     enter(){
       console.log(this.putSto)
-      /*this.axios.post("hyj/addPutStore",this.putSto).then(res=>{
+      this.axios.post("hyj/addPutStore",this.putSto).then(res=>{
 
-      })*/
+      })
     }
   },
   created() {
