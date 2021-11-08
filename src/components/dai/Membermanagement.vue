@@ -49,9 +49,14 @@
 				<span style="margin-left: 10px">{{ scope.row.memTime }}</span>
 			</template>
 		</el-table-column>
-		<el-table-column label="会员积分" width="100">
+		<el-table-column label="会员性别" width="100">
 			<template #default="scope">
-				<span style="margin-left: 10px">{{ scope.row.memIntegral }}</span>
+				<span style="margin-left: 10px">{{ scope.row.crId.crSex }}</span>
+			</template>
+		</el-table-column>
+		<el-table-column label="电话号码" width="130">
+			<template #default="scope">
+				<span>{{ scope.row.crId.crPhone }}</span>
 			</template>
 		</el-table-column>
 		<el-table-column label="操作">
@@ -264,7 +269,7 @@ export default {
 		 this.formize.memBalancedsum = parseInt(this.formize.chargeMenoy) + parseInt(this.addhuiyuans.memBalancedsum);
 		 if(this.addhuiyuans.memBalancedsum<=1500){
 			 var memGrade="0";
-			this.axios.post("/charge/updatebym",{
+			 this.axios.post("/charge/updatebym",{
 						 memId:this.addhuiyuans.memId,
 						 memBalance:this.formize.chargeBalance,
 						 memBalancedsum:this.formize.memBalancedsum,
@@ -295,7 +300,7 @@ export default {
 		this.axios.post("charge/insterall",{
 			 chargeTime:this.formize.chargeTime,
 			 chargeMenoy:this.formize.chargeMenoy,
-			 chargeBalance:this.formize.chargeBalance,
+			 chargeBalance:this.formize.chargeMenoy,
 			 chargeKhid:{crId:this.addhuiyuans.crId.crId},
 			 chargeUserid:{uId:this.$store.state.message.uid}
 		 }).then(res=>{

@@ -215,7 +215,8 @@ export default {
 		 chargeTime:new Date(),
 		 chargeMember:"",
 		 chargeSum:0,
-		 chargeMembering:0
+		 chargeMembering:0,
+		 
 	  },
       formize: {
 		  
@@ -234,6 +235,19 @@ export default {
     };
   },
  methods: {
+	 /* 新增*/
+	 install(){
+	 		 console.log("this is ?",this.empid)
+	 		this.axios.post("charge/insterall",{
+	 			 chargeTime:this.timeStr(this.formizes.chargeTime),
+	 			 chargeMenoy:this.formizes.sum,
+	 			 chargeBalance:this.formizes.chargeBalance,
+	 			 chargeKhid:{crId:this.lookmember.crId},
+	 			 chargeUserid:{uId:this.$store.state.message.uid}
+	 		 }).then(res=>{
+	 			 this.loadData();
+	 		 })
+	 },
 	 /* 查询*/
 	 onSubmit() {
 	 	this.loadData();
@@ -250,6 +264,7 @@ export default {
 			 crSex:this.lookmember.crSex
 		 }).then(res=>{
 			 this.loadData()
+			 
 		 })
 	 },
 	 addCus(){
@@ -269,6 +284,7 @@ export default {
 			 memZkid:{berdId:this.formizes.chargeSum}
 		 }).then(res=>{
 			 this.loadData();
+			 this.install()
 		 })
 	 },
 	 /* 判断会员等级*/
