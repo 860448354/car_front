@@ -166,6 +166,22 @@ let routes=[
 				meta: {
 					title: "入库记录"
 				}
+			},
+			{
+				path: '/prcking',
+				component: () => import('../components/czh/MaintenancePicking.vue'),
+				name: '材料详情',
+				meta: {
+					title: "材料详情"
+				}
+			},
+			{
+				path: '/confirm',
+				component: () => import('../components/czh/ConfirmCompleted.vue'),
+				name: '确认完工',
+				meta: {
+					title: "确认完工"
+				}
 			}
 
 		],
