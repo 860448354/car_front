@@ -2,7 +2,7 @@
 	<el-row style="margin: 15px;">
 		<el-col class="riqi" :span="10">
 			起止日期
-			<el-date-picker v-model="paymentTime" type="daterange" range-separator="至" start-placeholder="开始日期"
+			<el-date-picker v-model="value" type="daterange" range-separator="至" start-placeholder="开始日期"
 				end-placeholder="结束日期" @change="change">
 			</el-date-picker>
 		</el-col>
@@ -13,7 +13,7 @@
 			<el-input v-model="carNumber" placeholder="车牌" style="width: 200px;" />
 		</el-col>
 		<el-col :span="4">
-			<el-button type="primary" size="medium" style="width:100px;">
+			<el-button type="primary" size="medium" style="width:100px;" @click="getData()">
 				查询</el-button>
 		</el-col>
 	</el-row>
@@ -62,24 +62,26 @@
 		data() {
 			return {
 				tabledata: [],
-				paymentTime:'',
-				crName:'',
-				carNumber:'',
+				value: '',
+				crName: '',
+				carNumber: '',
 				customerAccount: {
 					start: '',
 					end: '',
 					crName: '',
-					carNumber:''
+					carNumber: ''
 				},
-				maintenancePickings:[]
+				maintenancePickings: []
 			}
 		},
-		methods:{
+		methods: {
 			getData() {
 				this.customerAccount.carNumber = this.carNumber;
 				this.customerAccount.crName = this.crName;
-				this.customerAccount.start = this.paymentTime[0];
-				this.customerAccount.end = this.paymentTime[1];
+				if (this.value != null) {
+					this.customerAccount.start = this.value[0];
+					this.customerAccount.end = this.value[1];
+				}
 				this.axios.post(
 					'/account/sel-customerAccount',
 					this.customerAccount
@@ -88,8 +90,12 @@
 					this.tabledata = res.data;
 				}).catch(() => {})
 			},
-			getAccount(row){
+			getAccount(row) {
 				this.maintenancePickings = row.confirmCompleted.completedCarId.maintenancePickings;
+			},
+			//清空日期框
+			change(value) {
+				if (value == null) this.value = '' // value = [] 
 			},
 		},
 		created() {
