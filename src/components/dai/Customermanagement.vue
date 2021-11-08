@@ -8,7 +8,7 @@
 			<el-button type="primary"  @click="onSubmit">搜索</el-button>
 			<!--<el-button type="primary" icon="el-icon-edit" circle ></el-button> -->
 	        <!--<el-button type="success" v-print="printObj">打印</el-button> -->
-			<el-button @click="exportExcel">导出</el-button>
+			<!-- <el-button @click="exportExcel">导出</el-button> -->
 			
 			<div id="loading" v-show="printLoading"></div>
 		</el-form-item>
@@ -42,7 +42,7 @@
 		</el-table-column>
 		<el-table-column label="操作">
 			<template #default="scope">
-				<el-button @click="addMember(scope.row)" type="primary" style="S">
+				<el-button @click="addMember(scope.row)" type="primary">
 				  查看详情
 				</el-button>
 			</template>
@@ -214,6 +214,8 @@ export default {
 		 chargeTimes:"",
 		 chargeTime:new Date(),
 		 chargeMember:"",
+		 chargeSum:0,
+		 chargeMembering:0
 	  },
       formize: {
 		  
@@ -259,11 +261,12 @@ export default {
 		 this. dialogFormVisibles=false;
 		 this.drawer=false;
 		 this.axios.post("/member/inster",{
-			 memGrade:this.formizes.chargeMember,
+			 memGrade:this.formizes.chargeMembering,
 			 memTime:this.timeStr(this.formizes.chargeTime),
 			 memBalance:this.formizes.sum,
 			 memBalancedsum:this.formizes.sum,
-			 crId:{crId:this.lookmember.crId}
+			 crId:{crId:this.lookmember.crId},
+			 memZkid:{berdId:this.formizes.chargeSum}
 		 }).then(res=>{
 			 this.loadData();
 		 })
@@ -273,10 +276,16 @@ export default {
 		 console.log("this id",this.formizes.sum)
 		if(this.formizes.sum<=1500){
 			 this.formizes.chargeMember="普通会员"
+			 this.formizes.chargeSum=1
+			 this.formizes.chargeMembering=0
 		 }else if(this.formizes.sum>=1500&&this.formizes.sum<=3000){
 			 this.formizes.chargeMember="钻石会员"
+			 this.formizes.chargeSum=2
+			 this.formizes.chargeMembering=1
 		 }else{
 			 this.formizes.chargeMember="超级会员"
+			 this.formizes.chargeSum=3
+			 this.formizes.chargeMembering=2
 		 }
 	 },
 	 /* 获取当前时间*/

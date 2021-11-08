@@ -15,7 +15,7 @@
 			<el-button type="primary"  @click="onSubmit">搜索</el-button>
 			<!-- <el-button type="primary" icon="el-icon-edit" circle ></el-button> -->
 	<!-- 		<el-button type="success" v-print="printObj">打印</el-button> -->
-			<el-button @click="exportExcel">导出</el-button>
+			<!-- <el-button @click="exportExcel">导出</el-button> -->
 			
 			<div id="loading" v-show="printLoading"></div>
 		</el-form-item>
@@ -47,11 +47,6 @@
 		<el-table-column label="会员办理时间" width="180">
 			<template #default="scope">
 				<span style="margin-left: 10px">{{ scope.row.memTime }}</span>
-			</template>
-		</el-table-column>
-		<el-table-column label="累计消费次数" width="130">
-			<template #default="scope">
-				<span style="margin-left: 10px">{{ scope.row.memSum }}</span>
 			</template>
 		</el-table-column>
 		<el-table-column label="会员积分" width="100">
