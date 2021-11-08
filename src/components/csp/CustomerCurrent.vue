@@ -18,7 +18,7 @@
 		</el-col>
 	</el-row>
 	<el-row>
-		<el-table :data="tabledata" height="270px" @row-click="getPurOrders">
+		<el-table :data="tabledata" height="270px" @row-click="getAccount">
 			<el-table-column fixed="" prop="ccId" label="单号">
 			</el-table-column>
 			<el-table-column prop="confirmCompleted.completedCarId.carCust.crName" label="供货商名称">
@@ -40,18 +40,18 @@
 		</el-table>
 	</el-row>
 	<el-row>
-		<el-table :data="purXq" height="140px">
-			<el-table-column prop="commName" label="配件名">
+		<el-table :data="maintenancePickings" height="140px">
+			<el-table-column prop="commPicking.repeCommName" label="配件名">
 			</el-table-column>
-			<el-table-column prop="commSpe" label="配件规格">
+			<el-table-column prop="commPicking.repeCommSpe" label="配件规格">
 			</el-table-column>
-			<el-table-column prop="commCar" label="配件车型">
+			<el-table-column prop="commPicking.repeCommCar" label="配件车型">
 			</el-table-column>
-			<el-table-column prop="commUnit" label="配件单位">
+			<el-table-column prop="commPicking.repeCommUnit" label="配件单位">
 			</el-table-column>
-			<el-table-column prop="commMoney" label="配件单价">
+			<el-table-column prop="commPicking.repeCommMoney" label="配件单价">
 			</el-table-column>
-			<el-table-column prop="commNum" label="配件数量">
+			<el-table-column prop="pickingNum" label="配件数量">
 			</el-table-column>
 		</el-table>
 	</el-row>
@@ -70,7 +70,8 @@
 					end: '',
 					crName: '',
 					carNumber:''
-				}
+				},
+				maintenancePickings:[]
 			}
 		},
 		methods:{
@@ -86,6 +87,9 @@
 					console.log(res.data)
 					this.tabledata = res.data;
 				}).catch(() => {})
+			},
+			getAccount(row){
+				this.maintenancePickings = row.confirmCompleted.completedCarId.maintenancePickings;
 			},
 		},
 		created() {
