@@ -1,21 +1,14 @@
 <!-- 客户信息 -->
 <template>
 	<el-form :inline="true" :model="formize" class="demo-form-inline" style="margin-top: 30px;">
-		<!-- <el-form-item style="margin-left: 20px;">
-			<el-input v-model="formize.memBalance"  placeholder="请输入余额"></el-input>
-		</el-form-item> -->
 		<el-form-item style="margin-left: 20px;">
-			<el-select v-model="formize.memGrade" clearable placeholder="请选择会员等级">
-				<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-				</el-option>
-			</el-select>
-		
+			<el-input v-model="formize.crName"  placeholder="请输入姓名"></el-input>
 		</el-form-item>
 		<el-form-item>
 			<el-button type="primary"  @click="onSubmit">搜索</el-button>
 			<!--<el-button type="primary" icon="el-icon-edit" circle ></el-button> -->
 	        <!--<el-button type="success" v-print="printObj">打印</el-button> -->
-			<el-button @click="exportExcel">导出</el-button>
+			<!-- <el-button @click="exportExcel">导出</el-button> -->
 			
 			<div id="loading" v-show="printLoading"></div>
 		</el-form-item>
@@ -49,7 +42,7 @@
 		</el-table-column>
 		<el-table-column label="操作">
 			<template #default="scope">
-				<el-button @click="addMember(scope.row)" type="primary" style="S">
+				<el-button @click="addMember(scope.row)" type="primary">
 				  查看详情
 				</el-button>
 			</template>
@@ -75,7 +68,7 @@
 				<p><span>{{lookmember.crName}}</span>
 				<button style="border-color: currentcolor;
 				float: right;margin-right: 20px;
-				margin-top: -30px;"><img src="../../../public/img/用户.png" ></button>
+				margin-top: -30px;" @click="addCus()"><img src="../../../public/img/用户.png" ></button>
 				</p>
 				<p><span>{{lookmember.crPhone}}</span></p>
 				</div>
@@ -98,32 +91,6 @@
 				    <el-descriptions-item label="身份证">{{lookmember.crIdNumber}}</el-descriptions-item>
 				</el-descriptions>
 				</div>
-			</el-tab-pane>
-		    <el-tab-pane label="消费记录" name="second" >
-			<div style="height:300px;overflow-y:auto">
-			<div class="block">
-			  <el-timeline>
-			    <el-timeline-item timestamp="2018/4/12" placement="top">
-			      <el-card>
-			        <h4>更新 Github 模板</h4>
-			        <p>王小虎 提交于 2018/4/12 20:46</p>
-			      </el-card>
-			    </el-timeline-item>
-			    <el-timeline-item timestamp="2018/4/3" placement="top">
-			      <el-card>
-			        <h4>更新 Github 模板</h4>
-			        <p>王小虎 提交于 2018/4/3 20:46</p>
-			      </el-card>
-			    </el-timeline-item>
-			    <el-timeline-item timestamp="2018/4/2" placement="top">
-			      <el-card>
-			        <h4>更新 Github 模板</h4>
-			        <p>王小虎 提交于 2018/4/2 20:46</p>
-			      </el-card>
-			    </el-timeline-item>
-			  </el-timeline>
-			</div>
-			</div>
 			</el-tab-pane>
 		</el-tabs>
 	 </div>
@@ -169,6 +136,40 @@
 	    </span>
 			 
 	</el-dialog>
+	
+	<!-- 修改客户信息 -->
+	<el-dialog
+	    v-model="dialogFormVisiblesize"
+	    width="50%"
+	    :before-close="handleClose">
+		<div style="width: 100%; height: 10px; background-color: #00AAFF;"></div>
+	    <el-form @submit.native.prevent :model="formadd" :rules="formregular" style="margin-top: 40px;margin-left: 30px;height: 400px;">
+			<el-form-item  prop="apptheme" label="操作人:">
+				
+				      <el-tag style="width: 250px;margin-left: 15px;font-size: 17px;">{{this.$store.state.message.myStaff.sfName}}</el-tag>
+			</el-form-item>
+			<el-form-item  prop="apptheme" label="客户身份证:" style="float: right;margin-top: -50px;">
+				   <el-tag style="width: 250px;font-size: 17px;">{{lookmember.crIdNumber}}</el-tag>
+			</el-form-item>
+			<el-form-item  prop="apptheme"  label="电话号码:">
+				    <el-input type="text" v-model="lookmember.crPhone" style="width: 250px;font-size: 17px;"></el-input>
+			</el-form-item>
+			<el-form-item  prop="apptheme" label="客户姓名:" style="float: right;margin-top: -50px;">
+				<el-input type="text" v-model="lookmember.crName" style="width: 250px;font-size: 17px;"></el-input>
+			</el-form-item>
+			<el-form-item  prop="apptheme" label="客户性别:">
+				<el-select style="width: 250px;" v-model="lookmember.crSex" clearable placeholder="请选择会员等级">
+					<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+					</el-option>
+				</el-select>
+			</el-form-item>
+	    </el-form>
+	    <span slot="footer" class="dialog-footer">
+	        <el-button @click="dialogFormVisiblesize = false">取 消</el-button>
+	        <el-button type="primary" @click=" updateAll()">确 定</el-button>
+	    </span>
+			 
+	</el-dialog>
 </template>
  
 <script>
@@ -176,10 +177,20 @@ export default {
   name: "",
   data() {
     return {
+		options: [{
+			value: '男',
+			label: '男'
+		}, {
+			value: '女',
+			label: '女'
+		}],
 	  formizes:{
 		 chargeTimes:"",
 		 chargeTime:new Date(),
 		 chargeMember:"",
+		 chargeSum:0,
+		 chargeMembering:0,
+		 
 	  },
       formize: {
 		  
@@ -191,23 +202,63 @@ export default {
 	  innerDrawer: false,
 	  customer:[],
 	  lookmember:{},
+	  lookmemberes:{},
 	  activeName:"first",
-	  dialogFormVisibles:false
+	  dialogFormVisibles:false,
+	  dialogFormVisiblesize:false
     };
   },
  methods: {
+	 /* 新增*/
+	 install(){
+	 		 console.log("this is ?",this.empid)
+	 		this.axios.post("charge/insterall",{
+	 			 chargeTime:this.timeStr(this.formizes.chargeTime),
+	 			 chargeMenoy:this.formizes.sum,
+	 			 chargeBalance:this.formizes.chargeBalance,
+	 			 chargeKhid:{crId:this.lookmember.crId},
+	 			 chargeUserid:{uId:this.$store.state.message.uid}
+	 		 }).then(res=>{
+	 			 this.loadData();
+	 		 })
+	 },
+	 /* 查询*/
+	 onSubmit() {
+	 	this.loadData();
+	 },
+	 /* 修改客户*/
+	 updateAll(){
+		 this.dialogFormVisiblesize=false;
+		 this.drawer=false;
+		 console.log("this is??",this.lookmember)
+		 this.axios.post("/member/updataByCustomer",{
+			 crId:this.lookmember.crId,
+			 crPhone:this.lookmember.crPhone,
+			 crName:this.lookmember.crName,
+			 crSex:this.lookmember.crSex
+		 }).then(res=>{
+			 this.loadData()
+			 
+		 })
+	 },
+	 addCus(){
+		 this.dialogFormVisiblesize=true;
+		 
+	 },
 	 /* 新增会员*/
 	 instAll(){
 		 this. dialogFormVisibles=false;
-		 this.drawer=true;
+		 this.drawer=false;
 		 this.axios.post("/member/inster",{
-			 memGrade:this.formizes.chargeMember,
+			 memGrade:this.formizes.chargeMembering,
 			 memTime:this.timeStr(this.formizes.chargeTime),
 			 memBalance:this.formizes.sum,
 			 memBalancedsum:this.formizes.sum,
-			 crId:{crId:this.lookmember.crId}
+			 crId:{crId:this.lookmember.crId},
+			 memZkid:{berdId:this.formizes.chargeSum}
 		 }).then(res=>{
 			 this.loadData();
+			 this.install()
 		 })
 	 },
 	 /* 判断会员等级*/
@@ -215,10 +266,16 @@ export default {
 		 console.log("this id",this.formizes.sum)
 		if(this.formizes.sum<=1500){
 			 this.formizes.chargeMember="普通会员"
+			 this.formizes.chargeSum=1
+			 this.formizes.chargeMembering=0
 		 }else if(this.formizes.sum>=1500&&this.formizes.sum<=3000){
 			 this.formizes.chargeMember="钻石会员"
+			 this.formizes.chargeSum=2
+			 this.formizes.chargeMembering=1
 		 }else{
 			 this.formizes.chargeMember="超级会员"
+			 this.formizes.chargeSum=3
+			 this.formizes.chargeMembering=2
 		 }
 	 },
 	 /* 获取当前时间*/

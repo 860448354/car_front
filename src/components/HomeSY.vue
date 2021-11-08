@@ -102,6 +102,12 @@
            			   <router-link to="/dispatchingrecord">
            			     <el-menu-item index="3-3">派工列表</el-menu-item>
            			   </router-link>
+					   <router-link to="/confirm">
+					     <el-menu-item index="3-4">确认完工</el-menu-item>
+					   </router-link>
+					   <router-link to="/prcking">
+					     <el-menu-item index="3-5">材料详情</el-menu-item>
+					   </router-link>
                         </el-menu-item-group>
                       </el-sub-menu>
 					  

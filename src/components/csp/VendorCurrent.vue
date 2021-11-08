@@ -2,7 +2,7 @@
 	<el-row style="margin: 15px;">
 		<el-col class="riqi" :span="10">
 			起止日期
-			<el-date-picker v-model="paymentTime" type="daterange" range-separator="至" start-placeholder="开始日期"
+			<el-date-picker v-model="value" type="daterange" range-separator="至" start-placeholder="开始日期"
 				end-placeholder="结束日期" @change="change">
 			</el-date-picker>
 		</el-col>
@@ -59,8 +59,8 @@
 		data() {
 			return {
 				tabledata: [],
-				purXq:[],
-				paymentTime: '',
+				purXq: [],
+				value: '',
 				input: '',
 				vendorAccount: {
 					start: '',
@@ -72,8 +72,10 @@
 		methods: {
 			getData() {
 				this.vendorAccount.supplierName = this.input;
-				this.vendorAccount.start = this.paymentTime[0];
-				this.vendorAccount.end = this.paymentTime[1];
+				if (this.value != null) {
+					this.vendorAccount.start = this.value[0];
+					this.vendorAccount.end = this.value[1];
+				}
 				this.axios.post(
 					'/account/sel-vendorAccount',
 					this.vendorAccount
@@ -81,10 +83,14 @@
 					this.tabledata = res.data;
 				}).catch(() => {})
 			},
-			getPurOrders(row){
+			getPurOrders(row) {
 				console.log(row.purchase.purXq)
 				this.purXq = row.purchase.purXq;
-			}
+			},
+			//清空日期框
+			change(value) {
+				if (value == null) this.value = '' // value = [] 
+			},
 		},
 		created() {
 			this.getData();
