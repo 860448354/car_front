@@ -138,7 +138,7 @@
 				console.log(this.paiGongTime,"这是车牌号")
 				console.log(this.tanChuanFuZhi.carId,"这是车牌号")
 				console.log(this.tanChuanFuZhi.carMessageId,"这是车牌号")
-				
+				this.dialogVisible = false;
 				let maintVo = {
 						 sfId:this.staffByDp.sfId,
 					     carMessageId:this.tanChuanFuZhi.carMessageId,
@@ -148,6 +148,8 @@
 				this.axios.post("maint/insertMaint",maintVo).then(res=>{
 					console.log(res,"这是啥啊")
 				})
+				
+				this.selectPage();
 			},
 			deleteCust(index,row){
 				console.log(row.crId,"这是点击的客户信息")
