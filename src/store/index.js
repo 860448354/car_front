@@ -30,9 +30,10 @@ let store = createStore({
 			//参数user和state.user中存在相同的key--name
 			 // state.user = {...user};
 			if(user.uAccount!=null){
-				console.log("拿到属于",user)
+				console.log("拿到属于22",user)
 				state.user.name='登录'
-				state.empid=user.uid
+				state.empid=user.uId
+				console.log("拿到属于33",state.empid)
 				state.message={...user}
 			}
 			window.localStorage.setItem('user',JSON.stringify(user))

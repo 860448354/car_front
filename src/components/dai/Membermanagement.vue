@@ -15,7 +15,7 @@
 			<el-button type="primary"  @click="onSubmit">搜索</el-button>
 			<!-- <el-button type="primary" icon="el-icon-edit" circle ></el-button> -->
 	<!-- 		<el-button type="success" v-print="printObj">打印</el-button> -->
-			<el-button @click="exportExcel">导出</el-button>
+			<!-- <el-button @click="exportExcel">导出</el-button> -->
 			
 			<div id="loading" v-show="printLoading"></div>
 		</el-form-item>
@@ -49,11 +49,6 @@
 				<span style="margin-left: 10px">{{ scope.row.memTime }}</span>
 			</template>
 		</el-table-column>
-		<el-table-column label="累计消费次数" width="130">
-			<template #default="scope">
-				<span style="margin-left: 10px">{{ scope.row.memSum }}</span>
-			</template>
-		</el-table-column>
 		<el-table-column label="会员积分" width="100">
 			<template #default="scope">
 				<span style="margin-left: 10px">{{ scope.row.memIntegral }}</span>
@@ -62,7 +57,7 @@
 		<el-table-column label="操作">
 			<template #default="scope">
 				<el-button @click="addMember(scope.row)" type="primary" style="margin-left: 16px;">
-				  查看会员信息
+				  查看详情
 				</el-button>
 				<el-button @click="addhuiyuan(scope.row)" type="primary" style="margin-left: 16px;">
 				  会员充值
@@ -101,7 +96,7 @@
 		 width: 450px;box-shadow: darkgrey 10px 10px 30px 5px ;border-radius:10px;
 		 margin-left: 580px;margin-top: -180px;">
 		 <br />
-		  <span style="margin-left: 20%;font-size: 20px;">累计消费次数</span>
+		  <span style="margin-left: 20%;font-size: 20px;">累计充值费用</span>
 		  <span style="margin-left: 20%;font-size: 20px;">余额</span>
 		  <br><br>
 		  <span style="margin-left: 20%;font-size: 40px;color: orange;">{{lookmember.memBalancedsum}}</span>
@@ -191,8 +186,8 @@
 			</div>
 			<el-form :rules="formregular" :model="formize" ref="numberValidateForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="操作人:" style="margin-top: 10px; margin-left: 20px;">
-				    <el-span class="sjsumm" v-model="formize.gooduntit"  style="width: 300px;color: red;" >
-					<!-- 	 {{this.$store.state.message}} -->
+				    <el-span class="sjsumm" v-model="formize.gooduntit"  style="width: 300px;" >
+						 {{this.$store.state.message.myStaff.sfName}}
 					</el-span>
 				</el-form-item>
 				<el-form-item prop="chargeTime"
@@ -259,7 +254,8 @@ export default {
 	  memberes:[],
 	  lookmember:{},
 	  addhuiyuans:{},
-	  selectAllByIdes:{}
+	  selectAllByIdes:{},
+	  empid:0
     };
   },
  methods: {
@@ -295,18 +291,21 @@ export default {
 	 },
 	 /* 新增*/
 	 install(){
+		 console.log("this is ?",this.empid)
 		this.axios.post("charge/insterall",{
 			 chargeTime:this.formize.chargeTime,
 			 chargeMenoy:this.formize.chargeMenoy,
 			 chargeBalance:this.formize.chargeBalance,
-			 chargeKhid:{crId:this.addhuiyuans.crId.crId}
+			 chargeKhid:{crId:this.addhuiyuans.crId.crId},
+			 chargeUserid:{uId:this.$store.state.message.uid}
 		 }).then(res=>{
-			 this.updatebym();
+			this.updatebym();
 			 this.loadData();
 		 })
 	 },
 	 testUser(){
 		this.formize.chargeBalance = parseInt(this.formize.chargeMenoy) + parseInt(this.addhuiyuans.memBalance);
+		
 	 },
 	
 	 /* 获取当前时间*/
@@ -358,6 +357,8 @@ export default {
 	 /* 会员充值*/
 	 addhuiyuan(row){
 		 this.addhuiyuans={...row}
+		 this.empid=this.$store.state.empid
+		 console.log("who this?",this.empid)
 		 this.dialogFormVisibles=true
 		 this.getsjsum()
 		 

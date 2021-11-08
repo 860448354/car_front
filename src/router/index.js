@@ -152,22 +152,21 @@ let routes=[
 				}
 			},
 			{
-				path: '/confirm',
-				component: () => import('@/components/czh/ConfirmCompleted.vue'),
-				name: '确认完工',
+				path: '/repe',
+				component: () => import('../components/hyj/Repe.vue'),
+				name: '库存',
 				meta: {
-					title: "确认完工"
+					title: "库存"
 				}
 			},
 			{
-				path: '/prcking',
-				component: () => import('@/components/czh/MaintenancePicking.vue'),
-				name: '材料领取记录',
+				path: '/putstolog',
+				component: () => import('../components/hyj/PutStoLog.vue'),
+				name: '入库记录',
 				meta: {
-					title: "材料领取记录"
+					title: "入库记录"
 				}
 			}
-			
 
 		],
 

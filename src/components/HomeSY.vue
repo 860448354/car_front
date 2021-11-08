@@ -22,17 +22,54 @@
 		<el-container>
 			<!-- 菜单区 -->
 			<el-aside width="200px" >
+				
 				 <el-menu
 				      default-active="1"
 				      class="el-menu-vertical-demo">
+					  
+					  
            <router-link to="/lunbo">
-				      <el-menu-item index="1">
+				      <el-menu-item index="100">
 				      		<i class="el-icon-location"></i>
 				      		<span slot="title">
 				      			首页
 				      		</span>
 				      </el-menu-item>
            </router-link>
+		   
+				<template v-for="(v,i) in templates">
+					
+					<el-sub-menu :index="i">
+						
+					        <template #title>
+					  <i class="el-icon-s-shop"></i>
+					  <span>{{v.jname}}</span>
+							</template>
+							
+							<template v-if="v.myJurisdiction!=null">
+								<router-link v-for="(value,index) in v.myJurisdiction" :to="value.url">
+								  <el-menu-item :index="i+'-1'">
+								    {{value.jname}}
+								  </el-menu-item>
+								</router-link>
+							</template>
+							
+					
+					
+					
+					
+					      </el-sub-menu>
+					
+				</template>
+		   
+		   <el-sub-menu index="101">
+			   <template #title>
+			     <i class="el-icon-s-shop"></i>
+			     <span>测试赛所所所所所所</span>
+			   </template>
+		   </el-sub-menu>
+		   
+		   
 				      <el-sub-menu index="2">
 				        <template #title>
                   <i class="el-icon-s-shop"></i>
@@ -49,6 +86,7 @@
                   </el-menu-item>
                 </router-link>
 				      </el-sub-menu>
+					  
            <el-sub-menu index="3">
                         <template #title>
                           <el-icon><icon-menu /></el-icon>维修管理
@@ -71,6 +109,7 @@
 					   </router-link>
                         </el-menu-item-group>
                       </el-sub-menu>
+					  
            <el-sub-menu index="4">
              <template #title>
                <i class="el-icon-location"></i>
@@ -94,10 +133,11 @@
                </router-link>
              </el-menu-item-group>
            </el-sub-menu>
+		   
            <el-sub-menu index="5">
              <template #title>
                <i class="el-icon-location"></i>
-               客户关系
+               客户管理
              </template>
              <el-menu-item-group>
                <router-link to="/member">
@@ -113,10 +153,11 @@
                  <el-menu-item index="5-4">客户关怀</el-menu-item>
                </router-link>
 			   <router-link to="/activity">
-			     <el-menu-item index="5-4">会员活动</el-menu-item>
+			     <el-menu-item index="5-5">会员活动</el-menu-item>
 			   </router-link>
              </el-menu-item-group>
            </el-sub-menu>
+		   
            <el-sub-menu index="6">
              <template #title>
                <i class="el-icon-location"></i>
@@ -131,24 +172,31 @@
                </router-link>
              </el-menu-item-group>
            </el-sub-menu>
+		   
            <el-sub-menu index="7">
              <template #title>
                <i class="el-icon-location"></i>
                库存管理
              </template>
              <el-menu-item-group>
-               <router-link to="">
+               <router-link to="/repe">
                  <el-menu-item index="7-1">库存</el-menu-item>
+               </router-link>
+               <router-link to="/putstolog">
+                 <el-menu-item index="7-2">入库记录</el-menu-item>
                </router-link>
              </el-menu-item-group>
            </el-sub-menu>
+		   
 				    </el-menu>
+					
+					
+					
 			</el-aside>
 
 			<el-container>
 				<!-- 视图区 -->
 				<el-main>
-
 					<p v-if="tags.length==0?false:true" class="kjl">
 						<el-tag v-for="tag in tags" :key="tag.name" closable
 							:type="tag.type">
@@ -163,11 +211,14 @@
 </template>
 
 <script>
+	
+	import qs from 'qs'
 	export default {
 		data() {
 			return {
 				tags: [],
 				aa:'',
+				templates:[],
 			}
 		},
 		methods: {
@@ -178,6 +229,35 @@
 			},
 			ce(){
 				console.log("存入员工",this.$store.state)
+				console.log("存入员工222",this.$store.state.message)
+				this.axios.get("http://localhost:8166/role/sfid",{
+					params:{
+						sfid:this.$store.state.message.myStaff.sfId
+					}
+				}).then(res=>{
+					console.log("存数据",res)
+					if(res.data.code==1){
+						let rids=[]
+						res.data.data.forEach(v=>{
+							rids.push(v.rid)
+						})
+						
+						console.log("实际数组",rids)
+						
+						
+						
+						this.axios.post("http://localhost:8166/juris/rids",rids).then(res2=>{
+							console.log("权限数组",res2)
+							if(res2.data.code==1){
+								this.templates=res2.data.data
+							}
+						})
+					}
+					
+					
+					
+					
+				})
 			}
 		},
 		mounted() {
