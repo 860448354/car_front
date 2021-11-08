@@ -150,6 +150,22 @@ let routes=[
 				meta: {
 					title: "采购入库"
 				}
+			},
+			{
+				path: '/repe',
+				component: () => import('../components/hyj/Repe.vue'),
+				name: '库存',
+				meta: {
+					title: "库存"
+				}
+			},
+			{
+				path: '/putstolog',
+				component: () => import('../components/hyj/PutStoLog.vue'),
+				name: '入库记录',
+				meta: {
+					title: "入库记录"
+				}
 			}
 
 		],
