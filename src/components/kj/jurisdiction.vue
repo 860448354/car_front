@@ -221,6 +221,12 @@
 			            type: 'success',
 			          })
 			        },
+					open2() {
+					        ElMessage.success({
+					          message: '恭喜你 新增成功',
+					          type: 'success',
+					        })
+					      },
 			
 			getStaff(){
 				this.axios.get("http://localhost:8166/staff/all").then(res=>{
@@ -283,11 +289,17 @@
 			},
 			onsubmit(){
 				
-				
+				console.log("增加角色")
 				 let qsdate=qs.stringify({name:this.juesname})
 				console.log("登录",qsdate)
 				this.axios.post("http://localhost:8166/role/add",qsdate).then(res=>{
 					console.log("角色数据",res)
+					if(res.data.code==1){
+						this.dialogVisible = false
+						this.open2()
+						this.getRole();
+						
+					}
 				})
 			},
 			getRole(){
