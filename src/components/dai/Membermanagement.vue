@@ -269,7 +269,9 @@ export default {
 						 memBalance:this.formize.chargeBalance,
 						 memBalancedsum:this.formize.memBalancedsum,
 						 memGrade:memGrade
-			}) 
+			}).then(res=>{
+				 this.loadData()
+			 }) 
 		 }else if(this.addhuiyuans.memBalancedsum>=1500&&this.addhuiyuans.memBalancedsum<=3000){
 			 var memGrade="1";
 			 this.axios.post("/charge/updatebym",{
@@ -277,7 +279,9 @@ export default {
 			 			 memBalance:this.formize.chargeBalance,
 			 			 memBalancedsum:this.formize.memBalancedsum,
 			 			 memGrade:memGrade
-			 }) 
+			 }).then(res=>{
+				 this.loadData()
+			 })
 		 }else{
 		     var memGrade="2";
 		     this.axios.post("/charge/updatebym",{
@@ -285,7 +289,9 @@ export default {
 		     			 memBalance:this.formize.chargeBalance,
 		     			 memBalancedsum:this.formize.memBalancedsum,
 		     			 memGrade:memGrade
-		     }) 
+		     }).then(res=>{
+				 this.loadData()
+			 })
 		 }
 		
 	 },
@@ -295,12 +301,12 @@ export default {
 		this.axios.post("charge/insterall",{
 			 chargeTime:this.formize.chargeTime,
 			 chargeMenoy:this.formize.chargeMenoy,
-			 chargeBalance:this.formize.chargeMenoy,
+			 chargeBalance:this.formize.chargeBalance,
 			 chargeKhid:{crId:this.addhuiyuans.crId.crId},
 			 chargeUserid:{uId:this.$store.state.message.uid}
 		 }).then(res=>{
 			this.updatebym();
-			 this.loadData();
+			this.loadData();
 		 })
 	 },
 	 testUser(){
