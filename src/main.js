@@ -33,7 +33,7 @@ router.beforeEach((to,from,next)=>{
 	
 	
 	if(to.fullPath=='/'){
-		
+		console.log("去首页")
 		//检查状态管理器中的对象值
 		let name = store.state.user.name
 		if(!name || name=="未登录"){			
@@ -48,18 +48,20 @@ router.beforeEach((to,from,next)=>{
 	
 	if(route!=null){
 		let luyou=0;
+		console.log("进入********前",to.fullPath)
 		route.forEach(v=>{
 			if(v.url===to.fullPath){
 				console.log("匹配成功")
 				luyou=1
 			}
 		})
-		
+		console.log("进入**********后",luyou)
 		if(luyou==1){
 			next();
 		}else{
 			console.log("权限不足回到首页")
 			 next("/login");
+			 return
 		}
 		
 	}
