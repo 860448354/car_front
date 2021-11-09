@@ -56,12 +56,6 @@
 			<el-form-item prop="vendorDue" label="应付金额">
 				<el-input v-model="vendorAccount.vendorDue" disabled></el-input>
 			</el-form-item>
-			<el-form-item prop="vendorCoupon" label="优惠金额">
-				<el-input v-model="vendorAccount.vendorCoupon" type="number" @keydown="handleInput2"></el-input>
-			</el-form-item>
-			<el-form-item prop="vendorMoney" label="实际金额">
-				<el-input v-model="vendorAccount.vendorMoney" type="number" @keydown="handleInput2" disabled></el-input>
-			</el-form-item>
 			<el-form-item prop="vendorReceived" label="付款金额">
 				<el-input type="number" v-model="vendorAccount.vendorReceived" @keydown="handleInput2"></el-input>
 			</el-form-item>
@@ -138,13 +132,14 @@
 				this.vendorAccount.sfName = this.$store.state.message.myStaff.sfName;
 				this.$refs['vendorAccount'].validate((valid) => {
 					if (valid) {
-						if (this.vendorAccount.vendorReceived == this.vendorAccount.vendorMoney) {
+						if (this.vendorAccount.vendorReceived == this.vendorAccount.vendorDue) {
 							this.axios.post(
 								'/account/add-vendorAccount',
 								this.vendorAccount
 							).then((res) => {
 								if (res.data == 'ok') {
 									this.$message.success("新增成功");
+									this.$message.success("已审核");
 									this.vendorAccount.purOrder = '';
 									this.vendorAccount.supplierName = '';
 									this.vendorAccount.vendorDue = 0;
@@ -161,9 +156,9 @@
 									this.$message.error("新增失败");
 								}
 							}).catch(() => {})
-						} else if (this.vendorAccount.vendorReceived < this.vendorAccount.vendorMoney) {
+						} else if (this.vendorAccount.vendorReceived < this.vendorAccount.vendorDue) {
 							this.$message.error("不可低于实际应付金额");
-						} else if (this.vendorAccount.vendorReceived > this.vendorAccount.vendorMoney) {
+						} else if (this.vendorAccount.vendorReceived > this.vendorAccount.vendorDue) {
 							this.$message.error("不可高于实际应付金额");
 						}
 					} else {
@@ -183,23 +178,6 @@
 				this.vendorAccount.vendorType = '';
 				this.vendorAccount.sfId = '';
 			}
-		},
-		//计算属性
-		computed: {
-			differ: function() {
-				let sum = 0;
-				sum = this.vendorAccount.vendorDue - this.vendorAccount.vendorCoupon;
-				return sum;
-			},
-		},
-		//计算找零
-		watch: {
-			differ: {
-				deep: true,
-				handler: function(newVal) {
-					this.vendorAccount.vendorMoney = newVal
-				},
-			},
 		},
 		created() {
 			this.getPurchase();

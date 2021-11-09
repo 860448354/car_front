@@ -17,22 +17,62 @@ import 'element-plus/theme-chalk/index.css'
 
 //给路由对象添加导航卫士
 router.beforeEach((to,from,next)=>{
-    console.log("to",to)
-    console.log("from",from)
+    console.log("to去哪里",to)
+    console.log("from来自哪里",from)
     // console.log("next",next)
+	
+	let route=store.state.routes;
+	
+
+	
+	
     if(to.name=="login"){//去登录页面，放行
         next();
         return;
     }
-    //检查状态管理器中的对象值
-    let name = store.state.user.name
-    if(!name || name=="未登录"){
+	
+	
+	if(to.fullPath=='/'){
 		
-        next("/login");
-    }else{
-        // initMenu(router,store);
-        next();
-    }
+		//检查状态管理器中的对象值
+		let name = store.state.user.name
+		if(!name || name=="未登录"){			
+		    next("/login");
+		}else{
+		    // initMenu(router,store);
+		    next();
+		}
+		
+	}
+	
+	
+	if(route!=null){
+		let luyou=0;
+		route.forEach(v=>{
+			if(v.url===to.fullPath){
+				console.log("匹配成功")
+				luyou=1
+			}
+		})
+		
+		if(luyou==1){
+			next();
+		}else{
+			console.log("权限不足回到首页")
+			 next("/login");
+		}
+		
+	}
+	
+	console.log("可以去的路由对象",route)
+	
+	
+	
+	
+   
+	
+	
+	
 })
 
 

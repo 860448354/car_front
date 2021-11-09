@@ -53,12 +53,6 @@
 			<el-form-item prop="accountDue" label="应付金额">
 				<el-input v-model="customerAccount.accountDue" disabled></el-input>
 			</el-form-item>
-			<el-form-item prop="accountCoupon" label="优惠金额">
-				<el-input v-model="customerAccount.accountCoupon" type="number" @keydown="handleInput2"></el-input>
-			</el-form-item>
-			<el-form-item prop="accountMoney" label="实际金额">
-				<el-input v-model="customerAccount.accountMoney" type="number" @keydown="handleInput2" disabled></el-input>
-			</el-form-item>
 			<el-form-item prop="accountReceived" label="付款金额">
 				<el-input type="number" v-model="customerAccount.accountReceived" @keydown="handleInput2"></el-input>
 			</el-form-item>
@@ -122,6 +116,8 @@
 					'/account/sel-confirm',
 					this.account
 				).then((res) => {
+					console.log("1111")
+					console.log(res.data)
 					this.tabledata = res.data;
 				}).catch(() => {})
 			},
@@ -136,7 +132,7 @@
 				this.customerAccount.sfName = this.$store.state.message.myStaff.sfName;
 				this.$refs['customerAccount'].validate((valid) => {
 					if (valid) {
-						if (this.customerAccount.accountReceived == this.customerAccount.accountMoney) {
+						if (this.customerAccount.accountReceived == this.customerAccount.accountDue) {
 							this.axios.post(
 								'/account/add-customerAccount',
 								this.customerAccount
@@ -159,9 +155,9 @@
 									this.$message.error("新增失败");
 								}
 							}).catch(() => {})
-						} else if (this.customerAccount.accountReceived < this.customerAccount.accountMoney) {
+						} else if (this.customerAccount.accountReceived < this.customerAccount.accountDue) {
 							this.$message.error("不可低于实际应付金额");
-						} else if (this.customerAccount.accountReceived > this.customerAccount.accountMoney) {
+						} else if (this.customerAccount.accountReceived > this.customerAccount.accountDue) {
 							this.$message.error("不可高于实际应付金额");
 						}
 					} else {
@@ -181,23 +177,6 @@
 				this.customerAccount.accountType = '';
 				this.customerAccount.sfId = '';
 			}
-		},
-		//计算属性
-		computed: {
-			differ: function() {
-				let sum = 0;
-				sum = this.customerAccount.accountDue - this.customerAccount.accountCoupon;
-				return sum;
-			},
-		},
-		//计算找零
-		watch: {
-			differ: {
-				deep: true,
-				handler: function(newVal) {
-					this.customerAccount.accountMoney = newVal
-				},
-			},
 		},
 		created() {
 			this.getData();

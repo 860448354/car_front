@@ -13,20 +13,12 @@
 		</el-form-item>
 		<el-form-item>
 			<el-button type="primary"  @click="onSubmit">搜索</el-button>
-			<!-- <el-button type="primary" icon="el-icon-edit" circle ></el-button> -->
-	<!-- 		<el-button type="success" v-print="printObj">打印</el-button> -->
-			<el-button @click="exportExcel">导出</el-button>
 			
 			<div id="loading" v-show="printLoading"></div>
 		</el-form-item>
 	</el-form>
 	<el-table  :data="memberes" style="width: 100%;margin-left: 20px;" align="center"
 	id="printMe">
-		<!-- <el-table-column label="编号" width="80">
-			<template #default="scope">
-				<span style="margin-left: 10px">{{ scope.row.vehiid }}</span>
-			</template>
-		</el-table-column> -->
 		<el-table-column label="会员姓名" width="100">
 				<template #default="scope">
 					<span style="margin-left: 10px">
@@ -49,14 +41,14 @@
 				<span style="margin-left: 10px">{{ scope.row.memTime }}</span>
 			</template>
 		</el-table-column>
-		<el-table-column label="累计消费次数" width="130">
+		<el-table-column label="会员性别" width="100">
 			<template #default="scope">
-				<span style="margin-left: 10px">{{ scope.row.memSum }}</span>
+				<span style="margin-left: 10px">{{ scope.row.crId.crSex }}</span>
 			</template>
 		</el-table-column>
-		<el-table-column label="会员积分" width="100">
+		<el-table-column label="电话号码" width="130">
 			<template #default="scope">
-				<span style="margin-left: 10px">{{ scope.row.memIntegral }}</span>
+				<span>{{ scope.row.crId.crPhone }}</span>
 			</template>
 		</el-table-column>
 		<el-table-column label="操作">
@@ -121,20 +113,6 @@
 				</el-descriptions>
 				</div>
 			</el-tab-pane>
-		    <el-tab-pane label="消费记录" name="second" >
-			<div style="height:300px;overflow-y:auto">
-			<div class="block">
-			  <el-timeline>
-			    <el-timeline-item timestamp="2018/4/12" placement="top">
-			      <el-card>
-			        <h4>更新 Github 模板</h4>
-			        <p>王小虎 提交于 2018/4/12 20:46</p>
-			      </el-card>
-			    </el-timeline-item>
-			  </el-timeline>
-			</div>
-			</div>
-			</el-tab-pane>
 			<!-- 充值 -->
 			<el-tab-pane label="充值记录" name="menoy" >
 			<div style="height:300px;overflow-y:auto" >
@@ -164,7 +142,7 @@
 		<!-- <el-table :data="dalit" style="border: none; border-right: none;border-left: none;">
 			  <el-table-column prop=""  width="120" >物体名称：{{dalit.listname}}</el-table-column>
 		</el-table> -->
-		<el-form @submit.native.prevent style="height: 400px;">
+		<el-form @submit.native.prevent style="height: 400px;" >
 			<span style="margin-left: 75px;">
 					姓名：<el-tag style="width: 150px; margin-top: 20px;">{{addhuiyuans.crId.crName}}</el-tag>
 			</span>
@@ -182,14 +160,11 @@
 			<span style="margin-left: 20px;">
 					会员办理时间：<el-tag style="width: 150px; margin-top: 20px;">{{addhuiyuans.memTime}}</el-tag>
 			</span>
-			<span  style="margin-left: 15px;float: right;margin-top: 20px;">
-					累计消费次数：<el-tag style="width: 150px;">{{addhuiyuans.memSum}}</el-tag>
-			</span>
 			<br />
 			
 			<div style="margin-top: 30px;width: 100%; height: 10px; background-color: #00AAFF;">
 			</div>
-			<el-form :rules="formregular" :model="formize" ref="numberValidateForm" label-width="100px" class="demo-ruleForm">
+			<el-form :rules="formregular"  :model="formize" ref="numberValidateForm" label-width="100px" class="demo-ruleForm">
 				<el-form-item label="操作人:" style="margin-top: 10px; margin-left: 20px;">
 				    <el-span class="sjsumm" v-model="formize.gooduntit"  style="width: 300px;" >
 						 {{this.$store.state.message.myStaff.sfName}}
@@ -232,6 +207,15 @@ export default {
   name: "",
   data() {
     return {
+		formregular:{
+			chargeMenoy:[
+				{
+					required:true,
+					message:"请输入",
+					trigger:"blur",
+					},
+			],
+		},
 		options: [{
 			value: '0',
 			label: '普通会员'
@@ -264,17 +248,30 @@ export default {
     };
   },
  methods: {
+	 /* 查询*/
+	 selectConCom(){
+	 	let comVo = {
+	 	}
+	 	console.log(comVo)
+	 	this.axios.post("comple/selectCon",comVo).then(res=>{
+	 		console.log(res.data,"这个是确认完工信息")
+	 		this.conComList = res.data;
+	 	})
+	 },
+	 
 	 /* 修改*/
 	 updatebym(){
 		 this.formize.memBalancedsum = parseInt(this.formize.chargeMenoy) + parseInt(this.addhuiyuans.memBalancedsum);
 		 if(this.addhuiyuans.memBalancedsum<=1500){
 			 var memGrade="0";
-			this.axios.post("/charge/updatebym",{
+			 this.axios.post("/charge/updatebym",{
 						 memId:this.addhuiyuans.memId,
 						 memBalance:this.formize.chargeBalance,
 						 memBalancedsum:this.formize.memBalancedsum,
 						 memGrade:memGrade
-			}) 
+			}).then(res=>{
+				 this.loadData()
+			 }) 
 		 }else if(this.addhuiyuans.memBalancedsum>=1500&&this.addhuiyuans.memBalancedsum<=3000){
 			 var memGrade="1";
 			 this.axios.post("/charge/updatebym",{
@@ -282,7 +279,9 @@ export default {
 			 			 memBalance:this.formize.chargeBalance,
 			 			 memBalancedsum:this.formize.memBalancedsum,
 			 			 memGrade:memGrade
-			 }) 
+			 }).then(res=>{
+				 this.loadData()
+			 })
 		 }else{
 		     var memGrade="2";
 		     this.axios.post("/charge/updatebym",{
@@ -290,7 +289,9 @@ export default {
 		     			 memBalance:this.formize.chargeBalance,
 		     			 memBalancedsum:this.formize.memBalancedsum,
 		     			 memGrade:memGrade
-		     }) 
+		     }).then(res=>{
+				 this.loadData()
+			 })
 		 }
 		
 	 },
@@ -305,7 +306,7 @@ export default {
 			 chargeUserid:{uId:this.$store.state.message.uid}
 		 }).then(res=>{
 			this.updatebym();
-			 this.loadData();
+			this.loadData();
 		 })
 	 },
 	 testUser(){
@@ -325,6 +326,7 @@ export default {
 	 addMember(row){
 		 this.lookmember={...row}
 		 this.selectAllById()
+		 this.selectConCom()
 		 this.drawer = true
 		 console.log("这位是row",this.lookmember)
 	 },
