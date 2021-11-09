@@ -8,7 +8,7 @@
 				查询
 			</el-button>
 		</el-form>
-		
+
 	<el-table :data="custList" style="width: 100%">
 		<el-table-column type="expand">
 			<template #default="props">
@@ -132,6 +132,7 @@
 
 			},
 			insertPai() {
+
 				console.log(this.staffByDp.sfId, "设施")
 				console.log(this.tanChuanFuZhi.carNumber,"这是车牌号")
 				console.log(this.tanChuanFuZhi.carType,"这是车牌号")
@@ -144,16 +145,17 @@
 					     carMessageId:this.tanChuanFuZhi.carMessageId,
 					     paiGongTime:this.paiGongTime
 					}
-				
+
 				this.axios.post("maint/insertMaint",maintVo).then(res=>{
 					console.log(res,"这是啥啊")
+          this.selectPage();
 				})
-				
-				this.selectPage();
+
+
 			},
 			deleteCust(index,row){
 				console.log(row.crId,"这是点击的客户信息")
-			
+
 				this.axios.get("customer/deleteCust",{
 					params:{
 						crId:row.crId
