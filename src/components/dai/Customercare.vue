@@ -10,7 +10,7 @@
 			<!-- <el-button type="primary" icon="el-icon-edit" circle ></el-button> -->
 	<!-- 		<el-button type="success" v-print="printObj">打印</el-button> -->
 			<!-- <el-button @click="exportExcel">导出</el-button> -->
-			
+
 			<div id="loading" v-show="printLoading"></div>
 		</el-form-item>
 	</el-form>
@@ -50,13 +50,13 @@
 			<template #default="scope">
 				<span v-for="(item,i) in scope.row.custType">
 					<el-button size="mini"
-					@click="drawers(scope.row)" 
+					@click="drawers(scope.row)"
 					v-if="item=='回访' && scope.row.custState==0"
 					type="danger" style="margin-left: 16px;">
 					   完成回访
 					</el-button>
 						 <el-button size="mini"
-						 @click="insaddes(scope.row)" 
+						 @click="insaddes(scope.row)"
 						 v-if="item=='回访' && scope.row.custState==1"
 						 type="success" style="margin-left: 16px;">
 						    +回访记录
@@ -68,8 +68,8 @@
 						 	查看详情
                  	</el-button>
 				</span>
-				
-				
+
+
 			</template>
 		</el-table-column>
 	</el-table>
@@ -90,7 +90,7 @@
 				    v-model="formadd.custTime"
 				     type="datetime"
 					:disabledDate="dealDisabledDates"
-				     placeholder="选择日期时间">	
+				     placeholder="选择日期时间">
 				   </el-date-picker>
 			</el-form-item>
 			<el-form-item prop="custTheme" label="关怀主题:" style="float: right;margin-top: -60px;">
@@ -101,7 +101,7 @@
 			<el-form-item prop="apptheme" label="执行人:">
 				     <el-span class="sjsumm"  style="width: 300px;font-size: 17px;margin-left: 10px;" >
 						 {{this.$store.state.message.myStaff.sfName}}
-				     </el-span>	
+				     </el-span>
 			</el-form-item>
 			<el-form-item prop="value" label="活动类型:" style="float: right;margin-top: -50px;">
 			   <el-select style="width: 200px;" v-model="value" placeholder="请选择">
@@ -115,7 +115,7 @@
 			</el-form-item>
 				  <el-form-item prop="crName" label="关怀人员:">
 						  <div v-for="ll in fruitesisname" >
-						  	<div style="border-radius:10px;width: 15%;height: 30px;  
+						  	<div style="border-radius:10px;width: 15%;height: 30px;
 						  	background: rgba(89,139,240,.1);float: left;margin-left: 10px;
 						  	margin-top: 10px;text-align: center;">
 						  		{{ll.crName}}
@@ -133,7 +133,7 @@
 	        <el-button @click="dialogFormVisibles = false">取 消</el-button>
 	        <el-button type="primary" @click="instAll()">确 定</el-button>
 	    </span>
-			 
+
 	</el-dialog>
 	<!-- 人员申请页面-->
 	 <el-dialog
@@ -156,10 +156,10 @@
 	 				<!-- 隔壁选人 -->
 	 				<div style="height: 300px;overflow-y:auto">
 	 				<el-checkbox style="" :checked="selectMember.length===fruitIds.length && fruitIds.length"
-	 					     :key="fruitIds" @click="checkedAll" >全选</el-checkbox> 
-	 				
+	 					     :key="fruitIds" @click="checkedAll" >全选</el-checkbox>
+
 	 					 <div >
-	 					    <div 
+	 					    <div
 	 						style="width: 151px; height: 50px;
 	 						border-radius:15px;float: left;margin-top: 10px;margin-left: 20px;"
 	 						v-for="fruite in selectMember"
@@ -175,20 +175,20 @@
 	 						  </label>
 	 					    </div>
 	 					  </div>
-	 					
+
 	 					  <el-empty description="描述文字" v-show="showEmpty"></el-empty>
 	 				</div>
 	 				<hr />
 	 				<div style="width: 100%; height: 300px; " >
 	 					<!-- <p>已选择0人</p> -->
 	 					<div v-for="ll in fruitIdes" >
-	 						<div style="border-radius:10px;width: 20%;height: 30px;  
+	 						<div style="border-radius:10px;width: 20%;height: 30px;
 	 						background-color: #00AAFF; color: white;float: left;margin-left: 10px;
 	 						margin-top: 10px;font-size: 20px;text-align: center;margin-top: 10px;">
 	 							{{ll.crName}}
 	 						</div>
 	 					</div>
-	 					
+
 	 				</div>
 	 				<hr />
 	 				<div style="height: 40px;">
@@ -213,7 +213,7 @@
 <!-- 		 	<span  style="margin-left: 15px;float: right;margin-top: 20px;">
 		 			活动状态：<el-tag style="width: 150px;">{{addMemberes.actiState}}元</el-tag>
 		 	</span> -->
-		 	<br />	
+		 	<br />
 		 	<span style="margin-left: 40px;">
 		 			发起人：<el-tag style="width: 150px; margin-top: 20px;">{{addMemberes.activityEmpid.sfName}}</el-tag>
 		 	</span>
@@ -234,7 +234,7 @@
 								{{is.careCus.crName}}
 							</el-button>
 						</span>
-							
+
 					</span>
 				</div>
 			</span>
@@ -245,8 +245,8 @@
 		  v-model="drawerers"
 		  :with-header="false"
 		  size="100%">
-		  
-		 <div style=" height: 600px;overflow-y: auto; overflow-x:hidden; ">
+
+		 <div style=" height: 900px;overflow-y: auto; overflow-x:hidden; ">
 			 <p>
 			 	  <button @click="drawerers=false"
 			 	  style="width: 100px; height: 50px;background-color: #00AAFF;color: white;text-align: center;
@@ -259,7 +259,7 @@
 			<div style="width: 80%; margin-left: 10%;">
 				<p> <span style="font-size: 25px; color:#213764;margin-left: 46%;">回访记录单</span></p>
 				<p><span style="font-size: 18px; color:#213764;margin-left: 45%;">Return visit to record</span></p>
-				
+
 				<div style="width: 100%; height: 10px; background-color: #00AAFF;"></div>
 				<br>
 				<p><span style="font-size: 20px; color:#213764;">基本信息</span></p>
@@ -271,7 +271,7 @@
 						 			回访时间：<el-tag style="width: 150px; ">{{insaddesfrom.custTime}}</el-tag>
 						 	</span>
 						 	<br />
-						 	<br />	
+						 	<br />
 						 	<span style="margin-left: 40px;margin-left: 21%;">
 						 			负责人：<el-tag style="width: 150px; margin-top: 20px;">{{insaddesfrom.activityEmpid.sfName}}</el-tag>
 						 	</span>
@@ -323,7 +323,7 @@
 				 			回访时间：<el-tag style="width: 150px; ">{{addMemberesing.custTime}}</el-tag>
 				 	</span>
 				 	<br />
-				 	<br />	
+				 	<br />
 				 	<span style="margin-left: 40px;">
 				 			发起人：<el-tag style="width: 150px; margin-top: 20px;">{{addMemberesing.activityEmpid.sfName}}</el-tag>
 				 	</span>
@@ -344,7 +344,7 @@
 										{{is.careCus.crName}}
 									</el-button>
 								</span>
-									
+
 							</span>
 						</div>
 					</span>
@@ -357,7 +357,7 @@
 				 </el-form>
 				</el-drawer>
 </template>
- 
+
 <script>
 export default {
   name: "",
@@ -568,7 +568,7 @@ export default {
 	 		this.fruitesisname[i]=this.fruitIdes[i]
 	 	}
 	 	this.innerVisible=false
-	 	
+
 	 },
 	 /* 新增关怀*/
 	 instAll(){
@@ -586,7 +586,7 @@ export default {
 			}).then(res=>{
 				this.loadData()
 			})
-	 		
+
 	 },
 	 inner(){
 	 		this.innerVisible = true
@@ -649,9 +649,9 @@ export default {
   	this.loadData();
   }
 };
- 
+
 </script>
- 
+
 <style scoped="scoped">
 	.input-checkbox {
 	  width: 40px;
@@ -661,8 +661,8 @@ export default {
 	  outline: none;
 	  border: none;
 	  content: url("../../../public/img/24gf-portraitMaleInfo3.png");
-	    
-	 
+
+
 	}
 	.input-checkbox:checked{
 	   content: url("../../../public/img/用户头像-男.png");

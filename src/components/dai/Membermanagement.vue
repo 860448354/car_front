@@ -9,11 +9,11 @@
 				<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 				</el-option>
 			</el-select>
-		
+
 		</el-form-item>
 		<el-form-item>
 			<el-button type="primary"  @click="onSubmit">搜索</el-button>
-			
+
 			<div id="loading" v-show="printLoading"></div>
 		</el-form-item>
 	</el-form>
@@ -115,7 +115,7 @@
 			</el-tab-pane>
 			<!-- 充值 -->
 			<el-tab-pane label="充值记录" name="menoy" >
-			<div style="height:300px;overflow-y:auto" >
+			<div style="height:450px;overflow-y:auto" >
 			<div class="block" >
 			  <el-timeline >
 			    <el-timeline-item  placement="top" v-for="(item,i) in selectAllByIdes">
@@ -132,7 +132,7 @@
 		</el-tabs>
 	 </div>
 	</el-drawer>
-	
+
 	<el-dialog
 	    title="会员充值"
 	    v-model="dialogFormVisibles"
@@ -161,7 +161,7 @@
 					会员办理时间：<el-tag style="width: 150px; margin-top: 20px;">{{addhuiyuans.memTime}}</el-tag>
 			</span>
 			<br />
-			
+
 			<div style="margin-top: 30px;width: 100%; height: 10px; background-color: #00AAFF;">
 			</div>
 			<el-form :rules="formregular"  :model="formize" ref="numberValidateForm" label-width="100px" class="demo-ruleForm">
@@ -182,7 +182,7 @@
 			  <el-form-item prop="chargeMenoy"
 			  style="margin-top: 15px;margin-left: 20px;"
 			    label="充值金额:">
-			    <el-input style="width: 20%;" type="number" 
+			    <el-input style="width: 20%;" type="number"
 				v-model="formize.chargeMenoy" autocomplete="off"
 				placeholder="输入数字"
 				@blur.native.capture="testUser"></el-input>
@@ -201,7 +201,7 @@
 	    </span>
 	</el-dialog>
 </template>
- 
+
 <script>
 export default {
   name: "",
@@ -258,7 +258,7 @@ export default {
 	 		this.conComList = res.data;
 	 	})
 	 },
-	 
+
 	 /* 修改*/
 	 updatebym(){
 		 this.formize.memBalancedsum = parseInt(this.formize.chargeMenoy) + parseInt(this.addhuiyuans.memBalancedsum);
@@ -271,7 +271,7 @@ export default {
 						 memGrade:memGrade
 			}).then(res=>{
 				 this.loadData()
-			 }) 
+			 })
 		 }else if(this.addhuiyuans.memBalancedsum>=1500&&this.addhuiyuans.memBalancedsum<=3000){
 			 var memGrade="1";
 			 this.axios.post("/charge/updatebym",{
@@ -293,7 +293,7 @@ export default {
 				 this.loadData()
 			 })
 		 }
-		
+
 	 },
 	 /* 新增*/
 	 install(){
@@ -311,12 +311,12 @@ export default {
 	 },
 	 testUser(){
 		this.formize.chargeBalance = parseInt(this.formize.chargeMenoy) + parseInt(this.addhuiyuans.memBalance);
-		
+
 	 },
-	
+
 	 /* 获取当前时间*/
 	 getsjsum(){
-	 	var a=new Date();	
+	 	var a=new Date();
 	 	var year=a.getFullYear();
 	 	var month=a.getMonth()+1;
 	 	var day=a.getDate();
@@ -368,7 +368,7 @@ export default {
 		 console.log("who this?",this.empid)
 		 this.dialogFormVisibles=true
 		 this.getsjsum()
-		 
+
 	 },
 	 handleClick(tab, event) {
 	         console.log(tab, event);
@@ -394,9 +394,9 @@ export default {
   	this.loadData();
   }
 };
- 
+
 </script>
- 
+
 <style scoped="scoped">
-	
+
 </style>

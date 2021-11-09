@@ -9,7 +9,7 @@
 			<el-button type="primary"  @click="addCustomer">+投诉</el-button>
 	<!-- 		<el-button type="success" v-print="printObj">打印</el-button> -->
 			<!-- <el-button @click="exportExcel">导出</el-button> -->
-			
+
 			<div id="loading" v-show="printLoading"></div>
 		</el-form-item>
 	</el-form>
@@ -77,7 +77,7 @@
 	    :before-close="handleClose">
 		<h3>新增投诉</h3>
 		<div style="width: 100%; height: 10px; background-color: #00AAFF;"></div>
-		
+
 	    <el-form @submit.native.prevent :model="formadd" :rules="formregular" style="margin-top: 20px;margin-left: 30px;">
 			<el-form-item prop="comName" label="投诉原因:" style="">
 			   <el-input type="text" v-model="formadd.comName"></el-input>
@@ -85,17 +85,17 @@
 			<el-form-item prop="apptheme" label="处理人:">
 				     <el-span class="sjsumm"  style="width: 300px;font-size: 17px;margin-left: 10px;" >
 						 {{this.$store.state.message.myStaff.sfName}}
-				     </el-span>	
+				     </el-span>
 			</el-form-item>
 			<el-form-item prop="comTime" label="投诉日期:" style="float: right;margin-top: -53px;">
 				<el-date-picker
 				v-model="formadd.comTime"
 				     type="datetime"
 					:disabledDate="dealDisabledDates"
-				     placeholder="选择日期时间">	
+				     placeholder="选择日期时间">
 				   </el-date-picker>
 			</el-form-item>
-			
+
 			<el-form-item prop="customervalue" label="投诉人:">
 			   <el-select style="width: 200px;margin-left: 18px;" v-model="customervalue" placeholder="请选择">
 			   <el-option
@@ -144,7 +144,7 @@
 	        <el-button @click="dialogFormVisibles = false">取 消</el-button>
 	        <el-button type="primary" @click="insterComplaint()">确 定</el-button>
 	    </span>
-			 
+
 	</el-dialog>
 	<el-drawer
 			  title="投诉信息"
@@ -159,24 +159,25 @@
 			 	<span  style="margin-left: 15px;float: right;margin-top: 20px;">
 			 			分类：<el-tag style="width: 150px; ">{{lookmember.comType.complainName}}</el-tag>
 			 	</span>
-			 	<br />	
+			 	<br />
 			 	<span  style="margin-left: 15px;float: right;margin-top: 20px;">
 			 			日期：<el-tag style="width: 150px;">{{lookmember.comTime}}</el-tag>
 			 	</span>
 				<span style="margin-left: 20px;">
 						紧急程度：<el-tag style="width: 150px; margin-top: 20px;">{{lookmember.comEmer.emerName}}</el-tag>
 				</span>
-				<span  style="margin-left: 15px;float: right;margin-top: 20px;">
+         <br>
+				<span  style="float: right;margin-top: 20px;margin-left: 15px;">
 						投诉人：<el-tag style="width: 150px;">{{lookmember.comCustomer.crName}}</el-tag>
 				</span>
 				<br>
 				<span style="margin-left: 20px;">
-						处理结果：<el-tag style="width: 150px; margin-top: 20px;">{{lookmember.comResult}}</el-tag>
+						处理结果：<el-tag style="width: 150px; ">{{lookmember.comResult}}</el-tag>
 				</span>
 			 </el-form>
 			</el-drawer>
 </template>
- 
+
 <script>
 export default {
   name: "",
@@ -269,7 +270,7 @@ export default {
 		 		message: '已取消停用'
 		 	});
 		 });
-		 
+
 	 },
 	 /* 查询*/
 	 onSubmit() {
@@ -295,7 +296,7 @@ export default {
 		 }).then(res=>{
 			 this.dialogFormVisibles = false
 			 this.loadData()
-			 
+
 		 })
 	 },
 	 /* 分页查询*/
@@ -332,7 +333,7 @@ export default {
 	 selectCustomer(){
 		this.axios.get("/complaint/selectcustomer").then(res=>{
 					 this.selectCustomers=res.data
-		}) 
+		})
 	 },
 	 /* 查询所有员工*/
 	 selectAllEmp(){
@@ -369,8 +370,8 @@ export default {
   	this.loadData();
   }
 };
- 
+
 </script>
- 
+
 <style scoped="scoped">
 </style>

@@ -15,7 +15,7 @@
 		</el-col>
 	</el-row>
 	<el-row>
-		<el-table :data="tabledata" height="270px" @row-click="getPurOrders">
+		<el-table :data="tabledata" height="500px" @row-click="getPurOrders">
 			<el-table-column fixed="" prop="purOrder" label="订单号" width="200px">
 			</el-table-column>
 			<el-table-column prop="supplierName" label="供货商名称" width="150px">
@@ -37,7 +37,7 @@
 		</el-table>
 	</el-row>
 	<el-row>
-		<el-table :data="purXq" height="140px">
+		<el-table :data="purXq" height="500px">
 			<el-table-column prop="commName" label="配件名">
 			</el-table-column>
 			<el-table-column prop="commSpe" label="配件规格">
@@ -89,7 +89,7 @@
 			},
 			//清空日期框
 			change(value) {
-				if (value == null) this.value = '' // value = [] 
+				if (value == null) this.value = '' // value = []
 			},
 		},
 		created() {

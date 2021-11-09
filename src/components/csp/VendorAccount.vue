@@ -33,7 +33,7 @@
 		</el-table>
 	</el-row>
 	<el-row>
-		<el-table :data="purXq" height="140px">
+		<el-table :data="purXq" height="500px">
 			<el-table-column prop="commName" label="配件名">
 			</el-table-column>
 			<el-table-column prop="commSpe" label="配件规格">

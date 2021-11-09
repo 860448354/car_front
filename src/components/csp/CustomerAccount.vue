@@ -12,7 +12,7 @@
 		</el-col>
 	</el-row>
 	<el-row>
-		<el-table :data="tabledata" height="270px" @row-click="payment">
+		<el-table :data="tabledata" height="500px" @row-click="payment">
 			<el-table-column fixed="" prop="ccId" label="单号">
 			</el-table-column>
 			<el-table-column prop="completedCarId.carCust.crName" label="客户名称">
@@ -30,7 +30,7 @@
 		</el-table>
 	</el-row>
 	<el-row>
-		<el-table :data="maintenancePickings" height="140px">
+		<el-table :data="maintenancePickings" height="500px">
 			<el-table-column prop="commPicking.repeCommName" label="配件名">
 			</el-table-column>
 			<el-table-column prop="commPicking.repeCommSpe" label="配件规格">

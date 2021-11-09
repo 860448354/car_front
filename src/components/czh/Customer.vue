@@ -1,6 +1,6 @@
 <template>
 
-	
+
 	<el-row>
 		<el-col :span="9">
 			<div class="grid-content bg-purple">
@@ -18,7 +18,7 @@
 	</el-row>
 	<div style="margin: 100px 0px 50px 80px; font-size: 20px; border-bottom: 1px solid  black; width: 70%;">客户信息</div>
 	<el-form ref="form" :model="forms" label-width="80px">
-		
+
 		<el-row>
 			<el-col :span="1">
 				<div class="grid-content bg-purple">
@@ -82,15 +82,15 @@
 			</el-col>
 		</el-row>
 	</el-form>
-	
-	
-	
-	
+
+
+
+
 	<div style="width: 90%; margin: auto;">
 		<div style="margin: 100px 0px 50px 0px; font-size: 20px; border-bottom: 1px solid  black;">车辆信息</div>
-		
+
 		<el-button size="mini" @click="addTable()">添加详情</el-button>
-	
+
 	<el-table :data="worktableData" style="width: 90%">
 		<el-table-column label="车牌号" width="400" align="center">
 			<template #default="scope">
@@ -104,7 +104,7 @@
 		</el-table-column>
 		<el-table-column label="操作" align="center" width="400">
 			<template #default="scope">
-	
+
 				<el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除
 				</el-button>
 			</template>
@@ -115,9 +115,9 @@
 		<div style="margin-left: 380px;">
 			<el-button type="primary" size="mini" @click="insertReimbur()">新增</el-button>
 		</div>
-		
+
 	</div>
-	
+
 </template>
 
 <script>
@@ -134,14 +134,14 @@
 		methods:{
 			//车辆新增一行
 			addTable() {
-				
+
 				let obj = {
 					carNumber: '',
 					carType: '',
-					
+
 				}
 				this.worktableData.push(obj);
-			
+
 			},
 			//车辆删除一行
 			handleDelete(index, row) {
@@ -160,10 +160,11 @@
 					     crTime:this.forms.crTime,//登记时间
 					     carMessages:this.worktableData
 				}
-				
+
 				this.axios.post("customer/insertCustAndCar",CarCustVo).then(res=>{
 						console.log(res,"000000000")
-					
+              this.forms = {}
+          this.worktableData = []
 				})
 			}
 		}
