@@ -25,6 +25,7 @@
 				
 				 <el-menu
 				      default-active="1"
+					  :unique-opened="true"
 				      class="el-menu-vertical-demo">
 					  
 					  
@@ -39,7 +40,7 @@
 		   
 				<template v-for="(v,i) in templates">
 					
-					<el-sub-menu :index="i">
+					<el-sub-menu :index="i" >
 						
 					        <template #title>
 					  <i class="el-icon-s-shop"></i>
@@ -48,8 +49,8 @@
 							
 							<template v-if="v.myJurisdiction!=null">
 								<router-link v-for="(value,index) in v.myJurisdiction" :to="value.url">
-								  <el-menu-item :index="i+'-1'">
-								    {{value.jname}}
+								  <el-menu-item :index="i+'-'+index">
+								     <span class="tit"></span> {{value.jname}}
 								  </el-menu-item>
 								</router-link>
 							</template>
@@ -62,7 +63,7 @@
 					
 				</template>
 		   
-		   <el-sub-menu index="101">
+	<!-- 	   <el-sub-menu index="101">
 			   <template #title>
 			     <i class="el-icon-s-shop"></i>
 			     <span>测试赛所所所所所所</span>
@@ -186,7 +187,10 @@
                  <el-menu-item index="7-2">入库记录</el-menu-item>
                </router-link>
              </el-menu-item-group>
-           </el-sub-menu>
+           </el-sub-menu> -->
+		   
+		   
+		   
 		   
 				    </el-menu>
 					
@@ -250,6 +254,26 @@
 							console.log("权限数组",res2)
 							if(res2.data.code==1){
 								this.templates=res2.data.data
+								
+								
+								this.axios.post("http://localhost:8166/juris/rides",rids).then(res3=>{
+									console.log("路由数组",res3)
+									
+									if(res3.data.code==1){
+										
+										res3.data.data.push({url: "/lunbo"});
+										
+										this.$store.commit("initMenu",res3.data.data)
+										
+										console.log("存状态管理路由",res3.data.data)
+									}
+									
+									
+		
+									
+								})
+								
+								
 							}
 						})
 					}
@@ -324,5 +348,9 @@
 		text-align: center;
 	    line-height: 40px;
 		font-size: 13px;
+	}
+	.tit{
+		margin-left: 30px;
+		
 	}
 </style>

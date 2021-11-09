@@ -24,6 +24,7 @@ let store = createStore({
 		/* 同步函数的默认参数是state */
 		initMenu(state, menus){
 			//将获取的菜单信息，装载到routes对象中
+			console.log("路由对象",menus)
 			state.routes = menus;
 		},
 		login(state,user){

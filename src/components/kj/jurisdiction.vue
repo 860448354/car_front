@@ -2,7 +2,7 @@
 
 	<p>
 		<el-button type="primary" round @click="dialogVisible = true">添加角色</el-button>
-		<el-button type="primary" round @click="drawer = true">权限设置</el-button>
+		
 		
 		<el-dialog
 		  title="新增角色"
@@ -54,6 +54,33 @@
 			      </span>
 			    </template>
 			    </el-dialog >
+					
+					
+					<el-dialog
+					  title="移除用户"
+					  v-model="dialogVisible3"
+					  width="30%"
+					  :before-close="handleClose">
+					  <p>
+						  <el-form v-model="form">
+							  <el-form-item label="用户名称">
+							  		<el-select placeholder="请选择移除用户" v-model="useid">
+													<el-option v-for=" v in options" :label="v.sfName" :value="v.sfId"></el-option>
+												</el-select>
+							  </el-form-item>
+						  </el-form>
+						
+						  
+					  </p>
+					  
+					  
+					  <template #footer>
+					    <span class="dialog-footer">
+					      <el-button @click="dialogVisible2 = false">取 消</el-button>
+					      <el-button type="primary"  @click="onsubmit2">确 定</el-button>
+					    </span>
+					  </template>
+					  </el-dialog >
 		
 	</p>
 
@@ -94,13 +121,15 @@
 
 		<el-table :data="tableData" style="width: 100%">
 
-			<el-table-column prop="rname" label="角色名" width="380"> </el-table-column>
+			<el-table-column prop="rname" label="角色名" width="180"> </el-table-column>
 			<el-table-column prop="" label="用户名" width="880">
 
 				<template #default="scope">
 					<span v-if="scope.row.myStaff!=null">
 						<span v-for="sf in scope.row.myStaff">
-							{{sf.sfName}},
+							
+							<el-button style="margin: 5px;" type="info" plain>{{sf.sfName}}</el-button>
+							
 						</span>
 						
 					</span>
@@ -122,6 +151,22 @@
 
 				<template #default="scope">
 					<span>
+						
+						<el-dropdown trigger="click" v-if="scope.row.myStaff.length!=0 ">
+						  <span class="el-dropdown-link">
+							  <el-button type="danger" >移除用户</el-button>
+						    <i class="el-icon-arrow-down el-icon--right"></i>
+						  </span>
+						  <template #dropdown>
+						    <el-dropdown-menu >
+								
+						      <el-dropdown-item v-for="sf in scope.row.myStaff" @click="deleUser(scope.row.rid,sf.sfId,sf.sfName)">{{sf.sfName}}</el-dropdown-item>
+						    
+						    </el-dropdown-menu>
+						  </template>
+						</el-dropdown>
+						
+						
 						<el-button type="success"  @click="setUser(scope.row.rid)">关联用户</el-button>
 						<el-button type="primary" @click="setJurisdiction(scope.row.rid,scope.row.rname)" >权限设置</el-button>
 						
@@ -139,6 +184,10 @@
 
 <script>
 	import qs from 'qs'
+	 import { defineComponent } from 'vue'
+	  import { ElMessage } from 'element-plus'
+	
+	
 	export default {
 		data() {
 			return {
@@ -166,6 +215,13 @@
 			}
 		},
 		methods: {
+			  open1() {
+			          ElMessage.success({
+			            message: '恭喜你 授权成功',
+			            type: 'success',
+			          })
+			        },
+			
 			getStaff(){
 				this.axios.get("http://localhost:8166/staff/all").then(res=>{
 					console.log("拿到路由",res)
@@ -219,6 +275,8 @@
 				
 				this.axios.post("http://localhost:8166/rolejuris/add/"+this.rid,fjie).then(res=>{
 					console.log("拿到权限",res)
+					this.open1()
+					this.drawer=false
 				})
 				
 				
@@ -235,7 +293,7 @@
 			getRole(){
 				
 				this.axios.get("http://localhost:8166/role/all").then(res=>{
-					console.log("结果",res)
+					console.log("角色结果",res)
 					
 					if(res.data.code==1){
 						this.tableData=res.data.data
@@ -290,6 +348,33 @@
 						this.getRole();
 					}
 				})
+				
+			},
+			deleUser(rid,sfid,rname){
+				console.log("移除",rid)
+				console.log("移除用户",sfid)
+				
+				this.$confirm('确认移除  '+rname+'  用户？')
+					.then((_) => {
+						
+						console.log("删除23333")
+						
+						let qsdate=qs.stringify({staffid:sfid,roleid:rid})
+						
+						this.axios.post("http://localhost:8166/staffrole/dele",qsdate).then(res=>{
+							console.log("新增",res);
+							if(res.data.code==1){
+								this.getRole();
+								
+							}
+						})
+						
+						done()
+						
+					})
+					.catch((_) => {
+						console.log("放弃")
+					})
 				
 			},
 
