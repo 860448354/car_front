@@ -122,7 +122,7 @@
 			<el-form-item  prop="apptheme" label="申请日期:">
 					  <span style="font-size: 20px;">{{formizes.chargeTimes}}</span>
 			</el-form-item>
-			<el-form-item  prop="apptheme" label="充值金额:" style="float: right;margin-top: -60px;">
+			<el-form-item  prop="sum" label="充值金额:" style="float: right;margin-top: -60px;">
 				   <el-input type="number" v-model="formizes.sum" @blur.native.capture="testUser"
 				   autocomplete="off"></el-input>
 			</el-form-item>
@@ -151,13 +151,13 @@
 			<el-form-item  prop="apptheme" label="客户身份证:" style="float: right;margin-top: -50px;">
 				   <el-tag style="width: 250px;font-size: 17px;">{{lookmember.crIdNumber}}</el-tag>
 			</el-form-item>
-			<el-form-item  prop="apptheme"  label="电话号码:">
+			<el-form-item  prop="crPhone"  label="电话号码:">
 				    <el-input type="text" v-model="lookmember.crPhone" style="width: 250px;font-size: 17px;"></el-input>
 			</el-form-item>
-			<el-form-item  prop="apptheme" label="客户姓名:" style="float: right;margin-top: -50px;">
+			<el-form-item  prop="crName" label="客户姓名:" style="float: right;margin-top: -50px;">
 				<el-input type="text" v-model="lookmember.crName" style="width: 250px;font-size: 17px;"></el-input>
 			</el-form-item>
-			<el-form-item  prop="apptheme" label="客户性别:">
+			<el-form-item  prop="crSex" label="客户性别:">
 				<el-select style="width: 250px;" v-model="lookmember.crSex" clearable placeholder="请选择会员等级">
 					<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 					</el-option>
@@ -177,6 +177,36 @@ export default {
   name: "",
   data() {
     return {
+		formregular:{
+			crPhone:[
+			{
+				required:true,
+				message:"请输入",
+				trigger:"blur",
+				},
+			],
+			crName:[
+				{
+				required:true,
+				message:"请输入",
+				trigger:"blur",
+				},
+			],
+			crSex:[
+				{
+				equired:true,
+				message:"请输入",
+				trigger:"blur",
+				},
+			],
+			sum:[
+				{
+				equired:true,
+				message:"请输入",
+				trigger:"blur",
+				},
+			]
+		},
 		options: [{
 			value: '男',
 			label: '男'
@@ -215,7 +245,7 @@ export default {
 	 		this.axios.post("charge/insterall",{
 	 			 chargeTime:this.timeStr(this.formizes.chargeTime),
 	 			 chargeMenoy:this.formizes.sum,
-	 			 chargeBalance:this.formizes.chargeBalance,
+	 			 chargeBalance:this.formizes.sum,
 	 			 chargeKhid:{crId:this.lookmember.crId},
 	 			 chargeUserid:{uId:this.$store.state.message.uid}
 	 		 }).then(res=>{

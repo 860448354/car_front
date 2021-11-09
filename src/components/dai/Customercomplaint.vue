@@ -79,7 +79,7 @@
 		<div style="width: 100%; height: 10px; background-color: #00AAFF;"></div>
 		
 	    <el-form @submit.native.prevent :model="formadd" :rules="formregular" style="margin-top: 20px;margin-left: 30px;">
-			<el-form-item prop="apptheme" label="投诉原因:" style="">
+			<el-form-item prop="comName" label="投诉原因:" style="">
 			   <el-input type="text" v-model="formadd.comName"></el-input>
 			</el-form-item>
 			<el-form-item prop="apptheme" label="处理人:">
@@ -87,7 +87,7 @@
 						 {{this.$store.state.message.myStaff.sfName}}
 				     </el-span>	
 			</el-form-item>
-			<el-form-item prop="apptheme" label="投诉日期:" style="float: right;margin-top: -53px;">
+			<el-form-item prop="comTime" label="投诉日期:" style="float: right;margin-top: -53px;">
 				<el-date-picker
 				v-model="formadd.comTime"
 				     type="datetime"
@@ -96,7 +96,7 @@
 				   </el-date-picker>
 			</el-form-item>
 			
-			<el-form-item prop="apptheme" label="投诉人:">
+			<el-form-item prop="customervalue" label="投诉人:">
 			   <el-select style="width: 200px;margin-left: 18px;" v-model="customervalue" placeholder="请选择">
 			   <el-option
 			     v-for="item in selectCustomers"
@@ -106,7 +106,7 @@
 			   </el-option>
 			   </el-select>
 			</el-form-item>
-			<el-form-item prop="apptheme"  label="接待人:" style="float: right;margin-top: -50px;">
+			<el-form-item prop="staffvalue"  label="接待人:" style="float: right;margin-top: -50px;">
 				<el-select style="width: 200px;" v-model="staffvalue" placeholder="请选择">
 				<el-option
 				  v-for="item in selectAllEmps"
@@ -116,7 +116,7 @@
 				</el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item prop="apptheme" label="紧急程度:">
+			<el-form-item prop="emersvalue" label="紧急程度:">
 			   <el-select style="width: 200px;" v-model="emersvalue" placeholder="请选择">
 			   	<el-option
 			   	  v-for="item in selectEmers"
@@ -126,7 +126,7 @@
 			   	</el-option>
 			   	</el-select>
 			</el-form-item>
-			<el-form-item prop="apptheme" label="投诉类型:" style="float: right;margin-top: -50px;">
+			<el-form-item prop="typevalue" label="投诉类型:" style="float: right;margin-top: -50px;">
 				<el-select style="width: 200px;" v-model="typevalue" placeholder="请选择">
 					<el-option
 					  v-for="item in selectTypes"
@@ -190,6 +190,41 @@ export default {
 					trigger:"blur",
 					},
 			],
+			comTime:[
+				{
+					required:true,
+					message:"请输入",
+					trigger:"blur",
+					},
+			],
+			customervalue:[
+				{
+					required:true,
+					message:"请输入",
+					trigger:"blur",
+					},
+			],
+			staffvalue:[
+				{
+					required:true,
+					message:"请输入",
+					trigger:"blur",
+					},
+			],
+			emersvalue:[
+				{
+					required:true,
+					message:"请输入",
+					trigger:"blur",
+					},
+			],
+			typevalue:[
+				{
+					required:true,
+					message:"请输入",
+					trigger:"blur",
+					},
+			]
 		},
       formize: {},
 	  pageNo: 1,

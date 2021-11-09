@@ -52,7 +52,7 @@
 					<el-button size="mini"
 					@click="drawers(scope.row)" 
 					v-if="item=='回访' && scope.row.custState==0"
-					type="success" style="margin-left: 16px;">
+					type="danger" style="margin-left: 16px;">
 					   完成回访
 					</el-button>
 						 <el-button size="mini"
@@ -61,7 +61,7 @@
 						 type="success" style="margin-left: 16px;">
 						    +回访记录
 						 </el-button>
-					<el-button v-if="item=='回访'"  size="mini" @click="drawersizeing(scope.row)" type="success" style="margin-left: 16px;">
+					<el-button v-if="item=='回访'&& scope.row.custState==3"  size="mini" @click="drawersizeing(scope.row)" type="primary" style="margin-left: 16px;">
 						 	 	回访详情
 					</el-button>
 					<el-button v-if="item=='生日' || item=='节假日' || item=='其他'"  size="mini" @click="drawersize(scope.row)" type="primary" style="margin-left: 16px;">
@@ -85,7 +85,7 @@
 		<h3>新增关怀</h3>
 		<div style="width: 100%; height: 10px; background-color: #00AAFF;"></div>
 	    <el-form @submit.native.prevent :model="formadd" :rules="formregular" style="margin-top: 20px;margin-left: 30px;">
-			<el-form-item prop="apptheme" label="活动日期:" >
+			<el-form-item prop="custTime" label="活动日期:" >
 				<el-date-picker
 				    v-model="formadd.custTime"
 				     type="datetime"
@@ -93,7 +93,7 @@
 				     placeholder="选择日期时间">	
 				   </el-date-picker>
 			</el-form-item>
-			<el-form-item prop="apptheme" label="关怀主题:" style="float: right;margin-top: -60px;">
+			<el-form-item prop="custTheme" label="关怀主题:" style="float: right;margin-top: -60px;">
 			   <el-input type="text" style="width: 200px;"
 			   v-model="formadd.custTheme"
 			   ></el-input>
@@ -103,7 +103,7 @@
 						 {{this.$store.state.message.myStaff.sfName}}
 				     </el-span>	
 			</el-form-item>
-			<el-form-item prop="apptheme" label="活动类型:" style="float: right;margin-top: -50px;">
+			<el-form-item prop="value" label="活动类型:" style="float: right;margin-top: -50px;">
 			   <el-select style="width: 200px;" v-model="value" placeholder="请选择">
 			       <el-option
 			         v-for="item in caretypes"
@@ -113,7 +113,7 @@
 			       </el-option>
 			     </el-select>
 			</el-form-item>
-				  <el-form-item  label="关怀人员:">
+				  <el-form-item prop="crName" label="关怀人员:">
 						  <div v-for="ll in fruitesisname" >
 						  	<div style="border-radius:10px;width: 15%;height: 30px;  
 						  	background: rgba(89,139,240,.1);float: left;margin-left: 10px;
@@ -363,6 +363,36 @@ export default {
   name: "",
   data() {
     return {
+	  formregular:{
+	  	custTheme:[
+	  		{
+	  			required:true,
+	  			message:"请输入",
+	  			trigger:"blur",
+	  			},
+	  	],
+		crName:[
+			{
+				required:true,
+				message:"请输入",
+				trigger:"blur",
+				},
+		],
+		custTime:[
+			{
+				required:true,
+				message:"请输入",
+				trigger:"blur",
+				},
+		],
+		value:[
+			{
+				required:true,
+				message:"请输入",
+				trigger:"blur",
+				},
+		],
+	  },
 	  dealDisabledDates(time) {
 				return time.getTime() <= (new Date()).getTime();
 					},

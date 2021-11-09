@@ -9,7 +9,6 @@
 				<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 				</el-option>
 			</el-select>
-		
 		</el-form-item>
 		<el-form-item>
 			<el-button type="primary"  @click="onSubmit">搜索</el-button>
@@ -55,7 +54,7 @@
 		<el-table-column label="发起人" width="140">
 			<template #default="scope">
 				<span >
-				{{ scope.row.activityEmpid.sfName }}
+				{{ scope.row.activityEmpid.sfName}}
 				</span>
 			</template>
 		</el-table-column>
@@ -96,10 +95,10 @@
 			<el-form-item  prop="apptheme" label="操作人:">
 				      {{this.$store.state.message.myStaff.sfName}}
 			</el-form-item>
-			<el-form-item  prop="apptheme" label="活动地点:" style="float: right;margin-top: -50px;">
+			<el-form-item  prop="actiSite" label="活动地点:" style="float: right;margin-top: -50px;">
 			   <el-input type="text" v-model="formadd.actiSite" style="width: 200px;"></el-input>
 			</el-form-item>
-			<el-form-item prop="apptheme" label="活动日期:" >
+			<el-form-item prop="actiTime" label="活动日期:" >
 				<el-date-picker
 				     v-model="formadd.actiTime"
 				     type="datetime"
@@ -107,7 +106,7 @@
 				     placeholder="选择日期时间">
 				   </el-date-picker>
 			</el-form-item>
-			<el-form-item  prop="apptheme" label="活动主题:" style="float: right;margin-top: -50px;">
+			<el-form-item  prop="actiName" label="活动主题:" style="float: right;margin-top: -50px;">
 			   <el-input v-model="formadd.actiName" type="text" style="width: 200px;"></el-input>
 			</el-form-item>
 			<el-form-item prop="apptheme" label="参与人数:">
@@ -269,6 +268,13 @@ export default {
 				message:"请输入",
 				trigger:"blur",
 				},
+		],
+		actiTime:[
+			{
+				required:true,
+				message:"请输入",
+				trigger:"blur",
+				},
 		]
 	  },
 	  dealDisabledDates(time) {
@@ -363,7 +369,7 @@ export default {
 	 /* 根据id查询活动用户*/
 	 participant(){
 		 console.log("rhis",this.addMemberes.actiId)
-		 this.axios.get("/customercare/select}"+this.addMemberes.actiId).then(res=>{
+		 this.axios.get("/participants/select/"+this.addMemberes.actiId).then(res=>{
 		    this.participantes=res.data;
 			console.log("this is",this.participantes)
 		 })
@@ -389,12 +395,14 @@ export default {
 	 		.then(res => {
 	 			this.activitynewes = res.data.list;
 	 			this.total = res.data.total;
+				console.log("98",this.activitynewes)
 	 		})
 	 },
 	 /* 新增活动*/
 	 instAll(){
 		this.dialogFormVisibles = false;
 		var actiStates="0";
+		console.log("78890",this.$store.state.message.uId)
 		this.axios.post("/activitynew/inster",{
 			actiName:this.formadd.actiName,
 			actiSite:this.formadd.actiSite,
@@ -402,7 +410,7 @@ export default {
 			actiTime:this.formadd.actiTime,
 			actiState:actiStates,
 			typId:{atypeId:this.value},
-			activityUid:{uId:this.$store.state.message.uid},
+			activityUid:{uId:this.$store.state.message.uId},
 			fruitesis:this.fruitesis
 		}).then(res=>{
 			this.loadData()
