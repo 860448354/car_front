@@ -50,7 +50,7 @@
 							<template v-if="v.myJurisdiction!=null">
 								<router-link v-for="(value,index) in v.myJurisdiction" :to="value.url">
 								  <el-menu-item :index="i+'-'+index">
-								    {{value.jname}}
+								     <span class="tit"></span> {{value.jname}}
 								  </el-menu-item>
 								</router-link>
 							</template>
@@ -348,5 +348,9 @@
 		text-align: center;
 	    line-height: 40px;
 		font-size: 13px;
+	}
+	.tit{
+		margin-left: 30px;
+		
 	}
 </style>
