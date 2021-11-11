@@ -36,14 +36,7 @@
 		<el-table-column prop="crIdNumber" label="客户身份证号" align="center" />
 		<el-table-column prop="crSex" label="客户性别" align="center" />
 		<el-table-column prop="crTime" label="登记时间" align="center" />
-		<el-table-column label="操作" align="center" width="400">
-			<template #default="scope">
 
-				<el-button size="mini" type="danger" @click="deleteCust(scope.$index, scope.row)">
-					删除
-				</el-button>
-			</template>
-		</el-table-column>
 	</el-table>
 
 
